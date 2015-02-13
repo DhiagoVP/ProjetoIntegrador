@@ -24,8 +24,9 @@ import table.TurmaTableModel;
 
 /**
  *
- * @author Ana Paula
+ * @author Ana Paula e Dhiago
  */
+
 public class DlgConsultarTurma extends javax.swing.JDialog {
 
     List<Turma> turmasEncontradas;
