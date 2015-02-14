@@ -31,7 +31,6 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         panelGerarPagamento = new javax.swing.JPanel();
         labelCurso = new javax.swing.JLabel();
         labelTurma = new javax.swing.JLabel();
-        labelSupervisor = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablePagamentoBeneficio = new javax.swing.JTable();
         labelTotalPagar = new javax.swing.JLabel();
@@ -49,9 +48,6 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
 
         labelTurma.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         labelTurma.setText("Turma");
-
-        labelSupervisor.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        labelSupervisor.setText("Supervisor");
 
         tablePagamentoBeneficio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -128,10 +124,9 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                     .addGroup(panelGerarPagamentoLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(labelCurso)
-                        .addGap(318, 318, 318)
+                        .addGap(18, 18, 18)
                         .addComponent(labelTurma)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(labelSupervisor))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(panelGerarPagamentoLayout.createSequentialGroup()
                         .addComponent(labelTotalPagar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -146,8 +141,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelGerarPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelCurso)
-                    .addComponent(labelTurma)
-                    .addComponent(labelSupervisor))
+                    .addComponent(labelTurma))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -232,10 +226,15 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel labelCurso;
-    private javax.swing.JLabel labelSupervisor;
     private javax.swing.JLabel labelTotalPagar;
     private javax.swing.JLabel labelTurma;
     private javax.swing.JPanel panelGerarPagamento;
     private javax.swing.JTable tablePagamentoBeneficio;
     // End of variables declaration//GEN-END:variables
+
+    public void carregarLabel(String curso, String turma) {
+        labelCurso.setText("Curso:" + curso);
+        labelTurma.setText("Turma: " + turma);
+    }
+    
 }

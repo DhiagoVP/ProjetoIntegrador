@@ -86,6 +86,7 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
                 return types [columnIndex];
             }
         });
+        tbTurmasEncontradas.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tbTurmasEncontradas);
 
         tfItemDeBusca.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N

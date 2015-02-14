@@ -5,6 +5,16 @@
  */
 package form;
 
+import dao.CursoDAO;
+import dao.TurmaDAO;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Curso;
+import model.Turma;
+
 /**
  *
  * @author Acerpc
@@ -17,6 +27,8 @@ public class DlgEfetuarPagamento extends javax.swing.JDialog {
     public DlgEfetuarPagamento(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        carregarComboBoxCurso();
+        carregarComboBoxTurma();
     }
 
     /**
@@ -208,11 +220,11 @@ public class DlgEfetuarPagamento extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btAddCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddCursoActionPerformed
-        // TODO add your handling code here:
+        new DlgGerenciadorCurso(null, rootPaneCheckingEnabled).setVisible(true);
     }//GEN-LAST:event_btAddCursoActionPerformed
 
     private void btAddTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddTurmaActionPerformed
-        // TODO add your handling code here:
+        new DlgGerenciadorTurma(null, rootPaneCheckingEnabled).setVisible(true);
     }//GEN-LAST:event_btAddTurmaActionPerformed
 
     private void btAdicionarBeneficioAPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarBeneficioAPagarActionPerformed
@@ -224,7 +236,9 @@ public class DlgEfetuarPagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_btRemoverBeneficioAPagarActionPerformed
 
     private void btPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagarActionPerformed
-        new DlgEfetuarPagamentoBeneficio(null, rootPaneCheckingEnabled).setVisible(true);
+        DlgEfetuarPagamentoBeneficio beneficio = new DlgEfetuarPagamentoBeneficio(null, rootPaneCheckingEnabled);
+        beneficio.carregarLabel(cbCurso.getSelectedItem().toString(), cbTurma.getSelectedItem().toString());
+        beneficio.setVisible(true);
     }//GEN-LAST:event_btPagarActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
@@ -294,4 +308,28 @@ public class DlgEfetuarPagamento extends javax.swing.JDialog {
     private javax.swing.JList listBeneficiosParaPagar;
     private javax.swing.JPanel panelPagamento;
     // End of variables declaration//GEN-END:variables
+
+    public void carregarComboBoxCurso() {
+        List<Curso> listaCurso = new ArrayList();
+        try {
+            listaCurso = new CursoDAO().listarTodos();
+            for (Curso curso : listaCurso) {
+                cbCurso.addItem(curso);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgEfetuarPagamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void carregarComboBoxTurma() {
+        List<Turma> litaTurma = new ArrayList();
+        try {
+            litaTurma = new TurmaDAO().listarTodos();
+            for (Turma turma : litaTurma) {
+                cbTurma.addItem(turma);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgEfetuarPagamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -78,11 +78,6 @@ public class DlgRealizarMatricula extends javax.swing.JDialog {
         jLabel3.setText("Data De Inicio:");
 
         cbAluno.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        cbAluno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbAlunoActionPerformed(evt);
-            }
-        });
 
         cbTurma.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         cbTurma.setToolTipText("");
@@ -217,10 +212,6 @@ public class DlgRealizarMatricula extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btConfirmarActionPerformed
 
-    private void cbAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAlunoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbAlunoActionPerformed
-
     public void carregarDados() {
         matricula.setAluno((Aluno) cbAluno.getSelectedItem());
         matricula.setTurma((Turma) cbTurma.getSelectedItem());
@@ -330,9 +321,5 @@ public class DlgRealizarMatricula extends javax.swing.JDialog {
         cbTurma.setSelectedIndex(-1);
         dcDataInicio.setDate(null);
         dcDataTermino.setDate(null);
-    }
-    
-    public void testarCommit(){
-        System.out.println("LALALALALALALLALA");
     }
 }
