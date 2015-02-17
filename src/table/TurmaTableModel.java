@@ -18,14 +18,15 @@ public class TurmaTableModel extends AbstractTableModel {
 
     private List<Turma> turmas;
 
-    private String[] colunas = new String[]{ "Nome", "Orientador", "Supervisor", "Cidade Demandante", "Campus Ofertante", "Turno"};
+    private String[] colunas = new String[]{ "Turma", "Curso", "Orientador", "Supervisor", "Cidade Demandante", "Campus Ofertante", "Turno"};
 
-    private static final int NOME = 0;
-    private static final int ORIENTADOR = 1;
-    private static final int SUOERVISOR = 2;
-    private static final int CIADADEDEMANDANTE = 3;
-    private static final int CAMPUSOFERTANTE = 4;
-    private static final int TURNO = 5;
+    private static final int TURMA = 0;
+    private static final int CURSO = 1;
+    private static final int ORIENTADOR = 2;
+    private static final int SUPERVISOR = 3;
+    private static final int CIADADEDEMANDANTE = 4;
+    private static final int CAMPUSOFERTANTE = 5;
+    private static final int TURNO = 6;
 
     public TurmaTableModel(List<Turma> listaTurmas) {
         turmas = new ArrayList<Turma>(listaTurmas);
@@ -52,14 +53,16 @@ public class TurmaTableModel extends AbstractTableModel {
             case 0:
                 return turma.getNome();
             case 1:
-                return turma.getOrientador().getNome();
+                return turma.getCurso().getNome();
             case 2:
-                return turma.getSupervisor().getNome();
+                return turma.getOrientador().getNome();
             case 3:
-                return turma.getCidadeDemandande();
+                return turma.getSupervisor().getNome();
             case 4:
-                return turma.getCampusOfertante();
+                return turma.getCidadeDemandande();
             case 5:
+                return turma.getCampusOfertante();
+            case 6:
                 return turma.getTurno();
         }
         return null;
@@ -73,11 +76,13 @@ public class TurmaTableModel extends AbstractTableModel {
     @Override
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
-            case NOME:
+            case TURMA:
+                return String.class;
+            case CURSO:
                 return String.class;
             case ORIENTADOR:
                 return String.class;
-            case SUOERVISOR:
+            case SUPERVISOR:
                 return String.class;
             case CIADADEDEMANDANTE:
                 return String.class;
@@ -94,13 +99,16 @@ public class TurmaTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Turma turma = turmas.get(rowIndex);
         switch (columnIndex) {
-            case NOME:
+            case TURMA:
                 turma.setNome((String) aValue);
+                break;
+            case CURSO:
+                turma.getCurso().setNome((String) aValue);
                 break;
             case ORIENTADOR:
                 turma.getOrientador().setNome((String) aValue);
                 break;
-            case SUOERVISOR:
+            case SUPERVISOR:
                 turma.getSupervisor().setNome((String) aValue);
                 break;
             case CIADADEDEMANDANTE:

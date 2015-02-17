@@ -43,6 +43,7 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         initComboBox();
+        estadoInicial();
     }
 
     @SuppressWarnings("unchecked")
@@ -883,7 +884,7 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
     }//GEN-LAST:event_btAdicionarDiaDaSemanaActionPerformed
 
     private void btExcluirTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirTurmaActionPerformed
-
+        
     }//GEN-LAST:event_btExcluirTurmaActionPerformed
 
     private void btConsultarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarTurmaActionPerformed

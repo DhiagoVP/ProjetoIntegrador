@@ -13,6 +13,11 @@ public class Curso {
     private String cargaHoraria;
     private boolean status;
 
+    public Curso(int id, String nome) {
+        this.id = id;
+        this.nome = nome;
+    }
+    
     public Curso(int id, String nome, String descricao, String eixoTecnologico, String cargaHoraria, boolean status) {
         this.id = id;
         this.nome = nome;

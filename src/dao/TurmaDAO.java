@@ -63,6 +63,8 @@ public class TurmaDAO {
         inserirDiasAula(turma, id);
         inserirDisciplina(turma, id);
         assossiarProfessorATurma(turma, id);
+        pstm.close();
+        DBConnection.close();
         return true;
     }
 
@@ -155,15 +157,28 @@ public class TurmaDAO {
     }
 
     public List<Turma> listarTodos() throws SQLException {
-        String sql = "SELECT * FROM turma t, endereco e, orientador o, supervisor s, curso c where t.idEndereco = e.idEndereco AND t.idOrientador = o.idOrientador AND t.idSupervisor = s.idSupervisor AND t.idCurso = c.idcurso ORDER BY t.nome";
+        String sql = "SELECT t.nome, idTurma, o.nome, o.idOrientador, s.nome, s.idSupervisor, c.nome, c.idCurso, t.campusOfertante, t.cidadeDemandante, t.turno "+
+                "FROM turma t, orientador o, supervisor s, curso c where t.idOrientador = o.idOrientador "+
+                "AND t.idSupervisor = s.idSupervisor AND t.idCurso = c.idcurso ORDER BY t.nome";
         List<Turma> listaTurma = new ArrayList<>();
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         Turma turma;
         while (rs.next()) {
-            turma = transformarResultSet(rs);
+            turma = new Turma(rs.getInt("t.idTurma"),
+                    rs.getString("t.nome"),
+                    rs.getString("t.cidadeDemandante"),
+                    rs.getString("t.campusOfertante"),
+                    rs.getString("t.turno"),
+                    new Orientador(rs.getInt("o.idOrientador"), rs.getString("o.nome")),
+                    new Supervisor(rs.getInt("s.idSupervisor"), rs.getString("s.nome")),
+                    new Curso(rs.getInt("c.idCurso"),rs.getString("c.nome"))
+                    );
             listaTurma.add(turma);
         }
+        ps.close();
+        DBConnection.close();
+        
         return listaTurma;
     }
 
@@ -233,6 +248,8 @@ public class TurmaDAO {
             dia = rs.getString("diaAula");
             listaDiasAula.add(dia);
         }
+        ps.close();
+        DBConnection.close();
         return listaDiasAula;
     }
     
@@ -267,6 +284,8 @@ public class TurmaDAO {
             turma = transformarResultSet(rs);
             listaTurmas.add(turma);
         }
+        ps.close();
+        DBConnection.close();
         return listaTurmas;
     }
     
@@ -282,6 +301,8 @@ public class TurmaDAO {
             turma = transformarResultSet(rs);
             listaTurmas.add(turma);
         }
+        ps.close();
+        DBConnection.close();
         return listaTurmas;
     }
     
@@ -297,6 +318,8 @@ public class TurmaDAO {
             turma = transformarResultSet(rs);
             listaTurmas.add(turma);
         }
+        ps.close();
+        DBConnection.close();
         return listaTurmas;
     }
     
@@ -312,6 +335,8 @@ public class TurmaDAO {
             turma = transformarResultSet(rs);
             listaTurmas.add(turma);
         }
+        ps.close();
+        DBConnection.close();
         return listaTurmas;
     }
     
@@ -319,6 +344,7 @@ public class TurmaDAO {
         String sql = "SELECT * FROM turma t, endereco e, orientador o, supervisor s, curso c, turma_professor tp" +
                 " WHERE tp.Professor_idprofessor = ? ORDER BY t.nome"; //SQL não retorna corretamente
         List<Turma> listaTurmas = new ArrayList<>();
+        
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
         ps.setInt(1, professor.getId());
         ResultSet rs = ps.executeQuery();
@@ -327,6 +353,8 @@ public class TurmaDAO {
             turma = transformarResultSet(rs);
             listaTurmas.add(turma);
         }
+        ps.close();
+        DBConnection.close();
         return listaTurmas;
     }
 }

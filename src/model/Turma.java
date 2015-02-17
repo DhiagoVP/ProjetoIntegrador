@@ -76,6 +76,18 @@ public class Turma {
 
     public Turma() {
     }
+
+    public Turma(int id, String nome,String cidadeDemandande, String campusOfertante, String turno, Orientador orientador, Supervisor supervisor, Curso curso) {
+        this.id = id;
+        this.cidadeDemandande = cidadeDemandande;
+        this.campusOfertante = campusOfertante;
+        this.nome = nome;
+        this.turno = turno;
+        this.orientador = orientador;
+        this.supervisor = supervisor;
+        this.curso = curso;
+    }
+    
     
     
     public String getCidadeDemandande() {

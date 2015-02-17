@@ -10,11 +10,13 @@ import dao.OrientadorDAO;
 import dao.ProfessorDAO;
 import dao.SupervisorDAO;
 import dao.TurmaDAO;
+import java.awt.HeadlessException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.Curso;
 import model.Orientador;
 import model.Professor;
@@ -26,11 +28,11 @@ import table.TurmaTableModel;
  *
  * @author Ana Paula e Dhiago
  */
-
 public class DlgConsultarTurma extends javax.swing.JDialog {
 
     List<Turma> turmasEncontradas;
     TurmaTableModel turmaTable;
+    DlgGerenciadorTurma dlgTurma = new DlgGerenciadorTurma(null, true);
 
     /**
      * Creates new form DlgConsultarTurma
@@ -75,11 +77,11 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Nome", "Orientador", "Supervisor", "Cidade Demandante", "Campus Ofertante", "Turno"
+                "Turma", "Curso", "Orientador", "Supervisor", "Cidade Demandante", "Campus Ofertante", "Turno"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -90,6 +92,11 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tbTurmasEncontradas);
 
         tfItemDeBusca.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfItemDeBusca.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfItemDeBuscaCaretUpdate(evt);
+            }
+        });
 
         btBuscarTurma.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btBuscarTurma.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Consultar.png"))); // NOI18N
@@ -113,31 +120,33 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
         btVoltar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Voltar.png"))); // NOI18N
         btVoltar.setText("Voltar");
+        btVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btVoltarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(134, 134, 134)
-                .addComponent(btEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btVoltar)
-                .addGap(95, 95, 95))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbItensDeBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfItemDeBusca)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btBuscarTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbItensDeBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfItemDeBusca, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btBuscarTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 828, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,11 +159,11 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
                     .addComponent(cbItensDeBusca))
                 .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btVoltar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -167,12 +176,17 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
         Orientador orientador;
         Professor professor;
         Supervisor supervisor;
-        turmasEncontradas = new ArrayList<>();
         switch (busca) {
             case "Curso":
                 try {
                     curso = new CursoDAO().buscarPorNome(nome);
-                    turmasEncontradas = new TurmaDAO().buscarPorCurso(curso);
+                    if (curso != null) {
+                        turmasEncontradas.clear();
+                        turmasEncontradas = new TurmaDAO().buscarPorCurso(curso);
+                    } else {
+                        objetoNaoEncontrado(nome, busca);
+                        return;
+                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -187,7 +201,13 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
             case "Orientador": {
                 try {
                     orientador = new OrientadorDAO().buscarPorNome(nome);
-                    turmasEncontradas = new TurmaDAO().buscarPorOrientador(orientador);
+                    if (orientador != null) {
+                        turmasEncontradas.clear();
+                        turmasEncontradas = new TurmaDAO().buscarPorOrientador(orientador);
+                    } else {
+                        objetoNaoEncontrado(nome, busca);
+                        return;
+                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -196,7 +216,13 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
             case "Professor":
                 try {
                     professor = new ProfessorDAO().buscarPorNome(nome);
-                    turmasEncontradas = new TurmaDAO().buscarPorProfessor(professor);
+                    if (professor != null) {
+                        turmasEncontradas.clear();
+                        turmasEncontradas = new TurmaDAO().buscarPorProfessor(professor);
+                    } else {
+                        objetoNaoEncontrado(nome, busca);
+                        return;
+                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -204,25 +230,51 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
             case "Supervisor":
                 try {
                     supervisor = new SupervisorDAO().buscarPorNome(nome);
-                    turmasEncontradas = new TurmaDAO().buscarPorSupervisor(supervisor);
+                    if (supervisor != null) {
+                        turmasEncontradas.clear();
+                        turmasEncontradas = new TurmaDAO().buscarPorSupervisor(supervisor);
+                    } else {
+                        objetoNaoEncontrado(nome, busca);
+                        return;
+                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
         }
+        if (turmasEncontradas.isEmpty()) {
+            objetoNaoEncontrado(nome, busca);
+            return;
+        }
         atualizarTabela();
     }//GEN-LAST:event_btBuscarTurmaActionPerformed
 
+    private void objetoNaoEncontrado(String nome, String tipoDeBusca) throws HeadlessException {
+        JOptionPane.showMessageDialog(this, "Desculpe, " + tipoDeBusca.toLowerCase() + " '" + nome + "' não encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+        tfItemDeBusca.setText(null);
+        cbItensDeBusca.setSelectedIndex(0);
+    }
+
     private void btEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarActionPerformed
         int indice = tbTurmasEncontradas.getSelectedRow();
-        if (indice > 0) {
+        if (indice >= 0) {
             Turma turma = turmasEncontradas.get(indice);
-            DlgGerenciadorTurma dlgTurma = new DlgGerenciadorTurma(null,true);
             dlgTurma.recuperarDadosDeTurmaParaEdicao(turma.getId());
             this.dispose();
             dlgTurma.setVisible(true);
         }
     }//GEN-LAST:event_btEnviarActionPerformed
+
+    private void tfItemDeBuscaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfItemDeBuscaCaretUpdate
+        if (tfItemDeBusca.getText().isEmpty()) {
+            iniciarTabela();
+        }
+    }//GEN-LAST:event_tfItemDeBuscaCaretUpdate
+
+    private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
+        this.dispose();
+        dlgTurma.setVisible(true);
+    }//GEN-LAST:event_btVoltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,7 +331,7 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void atualizarTabela() {
-        turmaTable = new TurmaTableModel((ArrayList<Turma>)turmasEncontradas);
+        turmaTable = new TurmaTableModel((ArrayList<Turma>) turmasEncontradas);
         tbTurmasEncontradas.setModel(turmaTable);
     }
 
