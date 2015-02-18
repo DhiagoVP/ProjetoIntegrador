@@ -29,6 +29,8 @@ import model.Turma;
 //Quando o usuário quiser mais detalhes, seleciona o objeto desejado e faz-se mais uma busca no banco, 
 //agora com o objeto completo
 public class TurmaDAO {
+    
+    List<Turma> listaTurma;
 
     public boolean cadastrar(Turma turma) throws SQLException {
         int idEndereco = inserirEndereco(turma);
@@ -157,32 +159,136 @@ public class TurmaDAO {
     }
 
     public List<Turma> listarTodos() throws SQLException {
-        String sql = "SELECT t.nome, idTurma, o.nome, o.idOrientador, s.nome, s.idSupervisor, c.nome, c.idCurso, t.campusOfertante, t.cidadeDemandante, t.turno "+
+        String sql = "SELECT t.nome, idTurma, o.nome, o.idOrientador, s.nome, s.idSupervisor, c.nome,"+
+                " c.idCurso, t.campusOfertante, t.cidadeDemandante, t.turno "+
                 "FROM turma t, orientador o, supervisor s, curso c where t.idOrientador = o.idOrientador "+
                 "AND t.idSupervisor = s.idSupervisor AND t.idCurso = c.idcurso ORDER BY t.nome";
-        List<Turma> listaTurma = new ArrayList<>();
-        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        Turma turma;
-        while (rs.next()) {
-            turma = new Turma(rs.getInt("t.idTurma"),
-                    rs.getString("t.nome"),
-                    rs.getString("t.cidadeDemandante"),
-                    rs.getString("t.campusOfertante"),
-                    rs.getString("t.turno"),
-                    new Orientador(rs.getInt("o.idOrientador"), rs.getString("o.nome")),
-                    new Supervisor(rs.getInt("s.idSupervisor"), rs.getString("s.nome")),
-                    new Curso(rs.getInt("c.idCurso"),rs.getString("c.nome"))
-                    );
-            listaTurma.add(turma);
-        }
-        ps.close();
+        PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        listaTurma = getParametrosDeTurma(resultSet);
+        preparedStatement.close();
         DBConnection.close();
-        
         return listaTurma;
     }
 
-    public Turma transformarResultSet(ResultSet rs) throws SQLException {
+    public List<Turma> buscarPorCurso(Curso curso) throws SQLException {
+        String sql = "SELECT t.nome, idTurma, o.nome, o.idOrientador, s.nome, s.idSupervisor, c.nome, "+
+                "c.idCurso, t.campusOfertante, t.cidadeDemandante, t.turno " +
+                "FROM turma t, orientador o, supervisor s, curso c WHERE t.idCurso = c.idcurso and c.idcurso = ?" +
+                " ORDER BY t.nome";
+        PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(sql);
+        preparedStatement.setInt(1, curso.getId());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        listaTurma = getParametrosDeTurma(resultSet);
+        preparedStatement.close();
+        DBConnection.close();
+        return listaTurma;
+    }
+    
+    public List<Turma> buscarPorNome(String nome) throws SQLException{
+        String sql = "SELECT t.nome, idTurma, o.nome, o.idOrientador, s.nome, s.idSupervisor, c.nome, " +
+            "c.idCurso, t.campusOfertante, t.cidadeDemandante, t.turno FROM turma t, orientador o, supervisor s, " +
+            "curso c WHERE t.nome = ? AND t.idCurso = c.idcurso AND t.idOrientador = o.idOrientador"+
+                " AND t.idSupervisor = s.idSupervisor ORDER BY t.nome";
+        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+        ps.setString(1, nome);
+        ResultSet resultSet = ps.executeQuery();
+        listaTurma = getParametrosDeTurma(resultSet);
+        ps.close();
+        DBConnection.close();
+        return listaTurma;
+    }
+    
+    public List<Turma> buscarPorOrientador(Orientador orientador) throws SQLException{
+        String sql = "SELECT * FROM turma t, endereco e, orientador o, supervisor s, curso c WHERE t.idOrientador = ? " +
+                "ORDER BY t.nome";
+        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+        ps.setInt(1, orientador.getId());
+        ResultSet resultSet = ps.executeQuery();
+        listaTurma = getParametrosDeTurma(resultSet);
+        ps.close();
+        DBConnection.close();
+        return listaTurma;
+    }
+    
+    public List<Turma> buscarPorSupervisor(Supervisor supervisor) throws SQLException{
+        String sql = "SELECT * FROM turma t, orientador o, supervisor s, curso c WHERE t.idSuprvisor = ?" +
+                " ORDER BY t.nome";
+        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+        ps.setInt(1, supervisor.getId());
+        ResultSet resultSet = ps.executeQuery();
+        listaTurma = getParametrosDeTurma(resultSet);
+        ps.close();
+        DBConnection.close();
+        return listaTurma;
+    }
+    
+    public List<Turma> buscarPorProfessor(Professor professor) throws SQLException{
+        String sql = "SELECT * FROM turma t,orientador o, supervisor s, curso c, turma_professor tp" +
+                " WHERE tp.Professor_idprofessor = ? ORDER BY t.nome";
+        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+        ps.setInt(1, professor.getId());
+        ResultSet resultSet = ps.executeQuery();
+        listaTurma = getParametrosDeTurma(resultSet);
+        ps.close();
+        DBConnection.close();
+        return listaTurma;
+    }
+    
+    private List<Disciplina> listarDisciplinas(int idTurma) throws SQLException{
+        String sql = "SELECT * FROM disciplina d, turma_disciplina td where d.idDisciplina = td.disciplina_idDisciplina AND td.turma_idTurma = ? ORDER BY nomeDisciplina";
+        List<Disciplina> listaDisciplinas = new ArrayList<>();
+        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+        ps.setInt(1, idTurma);
+        ResultSet rs = ps.executeQuery();
+        Disciplina disciplina;
+        while (rs.next()) {
+            disciplina = new Disciplina(
+                    rs.getInt("d.idDisciplina"),
+                    rs.getString("d.nomeDisciplina"),
+                    rs.getDate("d.dataInicioDisciplina"),
+                    rs.getDate("d.dataTerminoDisciplina")
+            );
+            listaDisciplinas.add(disciplina);
+        }
+        return listaDisciplinas;
+    }
+    
+    private List<Turma> getParametrosDeTurma(ResultSet resultSet) throws SQLException {
+        listaTurma = new ArrayList<>();
+        Turma turma;
+        while (resultSet.next()) {
+            turma = new Turma(resultSet.getInt("t.idTurma"),
+                    resultSet.getString("t.nome"),
+                    resultSet.getString("t.cidadeDemandante"),
+                    resultSet.getString("t.campusOfertante"),
+                    resultSet.getString("t.turno"),
+                    new Orientador(resultSet.getInt("o.idOrientador"), resultSet.getString("o.nome")),
+                    new Supervisor(resultSet.getInt("s.idSupervisor"), resultSet.getString("s.nome")),
+                    new Curso(resultSet.getInt("c.idCurso"),resultSet.getString("c.nome"))
+            );
+            listaTurma.add(turma);
+        }
+        return listaTurma;
+    }
+    
+    private List<String> listarDiasAula(int idTurma) throws SQLException{
+        String sql = "SELECT diaAula FROM turma_diasaula where idTurma = ? ORDER BY diaAula";
+        List<String> listaDiasAula= new ArrayList<>();
+        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+        ps.setInt(1, idTurma);
+        ResultSet rs = ps.executeQuery();
+        String dia;
+        while (rs.next()) {
+            dia = rs.getString("diaAula");
+            listaDiasAula.add(dia);
+        }
+        ps.close();
+        DBConnection.close();
+        return listaDiasAula;
+    }
+    
+     private Turma transformarResultSet(ResultSet rs) throws SQLException {
         int idTurma = rs.getInt("t.idTurma");
         Turma turma = new Turma(
                 idTurma,
@@ -235,126 +341,5 @@ public class TurmaDAO {
         );
 
         return turma;
-    }
-    
-    private List<String> listarDiasAula(int idTurma) throws SQLException{
-        String sql = "SELECT diaAula FROM turma_diasaula where idTurma = ? ORDER BY diaAula";
-        List<String> listaDiasAula= new ArrayList<>();
-        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-        ps.setInt(1, idTurma);
-        ResultSet rs = ps.executeQuery();
-        String dia;
-        while (rs.next()) {
-            dia = rs.getString("diaAula");
-            listaDiasAula.add(dia);
-        }
-        ps.close();
-        DBConnection.close();
-        return listaDiasAula;
-    }
-    
-    private List<Disciplina> listarDisciplinas(int idTurma) throws SQLException{
-        String sql = "SELECT * FROM disciplina d, turma_disciplina td where d.idDisciplina = td.disciplina_idDisciplina AND td.turma_idTurma = ? ORDER BY nomeDisciplina";
-        List<Disciplina> listaDisciplinas = new ArrayList<>();
-        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-        ps.setInt(1, idTurma);
-        ResultSet rs = ps.executeQuery();
-        Disciplina disciplina;
-        while (rs.next()) {
-            disciplina = new Disciplina(
-                    rs.getInt("d.idDisciplina"),
-                    rs.getString("d.nomeDisciplina"),
-                    rs.getDate("d.dataInicioDisciplina"),
-                    rs.getDate("d.dataTerminoDisciplina")
-            );
-            listaDisciplinas.add(disciplina);
-        }
-        return listaDisciplinas;
-    }
-
-    public List<Turma> buscarPorCurso(Curso curso) throws SQLException {
-        String sql = "SELECT * FROM turma t, endereco e, orientador o, supervisor s, curso c WHERE t.idCurso = ?" +
-                " ORDER BY t.nome";
-        List<Turma> listaTurmas = new ArrayList<>();
-        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-        ps.setInt(1, curso.getId());
-        ResultSet rs = ps.executeQuery();
-        Turma turma;
-        while (rs.next()) {
-            turma = transformarResultSet(rs);
-            listaTurmas.add(turma);
-        }
-        ps.close();
-        DBConnection.close();
-        return listaTurmas;
-    }
-    
-    public List<Turma> buscarPorNome(String nome) throws SQLException{
-        String sql = "SELECT * FROM turma t, endereco e, orientador o, supervisor s, curso c WHERE t.nome = ?" + 
-                " ORDER BY t.nome";
-        List<Turma> listaTurmas = new ArrayList<>();
-        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-        ps.setString(1, nome);
-        ResultSet rs = ps.executeQuery();
-        Turma turma;
-        while (rs.next()) {
-            turma = transformarResultSet(rs);
-            listaTurmas.add(turma);
-        }
-        ps.close();
-        DBConnection.close();
-        return listaTurmas;
-    }
-    
-    public List<Turma> buscarPorOrientador(Orientador orientador) throws SQLException{
-        String sql = "SELECT * FROM turma t, endereco e, orientador o, supervisor s, curso c WHERE t.idOrientador = ? " +
-                "ORDER BY t.nome";
-        List<Turma> listaTurmas = new ArrayList<>();
-        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-        ps.setInt(1, orientador.getId());
-        ResultSet rs = ps.executeQuery();
-        Turma turma;
-        while (rs.next()) {
-            turma = transformarResultSet(rs);
-            listaTurmas.add(turma);
-        }
-        ps.close();
-        DBConnection.close();
-        return listaTurmas;
-    }
-    
-    public List<Turma> buscarPorSupervisor(Supervisor supervisor) throws SQLException{
-        String sql = "SELECT * FROM turma t, endereco e, orientador o, supervisor s, curso c WHERE t.idSuprvisor = ?" +
-                " ORDER BY t.nome";
-        List<Turma> listaTurmas = new ArrayList<>();
-        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-        ps.setInt(1, supervisor.getId());
-        ResultSet rs = ps.executeQuery();
-        Turma turma;
-        while (rs.next()) {
-            turma = transformarResultSet(rs);
-            listaTurmas.add(turma);
-        }
-        ps.close();
-        DBConnection.close();
-        return listaTurmas;
-    }
-    
-    public List<Turma> buscarPorProfessor(Professor professor) throws SQLException{
-        String sql = "SELECT * FROM turma t, endereco e, orientador o, supervisor s, curso c, turma_professor tp" +
-                " WHERE tp.Professor_idprofessor = ? ORDER BY t.nome"; //SQL não retorna corretamente
-        List<Turma> listaTurmas = new ArrayList<>();
-        
-        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-        ps.setInt(1, professor.getId());
-        ResultSet rs = ps.executeQuery();
-        Turma turma;
-        while (rs.next()) {
-            turma = transformarResultSet(rs);
-            listaTurmas.add(turma);
-        }
-        ps.close();
-        DBConnection.close();
-        return listaTurmas;
     }
 }

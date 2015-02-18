@@ -193,12 +193,12 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
                 break;
             case "Nome":
                 try {
-                    turmasEncontradas = new TurmaDAO().buscarPorNome(busca);
+                    turmasEncontradas = new TurmaDAO().buscarPorNome(nome);
                 } catch (SQLException ex) {
                     Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
-            case "Orientador": {
+            case "Orientador": { 
                 try {
                     orientador = new OrientadorDAO().buscarPorNome(nome);
                     if (orientador != null) {
