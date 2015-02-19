@@ -60,12 +60,15 @@ public class CursoDAO {
     public Curso buscarPorNome(String nome) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlBuscar = "SELECT * FROM Curso c WHERE c.nome LIKE '" + nome + "%';";
+        String sqlBuscar = "SELECT * FROM Curso c WHERE c.nome = ?";
         pstm = DBConnection.getConnection().prepareStatement(sqlBuscar);
+        pstm.setString(1, nome);
         rs = pstm.executeQuery();
         Curso curso;
         while (rs.next()) {
-            curso = transformarResultSet(rs);
+            curso = new Curso(
+                    rs.getInt("c.idCurso"), 
+                    rs.getString("c.nome"));
             return curso;
         }
         return null;

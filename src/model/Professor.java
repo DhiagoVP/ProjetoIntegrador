@@ -20,6 +20,11 @@ public class Professor {
     private Endereco endereco;
     private ContaBancaria contaBancaria;
 
+    public Professor(int id, String nome) {
+        this.id = id;
+        this.nome = nome;
+    }
+    
     public Professor(int id, String nome, String cpf, String rg, String titulacao, String telefone, String email, boolean status, Date dataEntrada, Endereco endereco, ContaBancaria contaBancaria) {
         this.id = id;
         this.nome = nome;

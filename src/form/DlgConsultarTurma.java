@@ -180,11 +180,15 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
             case "Curso":
                 try {
                     curso = new CursoDAO().buscarPorNome(nome);
-                    if (curso != null) {
-                        turmasEncontradas.clear();
-                        turmasEncontradas = new TurmaDAO().buscarPorCurso(curso);
-                    } else {
+                    if (curso == null) {
                         objetoNaoEncontrado(nome, busca);
+                        return;
+                    } 
+                    turmasEncontradas.clear();
+                    turmasEncontradas = new TurmaDAO().buscarPorCurso(curso);
+                    
+                    if (turmasEncontradas.isEmpty()) {
+                        semTurma(nome, busca);
                         return;
                     }
                 } catch (SQLException ex) {
@@ -200,14 +204,19 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
                 break;
             case "Orientador": { 
                 try {
-                    orientador = new OrientadorDAO().buscarPorNome(nome);
-                    if (orientador != null) {
-                        turmasEncontradas.clear();
-                        turmasEncontradas = new TurmaDAO().buscarPorOrientador(orientador);
-                    } else {
+                    orientador = new OrientadorDAO().buscarPorNomeRetornandoAtributosSimples(nome);
+                    if (orientador == null) {
                         objetoNaoEncontrado(nome, busca);
                         return;
+                    } 
+                    turmasEncontradas.clear();
+                    turmasEncontradas = new TurmaDAO().buscarPorOrientador(orientador);
+                    
+                    if (turmasEncontradas.isEmpty()) {
+                        semTurma(nome, busca);
+                        return;
                     }
+                    
                 } catch (SQLException ex) {
                     Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -215,36 +224,42 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
             break;
             case "Professor":
                 try {
-                    professor = new ProfessorDAO().buscarPorNome(nome);
-                    if (professor != null) {
-                        turmasEncontradas.clear();
-                        turmasEncontradas = new TurmaDAO().buscarPorProfessor(professor);
-                    } else {
+                    professor = new ProfessorDAO().buscarPorNomeRetornandoAtributosSimples(nome);
+                    if (professor == null) {
                         objetoNaoEncontrado(nome, busca);
                         return;
+                        
                     }
-                } catch (SQLException ex) {
+                    turmasEncontradas.clear();
+                    turmasEncontradas = new TurmaDAO().buscarPorProfessor(professor);
+                    
+                    if (turmasEncontradas.isEmpty()) {
+                        semTurma(nome, busca);
+                        return;
+                    }
+                }catch (SQLException ex) {
                     Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
             case "Supervisor":
                 try {
-                    supervisor = new SupervisorDAO().buscarPorNome(nome);
-                    if (supervisor != null) {
-                        turmasEncontradas.clear();
-                        turmasEncontradas = new TurmaDAO().buscarPorSupervisor(supervisor);
-                    } else {
+                    supervisor = new SupervisorDAO().buscarPorNomeRetornandoAtributosSimples(nome);
+                    if (supervisor == null) {
                         objetoNaoEncontrado(nome, busca);
                         return;
+                    } 
+                    turmasEncontradas.clear();
+                    turmasEncontradas = new TurmaDAO().buscarPorSupervisor(supervisor);
+                    
+                    if (turmasEncontradas.isEmpty()) {
+                        semTurma(nome, busca);
+                        return;
                     }
+                    
                 } catch (SQLException ex) {
                     Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
-        }
-        if (turmasEncontradas.isEmpty()) {
-            objetoNaoEncontrado(nome, busca);
-            return;
         }
         atualizarTabela();
     }//GEN-LAST:event_btBuscarTurmaActionPerformed
@@ -342,5 +357,11 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void semTurma(String nome, String tipoDeBusca) {
+        JOptionPane.showMessageDialog(this, "Desculpe, " + tipoDeBusca.toLowerCase() + " '" + nome + "' não está vinculado a turmas!", "Erro", JOptionPane.ERROR_MESSAGE);
+        tfItemDeBusca.setText(null);
+        cbItensDeBusca.setSelectedIndex(0);
     }
 }

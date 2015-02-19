@@ -188,8 +188,9 @@ public class TurmaDAO {
     public List<Turma> buscarPorNome(String nome) throws SQLException{
         String sql = "SELECT t.nome, idTurma, o.nome, o.idOrientador, s.nome, s.idSupervisor, c.nome, " +
             "c.idCurso, t.campusOfertante, t.cidadeDemandante, t.turno FROM turma t, orientador o, supervisor s, " +
-            "curso c WHERE t.nome = ? AND t.idCurso = c.idcurso AND t.idOrientador = o.idOrientador"+
-                " AND t.idSupervisor = s.idSupervisor ORDER BY t.nome";
+            "curso c WHERE t.nome = ? AND t.idCurso = c.idcurso AND t.idOrientador = o.idOrientador AND "+
+            "t.idSupervisor = s.idSupervisor AND t.idCurso = c.idcurso AND t.idSupervisor = s.idSupervisor " +
+                "ORDER BY t.nome";
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
         ps.setString(1, nome);
         ResultSet resultSet = ps.executeQuery();
@@ -200,8 +201,11 @@ public class TurmaDAO {
     }
     
     public List<Turma> buscarPorOrientador(Orientador orientador) throws SQLException{
-        String sql = "SELECT * FROM turma t, endereco e, orientador o, supervisor s, curso c WHERE t.idOrientador = ? " +
-                "ORDER BY t.nome";
+        String sql = "SELECT t.nome, idTurma, o.nome, o.idOrientador, s.nome, s.idSupervisor, c.nome, " +
+            "c.idCurso, t.campusOfertante, t.cidadeDemandante, t.turno FROM turma t, orientador o, supervisor s, " +
+            "curso c WHERE t.idOrientador = ? " +
+            "AND t.idCurso = c.idcurso AND t.idSupervisor = s.idSupervisor AND t.idCurso = c.idcurso"+
+                " AND t.idSupervisor = s.idSupervisor ORDER BY t.nome";
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
         ps.setInt(1, orientador.getId());
         ResultSet resultSet = ps.executeQuery();
@@ -212,8 +216,9 @@ public class TurmaDAO {
     }
     
     public List<Turma> buscarPorSupervisor(Supervisor supervisor) throws SQLException{
-        String sql = "SELECT * FROM turma t, orientador o, supervisor s, curso c WHERE t.idSuprvisor = ?" +
-                " ORDER BY t.nome";
+        String sql = "SELECT t.nome, idTurma, o.nome, o.idOrientador, s.nome, s.idSupervisor, c.nome, c.idCurso,"
+            + " t.campusOfertante, t.cidadeDemandante, t.turno FROM turma t, orientador o, supervisor s, curso c "+
+            "WHERE t.idSupervisor = ? AND t.idCurso = c.idcurso AND t.idOrientador = o.idOrientador ORDER BY t.nome";
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
         ps.setInt(1, supervisor.getId());
         ResultSet resultSet = ps.executeQuery();
@@ -224,8 +229,11 @@ public class TurmaDAO {
     }
     
     public List<Turma> buscarPorProfessor(Professor professor) throws SQLException{
-        String sql = "SELECT * FROM turma t,orientador o, supervisor s, curso c, turma_professor tp" +
-                " WHERE tp.Professor_idprofessor = ? ORDER BY t.nome";
+        String sql = "SELECT t.nome, idTurma, o.nome, o.idOrientador, s.nome, s.idSupervisor, c.nome,c.idCurso, "+
+                "t.campusOfertante, t.cidadeDemandante, t.turno FROM turma t,orientador o, supervisor s, curso c, "+
+                "turma_professor tp WHERE tp.Professor_idprofessor = ? AND tp.Turma_idTurma = t.idTurma AND "+
+                "t.idCurso = c.idcurso AND t.idOrientador = o.idOrientador AND t.idSupervisor = s.idSupervisor "+
+                "ORDER BY t.nome";
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
         ps.setInt(1, professor.getId());
         ResultSet resultSet = ps.executeQuery();

@@ -143,6 +143,22 @@ public class SupervisorDAO {
         }
         return null;
     }
+    
+    public Supervisor buscarPorNomeRetornandoAtributosSimples(String nome) throws SQLException {
+        PreparedStatement pstm;
+        ResultSet rs;
+        String sqlPesquisarPorNome = "SELECT * FROM Supervisor s WHERE s.Nome LIKE \"" + nome + "%\" ";
+        pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorNome);
+        rs = pstm.executeQuery();
+        Supervisor supervisor;
+        while (rs.next()) {
+            supervisor = new Supervisor(
+                    rs.getInt("s.idSupervisor"),
+                    rs.getString("s.nome"));
+            return supervisor;
+        }
+        return null;
+    }
 
     public Supervisor buscarPorCpf(String cpf) throws SQLException {
         PreparedStatement pstm;

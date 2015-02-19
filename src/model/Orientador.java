@@ -24,8 +24,6 @@ public class Orientador {
         this.id = id;
         this.nome = nome;
     }
-
-    
     
     public Orientador(int id, String nome, String cpf, String rg, String titulacao, String telefone, String email, boolean status, Date dataEntrada, Endereco endereco, ContaBancaria contaBancaria) {
         this.id = id;
