@@ -193,13 +193,10 @@ public class AlunoDAO {
                 + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;";
          pstm = DBConnection.getConnection().prepareStatement(sql);
          rs = pstm.executeQuery();
-        Aluno aluno;
-        if (rs.first()) {
+        Aluno aluno = null;
+        if (rs.first()) 
             aluno = transformarResultSet(rs);
-            return aluno;
-        } else {
-            return null;
-        }
+        return aluno;
     }
     
     public List<Aluno> listarTodos() throws SQLException {

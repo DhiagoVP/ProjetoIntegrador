@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Aluno;
 import model.Curso;
 import model.Disciplina;
 import model.Endereco;
@@ -348,6 +349,19 @@ public class TurmaDAO {
                 listarDisciplinas(idTurma)
         );
 
+        return turma;
+    }
+
+    public Turma buscarPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM turma t, curso c, endereco e, supervisor s, orientador o  WHERE idTurma = ? " +
+                    "AND t.idEndereco = e.idEndereco AND t.idcurso = c.idcurso AND t.idOrientador = o.idOrientador "+
+                    "AND t.idSupervisor = s.idSupervisor";
+        PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        Turma turma = null;
+        if (resultSet.first()) 
+            turma = transformarResultSet(resultSet);
         return turma;
     }
 }
