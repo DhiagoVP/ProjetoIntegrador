@@ -167,9 +167,12 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btBuscarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarTurmaActionPerformed
+        //TODO: Criar classe abstrata ItemDePesquisaTurma e fazer com que os itens herdem dessa classe
+        //fazer herança e polimorfismo
         String busca = cbItensDeBusca.getSelectedItem().toString();
         String nome = tfItemDeBusca.getText();
         Curso curso;
@@ -272,12 +275,17 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
 
     private void btEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarActionPerformed
         int indice = tbTurmasEncontradas.getSelectedRow();
+        int id = turmasEncontradas.get(indice).getId();
         if (indice >= 0) {
-            Turma turma = turmasEncontradas.get(indice);
-            dlgTurma.recuperarDadosDeTurmaParaEdicao(turma.getId());
+            try {
+                dlgTurma.recuperarDadosDeTurmaParaEdicao(id);
+            } catch (SQLException ex) {
+                Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.dispose();
             dlgTurma.setVisible(true);
         }
+        else JOptionPane.showMessageDialog(this, "Nenhuma turma selecionada!","Aviso", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_btEnviarActionPerformed
 
     private void tfItemDeBuscaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfItemDeBuscaCaretUpdate

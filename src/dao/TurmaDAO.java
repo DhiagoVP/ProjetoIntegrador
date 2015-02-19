@@ -26,9 +26,6 @@ import model.Turma;
  * @author Ana Paula e Dhiago
  */
 
-//TODO: refatorar o método listar todos, fazendo com que ele retorne as informações básicas de cada objeto. 
-//Quando o usuário quiser mais detalhes, seleciona o objeto desejado e faz-se mais uma busca no banco, 
-//agora com o objeto completo
 public class TurmaDAO {
     
     List<Turma> listaTurma;
