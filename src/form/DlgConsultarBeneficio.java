@@ -174,9 +174,10 @@ public class DlgConsultarBeneficio extends javax.swing.JDialog {
         }
     }
     
-    public void desativarBotao (boolean status) {
+    public void desativarBotaoETabela (boolean status) {
         buttonVoltar.setEnabled(status);
         buttonEnviar.setEnabled(status);
+        tableBeneficio.setEnabled(status);
     }
     
     /**

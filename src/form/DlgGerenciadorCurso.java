@@ -55,13 +55,13 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         panelPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dados Do Curso", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Arial", 1, 18), new java.awt.Color(0, 102, 204))); // NOI18N
 
         lbEixoTecnologico.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbEixoTecnologico.setText("Eixo Tecnológico:");
+        lbEixoTecnologico.setText("Eixo Tecnológico");
 
         lbDescricao.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbDescricao.setText("Descrição:");
+        lbDescricao.setText("Descrição");
 
         lbCargaHoraria.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbCargaHoraria.setText("Carga Horária:");
+        lbCargaHoraria.setText("Carga Horária");
 
         tfNome.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -75,10 +75,10 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         tfCargaHoraria.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         lbNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbNome.setText("Nome:");
+        lbNome.setText("Nome");
 
         lbStatus.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbStatus.setText("Status:");
+        lbStatus.setText("Status");
 
         chBStatus.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         chBStatus.setText("Inativo");
@@ -99,32 +99,27 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
                         .addContainerGap()
                         .addComponent(lbEixoTecnologico)
                         .addGap(18, 18, 18)
-                        .addComponent(tfEixoTecnologico, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(tfEixoTecnologico, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addGap(60, 60, 60)
-                                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lbNome)
-                                    .addComponent(lbDescricao)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lbCargaHoraria)))
-                        .addGap(18, 18, 18)
                         .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                    .addGap(94, 94, 94)
+                                    .addComponent(lbNome))
+                                .addComponent(lbDescricao, javax.swing.GroupLayout.Alignment.TRAILING))
                             .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGap(42, 42, 42)
+                                .addComponent(lbCargaHoraria)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(tfNome)
-                                    .addComponent(jScrollPane1))
-                                .addGap(77, 77, 77)
-                                .addComponent(lbStatus)
-                                .addGap(18, 18, 18)
-                                .addComponent(chBStatus))
-                            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addComponent(tfCargaHoraria, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap())
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                                    .addComponent(tfCargaHoraria))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbStatus)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(chBStatus)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         panelPrincipalLayout.setVerticalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,15 +130,15 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
                     .addComponent(lbNome)
                     .addComponent(lbStatus)
                     .addComponent(chBStatus))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 11, Short.MAX_VALUE)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbDescricao))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbEixoTecnologico)
                     .addComponent(tfEixoTecnologico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbCargaHoraria)
                     .addComponent(tfCargaHoraria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -214,16 +209,15 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelButtons, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
-                    .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelButtons, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
+                    .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -233,14 +227,6 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void chBStatusStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chBStatusStateChanged
-        if (this.chBStatus.isSelected()) {
-            tratarCampos(false);
-        } else {
-            tratarCampos(true);
-        }
-    }//GEN-LAST:event_chBStatusStateChanged
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         try {
@@ -306,6 +292,14 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         this.tratarControles(false);
         }
     }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void chBStatusStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chBStatusStateChanged
+        if (this.chBStatus.isSelected()) {
+            tratarCampos(false);
+        } else {
+            tratarCampos(true);
+        }
+    }//GEN-LAST:event_chBStatusStateChanged
 
     private void getDados() throws CursoException {
         curso.setNome(tfNome.getText());

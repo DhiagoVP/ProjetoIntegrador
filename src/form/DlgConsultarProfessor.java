@@ -63,7 +63,7 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
         setTitle("Consultar Professor");
 
         lbNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbNome.setText("Nome:");
+        lbNome.setText("Nome");
 
         tfNome.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -77,7 +77,7 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
         });
 
         lbCpf.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbCpf.setText("CPF:");
+        lbCpf.setText("CPF");
 
         tfCpf.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -91,7 +91,7 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
         });
 
         lbRg.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbRg.setText("RG:");
+        lbRg.setText("RG");
 
         btBuscarPorRG.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btBuscarPorRG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
@@ -177,11 +177,12 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbNome)
-                            .addComponent(lbCpf, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lbRg, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(18, 18, 18)
+                        .addGap(8, 8, 8)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lbCpf)
+                            .addComponent(lbNome, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbRg))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfNome)
                             .addComponent(tfCpf)
@@ -210,7 +211,7 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
                     .addComponent(lbNome)
                     .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btBuscarPorNome))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbCpf)
                     .addComponent(tfCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

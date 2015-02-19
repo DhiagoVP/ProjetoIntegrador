@@ -61,13 +61,12 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
         btEnviar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btVoltar = new javax.swing.JButton();
-        btCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Consultar Supervisor");
 
         lbNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbNome.setText("Nome:");
+        lbNome.setText("Nome");
 
         tfNome.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -81,7 +80,7 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
         });
 
         lbCpf.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbCpf.setText("CPF:");
+        lbCpf.setText("CPF");
 
         tfCpf.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -95,7 +94,7 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
         });
 
         lbRg.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbRg.setText("RG:");
+        lbRg.setText("RG");
 
         btBuscarPorRG.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btBuscarPorRG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
@@ -164,15 +163,6 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
         });
         jPanel2.add(btVoltar);
 
-        btCancelar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cancelar.png"))); // NOI18N
-        btCancelar.setText("Cancelar");
-        btCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btCancelarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -185,7 +175,7 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
                             .addComponent(lbNome)
                             .addComponent(lbCpf, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lbRg, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfNome)
                             .addComponent(tfCpf)
@@ -200,8 +190,6 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(134, 134, 134)
-                        .addComponent(btCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -214,7 +202,7 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
                     .addComponent(lbNome)
                     .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btBuscarPorNome))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbCpf)
                     .addComponent(tfCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -227,12 +215,10 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btCancelar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -325,12 +311,6 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btBuscarPorRGActionPerformed
 
-    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        this.limparCampos();
-        this.atualizarTabela("SELECT * FROM Supervisor o, Endereco e, ContaBancaria cb "
-                + "WHERE o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
-    }//GEN-LAST:event_btCancelarActionPerformed
-
     public void limparCampos() {
         this.tfNome.setText(null);
         this.tfCpf.setText(null);
@@ -382,7 +362,6 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
     private javax.swing.JButton btBuscarPorCpf;
     private javax.swing.JButton btBuscarPorNome;
     private javax.swing.JButton btBuscarPorRG;
-    private javax.swing.JButton btCancelar;
     private javax.swing.JButton btEnviar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JPanel jPanel1;

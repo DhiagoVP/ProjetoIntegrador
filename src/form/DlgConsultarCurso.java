@@ -51,7 +51,6 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         tfNome = new javax.swing.JTextField();
         btBuscar = new javax.swing.JButton();
-        btCancelar = new javax.swing.JButton();
         btVoltar = new javax.swing.JButton();
         btEnviar = new javax.swing.JButton();
 
@@ -82,7 +81,7 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tableCurso);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel1.setText("Nome:");
+        jLabel1.setText("Nome");
 
         tfNome.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -94,15 +93,6 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
         btBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btBuscarActionPerformed(evt);
-            }
-        });
-
-        btCancelar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cancelar.png"))); // NOI18N
-        btCancelar.setText("Cancelar");
-        btCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btCancelarActionPerformed(evt);
             }
         });
 
@@ -136,14 +126,12 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                        .addGap(165, 165, 165)
-                        .addComponent(btCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(152, 152, 152)
+                        .addGap(462, 462, 462)
                         .addComponent(btVoltar, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
@@ -160,14 +148,10 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
                 .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(btCancelar))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btEnviar)
-                        .addComponent(btVoltar)))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btEnviar)
+                    .addComponent(btVoltar))
+                .addGap(12, 12, 12))
         );
 
         pack();
@@ -179,7 +163,7 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
             Curso curso = cursoDAO.buscarPorNome(tfNome.getText());
             this.limparCampos();
             if (curso != null) {
-                JOptionPane.showMessageDialog(this, "O Curso foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+                //JOptionPane.showMessageDialog(this, "O Curso foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
                 atualizarTabela("SELECT * FROM Curso c WHERE c.nome LIKE \"" + curso.getNome() + "%\" ORDER BY c.nome;");
             } else {
                 JOptionPane.showMessageDialog(this, "O curso não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
@@ -222,16 +206,6 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
             janelaCurso.setVisible(true);
         }
     }//GEN-LAST:event_btEnviarActionPerformed
-
-    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        if (this.tfNome.getText().isEmpty()){
-            this.dispose();
-            new DlgGerenciadorCurso(null, rootPaneCheckingEnabled).setVisible(true);
-        }else {
-        this.limparCampos();
-        }
-        atualizarTabela("SELECT * FROM Curso c ORDER BY c.nome;");
-    }//GEN-LAST:event_btCancelarActionPerformed
 
     private void limparCampos(){
         this.tfNome.setText(null);
@@ -277,7 +251,6 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btBuscar;
-    private javax.swing.JButton btCancelar;
     private javax.swing.JButton btEnviar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JLabel jLabel1;

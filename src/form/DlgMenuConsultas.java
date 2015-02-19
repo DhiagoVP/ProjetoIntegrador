@@ -89,6 +89,11 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
         jButton2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Turma.png"))); // NOI18N
         jButton2.setText("Consultar Turma");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cofrinho-Beneficio-Cifrao.png"))); // NOI18N
@@ -194,9 +199,13 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.setVisible(false);
         DlgConsultarBeneficio beneficio = new DlgConsultarBeneficio(null, rootPaneCheckingEnabled);
-        beneficio.desativarBotao(false);
+        beneficio.desativarBotaoETabela(false);
         beneficio.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new DlgGerenciadorTurma(null, rootPaneCheckingEnabled).setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

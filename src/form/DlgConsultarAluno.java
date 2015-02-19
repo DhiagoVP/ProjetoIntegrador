@@ -63,7 +63,7 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
         setTitle("Consultar Aluno");
 
         lbNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbNome.setText("Nome:");
+        lbNome.setText("Nome");
 
         tfNome.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -77,7 +77,7 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
         });
 
         lbCpf.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbCpf.setText("CPF:");
+        lbCpf.setText("CPF");
 
         tfCpf.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -91,7 +91,7 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
         });
 
         lbRg.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbRg.setText("RG:");
+        lbRg.setText("RG");
 
         btBuscarPorRG.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btBuscarPorRG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N

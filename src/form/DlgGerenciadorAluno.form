@@ -45,9 +45,9 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Component id="panelGeral" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               <Component id="panelControles" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panelNavegacao" min="-2" max="-2" attributes="0"/>
@@ -75,28 +75,28 @@
                   <EmptySpace pref="14" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="panelBotao" max="32767" attributes="0"/>
+                      <Component id="jScrollPane3" alignment="0" min="-2" pref="841" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
+                          <Component id="panelDadosPessoais" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                          <Component id="jSeparator1" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane3" alignment="0" min="-2" pref="841" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="186" max="-2" attributes="0"/>
+                                  <Component id="lbSituação" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="cbSituacao" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <EmptySpace min="14" max="32767" attributes="0"/>
+                              </Group>
                               <Group type="102" attributes="0">
-                                  <Component id="panelDadosPessoais" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                  <Component id="jSeparator1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="panelDadosBancarios" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Component id="lbSituação" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="cbSituacao" min="-2" pref="112" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Component id="panelEndereco" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="panelEndereco" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="panelDadosBancarios" alignment="1" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -107,27 +107,28 @@
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jSeparator1" min="-2" pref="358" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="panelDadosPessoais" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lbSituação" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="cbSituacao" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="panelDadosBancarios" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="panelEndereco" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="panelDadosPessoais" min="-2" max="-2" attributes="0"/>
+                              <Component id="jSeparator1" min="-2" pref="313" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jScrollPane3" min="-2" pref="174" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="panelBotao" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -138,7 +139,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="14" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Situa&#xe7;&#xe3;o:"/>
+            <Property name="text" type="java.lang.String" value="Situa&#xe7;&#xe3;o"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="panelDadosBancarios">
@@ -162,13 +163,13 @@
                           <Component id="lbNomeBanco" min="-2" max="-2" attributes="0"/>
                           <Component id="lbAgencia" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="tfAgencia" min="-2" pref="75" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="lbNumeroConta" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="tfNumeroConta" pref="164" max="32767" attributes="0"/>
                           </Group>
                           <Component id="tfNomeBanco" max="32767" attributes="0"/>
@@ -184,7 +185,7 @@
                           <Component id="lbNomeBanco" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfNomeBanco" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbAgencia" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfAgencia" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -202,7 +203,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Banco:"/>
+                <Property name="text" type="java.lang.String" value="Banco"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="tfNomeBanco">
@@ -212,7 +213,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Ag&#xea;ncia:"/>
+                <Property name="text" type="java.lang.String" value="Ag&#xea;ncia"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="tfAgencia">
@@ -225,7 +226,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Conta:"/>
+                <Property name="text" type="java.lang.String" value="Conta"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="tfNumeroConta">
@@ -257,21 +258,21 @@
                           <Component id="lbBairro" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Component id="lbEstado" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="tfBairro" min="-2" pref="179" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="lbNumero" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="tfNumero" pref="54" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="tfNumero" pref="68" max="32767" attributes="0"/>
                           </Group>
                           <Component id="tfRua" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="cbEstado" min="-2" pref="110" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="lbCidade" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="tfCidade" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -287,14 +288,14 @@
                           <Component id="lbRua" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfRua" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbBairro" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfBairro" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lbNumero" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfNumero" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbEstado" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cbEstado" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -312,7 +313,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Rua:"/>
+                <Property name="text" type="java.lang.String" value="Rua"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="tfRua">
@@ -327,7 +328,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Bairro:"/>
+                <Property name="text" type="java.lang.String" value="Bairro"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="tfBairro">
@@ -342,7 +343,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="N&#xfa;mero:"/>
+                <Property name="text" type="java.lang.String" value="N&#xfa;mero"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="tfNumero">
@@ -360,7 +361,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Estado:"/>
+                <Property name="text" type="java.lang.String" value="Estado"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbEstado">
@@ -407,7 +408,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cidade:"/>
+                <Property name="text" type="java.lang.String" value="Cidade"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="tfCidade">
@@ -425,19 +426,26 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="lbEmail" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbRg" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbDataNascimento" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbCpf" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbNome" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbSexo" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbEscolaridade" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbProfissão" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbTelefone" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="lbEmail" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbRg" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbDataNascimento" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbCpf" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbSexo" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbEscolaridade" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbProfissão" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbTelefone" alignment="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="109" max="-2" attributes="0"/>
+                              <Component id="lbNome" min="-2" pref="44" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace type="separate" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="ftfCpf" alignment="0" max="32767" attributes="0"/>
                           <Component id="tfNome" alignment="0" max="32767" attributes="0"/>
@@ -462,42 +470,42 @@
                                   <Component id="lbNome" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="tfNome" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="lbCpf" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="ftfCpf" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="lbRg" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="tfRg" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="lbDataNascimento" linkSize="6" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="dtcDataNascimento" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbSexo" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cbSexo" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbEscolaridade" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cbEscolaridade" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbProfissão" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfProfissao" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbTelefone" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="ftfTelefone" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbEmail" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfEmail" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -513,7 +521,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Nome:"/>
+                <Property name="text" type="java.lang.String" value="Nome"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="tfNome">
@@ -531,7 +539,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="CPF:"/>
+                <Property name="text" type="java.lang.String" value="CPF"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JFormattedTextField" name="ftfCpf">
@@ -552,7 +560,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="RG:"/>
+                <Property name="text" type="java.lang.String" value="RG"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="tfRg">
@@ -570,7 +578,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Data de Nascimento:"/>
+                <Property name="text" type="java.lang.String" value="Data de Nascimento"/>
               </Properties>
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="dtcDataNascimento">
@@ -585,7 +593,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Sexo:"/>
+                <Property name="text" type="java.lang.String" value="Sexo"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbSexo">
@@ -607,7 +615,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Escolaridade:"/>
+                <Property name="text" type="java.lang.String" value="Escolaridade"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbEscolaridade">
@@ -638,7 +646,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Profiss&#xe3;o:"/>
+                <Property name="text" type="java.lang.String" value="Profiss&#xe3;o"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="tfProfissao">
@@ -653,7 +661,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Telefone:"/>
+                <Property name="text" type="java.lang.String" value="Telefone"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JFormattedTextField" name="ftfTelefone">
@@ -674,7 +682,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="E-mail:"/>
+                <Property name="text" type="java.lang.String" value="E-mail"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="tfEmail">
