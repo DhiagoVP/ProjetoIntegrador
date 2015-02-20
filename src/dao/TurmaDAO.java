@@ -148,12 +148,27 @@ public class TurmaDAO {
         }
     }
 
-    public void atualizar(Turma turma) {
-
+    public boolean atualizar(Turma turma) throws SQLException {
+        String sql = "UPDATE turma t, endereco e, orientador o, supervisor s, curso c, turma_professor tp, "
+                + "turma_disciplina tdisciplina, turma_diasaula taula SET t.nome = ?, t.campusOfertante = ?,"
+                + " t.cidadeDemandante = ?, t.idcurso= ?, t.dataInicio = ?, t.dataFinal = ?, t.turno = ?,"
+                + " t.responsavel = ?,t.idOrientador = ?, t.idSupervisor = ?";
+        PreparedStatement pstm = DBConnection.getConnection().prepareStatement(sql);
+        pstm.setString(1, turma.getNome());
+        pstm.execute();
+        pstm.close();
+        DBConnection.close();
+        return true;
     }
 
-    public void remover(Turma turma) {
-        
+    public boolean remover(Turma turma) throws SQLException {
+        String sql = "DELETE FROM turma WHERE idTurma = ?";
+        PreparedStatement pstm = DBConnection.getConnection().prepareStatement(sql);
+        pstm.setInt(1, turma.getId());
+        pstm.execute();
+        pstm.close();
+        DBConnection.close();
+        return true;
     }
 
     public List<Turma> listarTodos() throws SQLException {
