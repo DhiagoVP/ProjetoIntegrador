@@ -241,7 +241,7 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Um professor precisa estar selecionado na tabela!");
         } else {
             int linhaSelecionada = this.tableProfessor.getSelectedRow();
-            int idProfessor = Integer.parseInt((String) this.tableProfessor.getValueAt(linhaSelecionada, 0));
+            int idProfessor = Integer.parseInt(this.tableProfessor.getValueAt(linhaSelecionada, 0).toString());
             janelaProfessor = new DlgGerenciadorProfessor(null, true);
             janelaProfessor.recuperarDadosAlterarProfessor(idProfessor);
             this.dispose();

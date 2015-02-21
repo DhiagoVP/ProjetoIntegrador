@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Aluno;
 import model.Curso;
 import model.Disciplina;
 import model.Endereco;
@@ -257,7 +256,8 @@ public class TurmaDAO {
     }
     
     private List<Disciplina> listarDisciplinas(int idTurma) throws SQLException{
-        String sql = "SELECT * FROM disciplina d, turma_disciplina td where d.idDisciplina = td.disciplina_idDisciplina AND td.turma_idTurma = ? ORDER BY nomeDisciplina";
+        String sql = "SELECT * FROM disciplina d, turma_disciplina td where d.idDisciplina = td.disciplina_idDisciplina"
+                + " AND td.turma_idTurma = ? ORDER BY nomeDisciplina";
         List<Disciplina> listaDisciplinas = new ArrayList<>();
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
         ps.setInt(1, idTurma);
@@ -294,7 +294,7 @@ public class TurmaDAO {
     }
     
     private List<String> listarDiasAula(int idTurma) throws SQLException{
-        String sql = "SELECT diaAula FROM turma_diasaula where idTurma = ? ORDER BY diaAula";
+        String sql = "SELECT diaAula FROM turma_diasaula where idTurma = ?";
         List<String> listaDiasAula= new ArrayList<>();
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
         ps.setInt(1, idTurma);
@@ -365,9 +365,11 @@ public class TurmaDAO {
     }
 
     public Turma buscarPorId(int id) throws SQLException {
-        String sql = "SELECT * FROM turma t, curso c, endereco e, supervisor s, orientador o  WHERE idTurma = ? " +
+        String sql = "SELECT * FROM turma t, curso c, endereco e, supervisor s, orientador o, professor p,"
+                + " turma_professor tp  WHERE idTurma = ? " +
                     "AND t.idEndereco = e.idEndereco AND t.idcurso = c.idcurso AND t.idOrientador = o.idOrientador "+
-                    "AND t.idSupervisor = s.idSupervisor";
+                    "AND t.idSupervisor = s.idSupervisor AND t.idTurma = tp.Turma_idTurma " +
+                    "AND p.idprofessor = tp.Professor_idprofessor";
         PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(sql);
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();

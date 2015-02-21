@@ -86,11 +86,11 @@ public class ProfessorDAO {
     public void atualizar(Professor professor) throws SQLException {
         PreparedStatement pstm;
         String sql;
-        sql = "UPDATE professor o, endereco e, contabancaria cb SET o.nome = ?, o.cpf = ?, o.rg = ?, o.titulacao = ?, "
-                + "o.telefone = ?, o.email = ?, o.dataEntrada = ?, o.status = ?, "
+        sql = "UPDATE professor p, endereco e, contabancaria cb SET p.nome = ?, p.cpf = ?, p.rg = ?, p.titulacao = ?, "
+                + "p.telefone = ?, p.email = ?, p.dataEntrada = ?, p.status = ?, "
                 + "e.rua = ?, e.numero = ?, e.bairro = ?, e.estado = ?, e.cidade = ?, "
                 + "cb.nomeBanco = ?, cb.agencia = ?, cb.numero = ? "
-                + "WHERE o.idProfessor = ? AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;";
+                + "WHERE p.idProfessor = ? AND p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;";
 
         pstm = DBConnection.getConnection().prepareStatement(sql);
         pstm.setString(1, professor.getNome());
@@ -181,9 +181,9 @@ public class ProfessorDAO {
     public Professor buscarPorRg(String rg) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorRg = "SELECT * FROM Professor o, Endereco e, ContaBancaria cb "
-                + "WHERE o.rg = \"" + rg + "\" "
-                + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;";
+        String sqlPesquisarPorRg = "SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
+                + "WHERE p.rg = \"" + rg + "\" "
+                + "AND p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorRg);
         rs = pstm.executeQuery();
         Professor professor;
@@ -195,9 +195,9 @@ public class ProfessorDAO {
     }
 
     public Professor buscarPorId(int idProfessor) throws SQLException {
-        String sql = "SELECT * FROM Professor o, Endereco e, ContaBancaria cb "
-                + "WHERE o.idProfessor = ? "
-                + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;";
+        String sql = "SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
+                + "WHERE p.idProfessor = ? "
+                + "AND p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;";
         PreparedStatement pstm = DBConnection.getConnection().prepareStatement(sql);
         pstm.setInt(1, idProfessor);
         pstm.execute();
@@ -225,9 +225,12 @@ public class ProfessorDAO {
     }
 
     public List<Professor> listarTodosComRelacaoAUmaTurma(int idTurma) throws SQLException {
-        String sql = "SELECT  p.idprofessor, p.nome, p.cpf,  p.rg, p.email, p.telefone, p.titulacao, p.dataEntrada, p.status FROM professor p, turma t, turma_professor tp where t.idTurma = tp.Turma_idTurma AND p.idprofessor = tp.Professor_idprofessor ORDER BY p.nome";
+        String sql = "SELECT  p.idprofessor, p.nome, p.cpf,  p.rg, p.email, p.telefone, p.titulacao, p.dataEntrada, "
+                + "p.status FROM professor p, turma t, turma_professor tp where t.idTurma = ? AND "
+                + "t.idTurma = tp.Turma_idTurma AND p.idprofessor = tp.Professor_idprofessor ORDER BY p.nome";
         List<Professor> listaProfessor = new ArrayList<>();
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+        ps.setInt(1, idTurma);
         ResultSet rs = ps.executeQuery();
         Professor professor;
         while (rs.next()) {
@@ -248,8 +251,20 @@ public class ProfessorDAO {
                 rs.getString("p.email"),
                 rs.getBoolean("p.status"),
                 rs.getDate("p.dataEntrada"),
-                null,
-                null
+                new Endereco(
+                            rs.getInt("e.idEndereco"),
+                            rs.getString("e.rua"),
+                            rs.getInt("e.numero"),
+                            rs.getString("e.bairro"),
+                            rs.getString("e.estado"),
+                            rs.getString("e.cidade")
+                    ),
+                    new ContaBancaria(
+                            rs.getInt("cb.idContaBancaria"),
+                            rs.getString("cb.nomeBanco"),
+                            rs.getInt("cb.agencia"),
+                            rs.getInt("cb.numero")
+                    )
         );
         return professor;
     }
