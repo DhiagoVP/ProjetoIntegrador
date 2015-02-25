@@ -1118,10 +1118,11 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
         tfNomeTurma.setText(null);
         tfNumero.setText(null);
         tfRua.setText(null);
-        dateInicioDisciplina.setToolTipText(null);
-        dateInicioTurma.setToolTipText(null);
-        dateTerminoDisciplina.setToolTipText(null);
-        dateTerminoTurma.setToolTipText(null);
+        tfResponsavel.setText(null);
+        dateInicioDisciplina.setDate(null);
+        dateInicioTurma.setDate(null);
+        dateTerminoDisciplina.setDate(null);
+        dateTerminoTurma.setDate(null);
         listDiasDaSemana.clearSelection();
         listDiasDeAulaDaTurma.clearSelection();
         tbDisciplinas.clearSelection();
@@ -1132,16 +1133,18 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
         cbProfessor.setSelectedIndex(-1);
         cbSupervisor.setSelectedIndex(-1);
         cbTurno.setSelectedIndex(-1);
+        
         disciplinaTableModel = new DisciplinaTurmaTableModel();
         tbDisciplinas.setModel(disciplinaTableModel);
-
-        tbProfessor.removeAll();
-
-        listaDeDiasDeAulaDaTurma = new ArrayList<>();
-        listaDeDisciplinas = new ArrayList<>();
-        listaProfessoresTabela = new ArrayList<>();
+        professorTableModel = new ProfessorTurmaTableModel();
+        tbProfessor.setModel(professorTableModel);
+        listaProfessoresTabela.clear();
+        listaDeDiasDeAulaDaTurma.clear();
+        listaDeDisciplinas.clear();
+        listaProfessoresTabela.clear();
         lmDiasDeAula = new DefaultListModel();
         listDiasDeAulaDaTurma.setModel(lmDiasDeAula);
+        initComboBox();
     }
 
     private void initComboBox() {
