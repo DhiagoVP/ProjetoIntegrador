@@ -20,7 +20,7 @@ public class DBConnection {
         String url = "jdbc:mysql://localhost:3306/projetointegradorcompleto";
         String driverMySQL = "com.mysql.jdbc.Driver";
         String user = "root";
-        String pass = "aluno";
+        String pass = "root";
         try {
             Class.forName(driverMySQL);
         } catch (ClassNotFoundException ex) {

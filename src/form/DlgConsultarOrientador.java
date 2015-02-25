@@ -43,65 +43,32 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
     private void initComponents() {
 
         lbNome = new javax.swing.JLabel();
-        tfNome = new javax.swing.JTextField();
-        btBuscarPorNome = new javax.swing.JButton();
-        lbCpf = new javax.swing.JLabel();
-        tfCpf = new javax.swing.JTextField();
-        btBuscarPorCpf = new javax.swing.JButton();
-        lbRg = new javax.swing.JLabel();
-        btBuscarPorRG = new javax.swing.JButton();
-        tfRg = new javax.swing.JTextField();
+        tfItemBusca = new javax.swing.JTextField();
+        btBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableOrientador = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         btEnviar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btVoltar = new javax.swing.JButton();
+        cbTipoPesquisa = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Consultar Orientador");
 
         lbNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbNome.setText("Nome");
+        lbNome.setText("Pesquisar por");
 
-        tfNome.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfItemBusca.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        btBuscarPorNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btBuscarPorNome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
-        btBuscarPorNome.setText("Buscar");
-        btBuscarPorNome.addActionListener(new java.awt.event.ActionListener() {
+        btBuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
+        btBuscar.setText("Buscar");
+        btBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btBuscarPorNomeActionPerformed(evt);
+                btBuscarActionPerformed(evt);
             }
         });
-
-        lbCpf.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbCpf.setText("CPF");
-
-        tfCpf.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-
-        btBuscarPorCpf.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btBuscarPorCpf.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
-        btBuscarPorCpf.setText("Buscar");
-        btBuscarPorCpf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btBuscarPorCpfActionPerformed(evt);
-            }
-        });
-
-        lbRg.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lbRg.setText("RG");
-
-        btBuscarPorRG.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btBuscarPorRG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
-        btBuscarPorRG.setText("Buscar");
-        btBuscarPorRG.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btBuscarPorRGActionPerformed(evt);
-            }
-        });
-
-        tfRg.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         tableOrientador.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tableOrientador.setModel(new javax.swing.table.DefaultTableModel(
@@ -159,6 +126,9 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
         });
         jPanel2.add(btVoltar);
 
+        cbTipoPesquisa.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        cbTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome", "CPF", "RG" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -167,20 +137,13 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbNome)
-                            .addComponent(lbCpf, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lbRg, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfNome)
-                            .addComponent(tfCpf)
-                            .addComponent(tfRg))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btBuscarPorNome, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                            .addComponent(btBuscarPorCpf, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btBuscarPorRG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(lbNome)
+                        .addGap(4, 4, 4)
+                        .addComponent(cbTipoPesquisa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -196,19 +159,10 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbNome)
-                    .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btBuscarPorNome))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbCpf)
-                    .addComponent(tfCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btBuscarPorCpf))
+                    .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btBuscar)
+                    .addComponent(cbTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfRg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbRg)
-                    .addComponent(btBuscarPorRG))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,62 +209,63 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_tableOrientadorMouseClicked
 
-    private void btBuscarPorNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarPorNomeActionPerformed
-        try {
-            orientador = orientadorDAO.buscarPorNome(tfNome.getText());
-            this.limparCampos();
-            if (orientador != null) {
-                atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
-                        + "WHERE o.nome LIKE \"" + orientador.getNome() + "%\" AND "
-                        + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+    private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
+        switch (cbTipoPesquisa.getSelectedItem().toString()) {
+            case ("Nome"):
+                try {
+                    orientador = orientadorDAO.buscarPorNome(tfItemBusca.getText());
+                    this.limparCampos();
+                    if (orientador != null) {
+                        atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
+                                + "WHERE o.nome LIKE \"" + orientador.getNome() + "%\" AND "
+                                + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
 
-            } else {
-                JOptionPane.showMessageDialog(this, "O orientador não foi encontrado!", "Informação",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+                    } else {
+                        JOptionPane.showMessageDialog(this, "O orientador não foi encontrado!", "Informação",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                }
+                break;
+            case ("CPF"):
+                try {
+                    orientador = orientadorDAO.buscarPorCpf(tfItemBusca.getText());
+                    this.limparCampos();
+                    if (orientador != null) {
+                        atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
+                                + "WHERE o.cpf = " + orientador.getCpf() + " AND "
+                                + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+
+                    } else {
+                        JOptionPane.showMessageDialog(this, "O orientador não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                }
+                break;
+
+            case ("RG"):
+                try {
+                    orientador = orientadorDAO.buscarPorRg(tfItemBusca.getText());
+                    this.limparCampos();
+                    if (orientador != null) {
+                        atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
+                                + "WHERE o.rg = " + orientador.getRg() + " AND "
+                                + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+
+                    } else {
+                        JOptionPane.showMessageDialog(this, "O orientador não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                }
+                break;
         }
-    }//GEN-LAST:event_btBuscarPorNomeActionPerformed
-
-    private void btBuscarPorCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarPorCpfActionPerformed
-        try {
-            orientador = orientadorDAO.buscarPorCpf(tfCpf.getText());
-            this.limparCampos();
-            if (orientador != null) {
-                atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
-                        + "WHERE o.cpf = " + orientador.getCpf() + " AND "
-                        + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
-
-            } else {
-                JOptionPane.showMessageDialog(this, "O orientador não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
-    }//GEN-LAST:event_btBuscarPorCpfActionPerformed
-
-    private void btBuscarPorRGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarPorRGActionPerformed
-        try {
-            orientador = orientadorDAO.buscarPorRg(tfRg.getText());
-            this.limparCampos();
-            if (orientador != null) {
-                atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
-                        + "WHERE o.rg = " + orientador.getRg() + " AND "
-                        + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
-
-            } else {
-                JOptionPane.showMessageDialog(this, "O orientador não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
-    }//GEN-LAST:event_btBuscarPorRGActionPerformed
+    }//GEN-LAST:event_btBuscarActionPerformed
 
     public void limparCampos() {
-        this.tfNome.setText(null);
-        this.tfCpf.setText(null);
-        this.tfRg.setText(null);
+        this.tfItemBusca.setText(null);
     }
 
     public static void main(String args[]) {
@@ -352,20 +307,15 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btBuscarPorCpf;
-    private javax.swing.JButton btBuscarPorNome;
-    private javax.swing.JButton btBuscarPorRG;
+    private javax.swing.JButton btBuscar;
     private javax.swing.JButton btEnviar;
     private javax.swing.JButton btVoltar;
+    private javax.swing.JComboBox cbTipoPesquisa;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lbCpf;
     private javax.swing.JLabel lbNome;
-    private javax.swing.JLabel lbRg;
     private javax.swing.JTable tableOrientador;
-    private javax.swing.JTextField tfCpf;
-    private javax.swing.JTextField tfNome;
-    private javax.swing.JTextField tfRg;
+    private javax.swing.JTextField tfItemBusca;
     // End of variables declaration//GEN-END:variables
 }
