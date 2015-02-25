@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import model.Comparador;
 import model.Curso;
 import model.Disciplina;
 import model.Endereco;
@@ -1357,17 +1358,7 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
     }
 
     private void ordenarListaDeProfessorComboETabela() {
-        Collections.sort(listaProfessoresCombo, new MeuComparador());
-        Collections.sort(listaProfessoresTabela, new MeuComparador());
-    }
-
-    public class MeuComparador implements java.util.Comparator {
-        @Override
-        public int compare(Object o1, Object o2) {
-            Professor p1 = (Professor) o1;
-            Professor p2 = (Professor) o2;
-
-            return p1.getNome().compareTo(p2.getNome());
-        }
+        Collections.sort(listaProfessoresCombo, new Comparador());
+        Collections.sort(listaProfessoresTabela, new Comparador());
     }
 }

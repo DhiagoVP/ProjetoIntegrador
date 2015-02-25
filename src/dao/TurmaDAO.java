@@ -374,7 +374,7 @@ public class TurmaDAO {
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         Turma turma = null;
-        if (resultSet.first()) 
+        if (resultSet.next()) 
             turma = transformarResultSet(resultSet);
         return turma;
     }

@@ -234,11 +234,22 @@ public class ProfessorDAO {
         ResultSet rs = ps.executeQuery();
         Professor professor;
         while (rs.next()) {
-            professor = transformarResultSet(rs);
+            professor =  new Professor(
+                rs.getInt("p.idProfessor"),
+                rs.getString("p.nome"),
+                rs.getString("p.cpf"),
+                rs.getString("p.rg"),
+                rs.getString("p.titulacao"),
+                rs.getString("p.telefone"),
+                rs.getString("p.email"),
+                rs.getBoolean("p.status"),
+                rs.getDate("p.dataEntrada"),null, null);
             listaProfessor.add(professor);
         }
         return listaProfessor;
     }
+    
+    
     
     public Professor transformarResultSet(ResultSet rs) throws SQLException {
         Professor professor = new Professor(
