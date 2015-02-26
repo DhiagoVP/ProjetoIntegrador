@@ -36,6 +36,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         labelTotalPagar = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
+        buttonSalva = new javax.swing.JButton();
         btImprimir = new javax.swing.JButton();
         btCancelar = new javax.swing.JButton();
 
@@ -94,9 +95,20 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
+        buttonSalva.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        buttonSalva.setIcon(new javax.swing.ImageIcon("C:\\Users\\Acerpc\\Documents\\GitHub\\ProjetoIntegrador\\src\\icon\\Check-icon.png")); // NOI18N
+        buttonSalva.setText("Salvar");
+        buttonSalva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSalvaActionPerformed(evt);
+            }
+        });
+        jPanel2.add(buttonSalva);
+
         btImprimir.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/MiniImpressora.png"))); // NOI18N
         btImprimir.setText("Imprimir relatório");
+        btImprimir.setEnabled(false);
         btImprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btImprimirActionPerformed(evt);
@@ -131,7 +143,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                         .addComponent(labelTotalPagar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 221, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -176,6 +188,10 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void buttonSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalvaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonSalvaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -222,6 +238,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btImprimir;
+    private javax.swing.JButton buttonSalva;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;

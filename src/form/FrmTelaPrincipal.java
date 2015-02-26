@@ -429,7 +429,7 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
     }//GEN-LAST:event_menuItemGerenciadorBeneficioActionPerformed
 
     private void btEfetuarPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEfetuarPagamentoActionPerformed
-        new DlgEfetuarPagamento(this, rootPaneCheckingEnabled).setVisible(true);
+        new DlgGerarPagamento(this, rootPaneCheckingEnabled).setVisible(true);
     }//GEN-LAST:event_btEfetuarPagamentoActionPerformed
 
     public static void main(String args[]) {

@@ -68,7 +68,7 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Buscar turma por");
 
-        cbItensDeBusca.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        cbItensDeBusca.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         cbItensDeBusca.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Curso", "Nome", "Orientador", "Professor", "Supervisor" }));
 
         tbTurmasEncontradas.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N

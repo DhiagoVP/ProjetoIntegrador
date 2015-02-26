@@ -5,6 +5,7 @@
  */
 package form;
 
+import dao.BeneficioDAO;
 import dao.CursoDAO;
 import dao.TurmaDAO;
 import java.sql.SQLException;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import model.Beneficio;
 import model.Curso;
 import model.Turma;
 
@@ -19,16 +22,19 @@ import model.Turma;
  *
  * @author Acerpc
  */
-public class DlgEfetuarPagamento extends javax.swing.JDialog {
+public class DlgGerarPagamento extends javax.swing.JDialog {
 
     /**
      * Creates new form DlgEfetuarPagamento
      */
-    public DlgEfetuarPagamento(java.awt.Frame parent, boolean modal) {
+    List<Beneficio> listaBeneficio = null;
+    
+    public DlgGerarPagamento(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         carregarComboBoxCurso();
         carregarComboBoxTurma();
+        carregarListaBeneficios();
     }
 
     /**
@@ -45,8 +51,6 @@ public class DlgEfetuarPagamento extends javax.swing.JDialog {
         labelTurma = new javax.swing.JLabel();
         cbCurso = new javax.swing.JComboBox();
         cbTurma = new javax.swing.JComboBox();
-        btAddCurso = new javax.swing.JButton();
-        btAddTurma = new javax.swing.JButton();
         btPagar = new javax.swing.JButton();
         btCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -55,12 +59,16 @@ public class DlgEfetuarPagamento extends javax.swing.JDialog {
         listBeneficiosParaPagar = new javax.swing.JList();
         btAdicionarBeneficioAPagar = new javax.swing.JButton();
         btRemoverBeneficioAPagar = new javax.swing.JButton();
+        labelMes = new javax.swing.JLabel();
+        labelDiasLetivos = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
+        jSpinner1 = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Efetuar Pagamento");
         setResizable(false);
 
-        panelPagamento.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Efetuar Pagamento", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 18), new java.awt.Color(0, 153, 204))); // NOI18N
+        panelPagamento.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gerar Pagamento", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 18), new java.awt.Color(0, 153, 204))); // NOI18N
 
         labelCurso.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         labelCurso.setText("Curso");
@@ -76,20 +84,6 @@ public class DlgEfetuarPagamento extends javax.swing.JDialog {
         });
 
         cbTurma.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-
-        btAddCurso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/MiniCurso.png"))); // NOI18N
-        btAddCurso.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btAddCursoActionPerformed(evt);
-            }
-        });
-
-        btAddTurma.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/MiniTurma.png"))); // NOI18N
-        btAddTurma.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btAddTurmaActionPerformed(evt);
-            }
-        });
 
         btPagar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btPagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/MiniPagamento.png"))); // NOI18N
@@ -131,72 +125,91 @@ public class DlgEfetuarPagamento extends javax.swing.JDialog {
             }
         });
 
+        labelMes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        labelMes.setText("Mês");
+
+        labelDiasLetivos.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        labelDiasLetivos.setText("Dias letivos/mês");
+
+        jComboBox1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" }));
+
+        jSpinner1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout panelPagamentoLayout = new javax.swing.GroupLayout(panelPagamento);
         panelPagamento.setLayout(panelPagamentoLayout);
         panelPagamentoLayout.setHorizontalGroup(
             panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPagamentoLayout.createSequentialGroup()
+            .addGroup(panelPagamentoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btAdicionarBeneficioAPagar, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
-                    .addComponent(btRemoverBeneficioAPagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btPagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPagamentoLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelPagamentoLayout.createSequentialGroup()
-                        .addComponent(labelCurso)
+                        .addComponent(btPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbCurso, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btCancelar))
                     .addGroup(panelPagamentoLayout.createSequentialGroup()
-                        .addComponent(labelTurma)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btAdicionarBeneficioAPagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btRemoverBeneficioAPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbTurma, 0, 389, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btAddCurso)
-                    .addComponent(btAddTurma)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelPagamentoLayout.createSequentialGroup()
+                            .addComponent(labelCurso)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(cbCurso, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelPagamentoLayout.createSequentialGroup()
+                            .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(labelTurma)
+                                .addComponent(labelMes))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cbTurma, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(panelPagamentoLayout.createSequentialGroup()
+                                    .addGap(0, 0, Short.MAX_VALUE)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(14, 14, 14)
+                                    .addComponent(labelDiasLetivos)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         panelPagamentoLayout.setVerticalGroup(
             panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPagamentoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelCurso)
+                    .addComponent(cbCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelTurma)
+                    .addComponent(cbTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelMes)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelDiasLetivos)
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPagamentoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelCurso)
-                            .addComponent(cbCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btAddCurso))
-                .addGap(0, 0, 0)
-                .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(labelTurma)
-                        .addComponent(cbTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btAddTurma))
-                .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelPagamentoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 23, Short.MAX_VALUE)
                         .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPagamentoLayout.createSequentialGroup()
-                                    .addComponent(btPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btCancelar)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelPagamentoLayout.createSequentialGroup()
-                        .addGap(43, 43, 43)
+                    .addGroup(panelPagamentoLayout.createSequentialGroup()
+                        .addGap(52, 52, 52)
                         .addComponent(btAdicionarBeneficioAPagar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btRemoverBeneficioAPagar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btRemoverBeneficioAPagar)
+                        .addGap(22, 22, 22)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btCancelar)
+                    .addComponent(btPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -205,8 +218,8 @@ public class DlgEfetuarPagamento extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(panelPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,31 +232,23 @@ public class DlgEfetuarPagamento extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btAddCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddCursoActionPerformed
-        new DlgGerenciadorCurso(null, rootPaneCheckingEnabled).setVisible(true);
-    }//GEN-LAST:event_btAddCursoActionPerformed
-
-    private void btAddTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddTurmaActionPerformed
-        new DlgGerenciadorTurma(null, rootPaneCheckingEnabled).setVisible(true);
-    }//GEN-LAST:event_btAddTurmaActionPerformed
+    private void btRemoverBeneficioAPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoverBeneficioAPagarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btRemoverBeneficioAPagarActionPerformed
 
     private void btAdicionarBeneficioAPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarBeneficioAPagarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btAdicionarBeneficioAPagarActionPerformed
 
-    private void btRemoverBeneficioAPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoverBeneficioAPagarActionPerformed
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btRemoverBeneficioAPagarActionPerformed
+    }//GEN-LAST:event_btCancelarActionPerformed
 
     private void btPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagarActionPerformed
         DlgEfetuarPagamentoBeneficio beneficio = new DlgEfetuarPagamentoBeneficio(null, rootPaneCheckingEnabled);
         beneficio.carregarLabel(cbCurso.getSelectedItem().toString(), cbTurma.getSelectedItem().toString());
         beneficio.setVisible(true);
     }//GEN-LAST:event_btPagarActionPerformed
-
-    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btCancelarActionPerformed
 
     private void cbCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCursoActionPerformed
         // TODO add your handling code here:
@@ -266,20 +271,21 @@ public class DlgEfetuarPagamento extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DlgEfetuarPagamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgGerarPagamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DlgEfetuarPagamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgGerarPagamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DlgEfetuarPagamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgGerarPagamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DlgEfetuarPagamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgGerarPagamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DlgEfetuarPagamento dialog = new DlgEfetuarPagamento(new javax.swing.JFrame(), true);
+                DlgGerarPagamento dialog = new DlgGerarPagamento(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -292,17 +298,19 @@ public class DlgEfetuarPagamento extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btAddCurso;
-    private javax.swing.JButton btAddTurma;
     private javax.swing.JButton btAdicionarBeneficioAPagar;
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btPagar;
     private javax.swing.JButton btRemoverBeneficioAPagar;
     private javax.swing.JComboBox cbCurso;
     private javax.swing.JComboBox cbTurma;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JLabel labelCurso;
+    private javax.swing.JLabel labelDiasLetivos;
+    private javax.swing.JLabel labelMes;
     private javax.swing.JLabel labelTurma;
     private javax.swing.JList listBeneficiosCadastrados;
     private javax.swing.JList listBeneficiosParaPagar;
@@ -317,11 +325,10 @@ public class DlgEfetuarPagamento extends javax.swing.JDialog {
                 cbCurso.addItem(curso);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DlgEfetuarPagamento.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void carregarComboBoxTurma() {
+    private void carregarComboBoxTurma() {
         List<Turma> litaTurma = new ArrayList();
         try {
             litaTurma = new TurmaDAO().listarTodos();
@@ -329,7 +336,25 @@ public class DlgEfetuarPagamento extends javax.swing.JDialog {
                 cbTurma.addItem(turma);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DlgEfetuarPagamento.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DlgGerarPagamento.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void carregarListaBeneficios() {
+        try {
+            listaBeneficio = new BeneficioDAO().recuperarTodos();
+            listBeneficiosCadastrados.setModel(atualizarList(listaBeneficio));
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgGerarPagamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    private DefaultListModel atualizarList(List<Beneficio> listaBeneficio) {
+        DefaultListModel modelo = new DefaultListModel();
+        for (Beneficio beneficio : listaBeneficio) {
+            modelo.addElement(beneficio.getTipo());
+        }
+        return modelo;
     }
 }
