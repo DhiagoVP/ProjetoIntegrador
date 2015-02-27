@@ -249,6 +249,17 @@ public class ProfessorDAO {
         return listaProfessor;
     }
     
+    public void assossiarATurma(List<Professor> listaProfessores,int idTurma) throws SQLException {
+        PreparedStatement pstm;
+        String sqlTurmaEDisciplina = "INSERT INTO turma_professor (Turma_idTurma, Professor_idProfessor)"
+                + "VALUES (?,?)";
+        pstm = DBConnection.getConnection().prepareStatement(sqlTurmaEDisciplina);
+        for (Professor professor : listaProfessores) {
+            pstm.setInt(1, idTurma);
+            pstm.setInt(2, professor.getId());
+            pstm.execute();
+        }
+    }
     
     
     public Professor transformarResultSet(ResultSet rs) throws SQLException {

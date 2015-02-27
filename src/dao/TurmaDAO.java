@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Curso;
-import model.Disciplina;
 import model.Endereco;
 import model.Orientador;
 import model.Professor;
@@ -30,13 +29,11 @@ public class TurmaDAO {
     List<Turma> listaTurma;
 
     public boolean cadastrar(Turma turma) throws SQLException {
-        int idEndereco = inserirEndereco(turma);
-        PreparedStatement pstm;
         String sqlAluno = "INSERT INTO turma "
                 + "(nome, dataInicio, dataFinal, turno, campusOfertante, cidadeDemandante, responsavel,"
                 + " idCurso, idEndereco, idOrientador, idSupervisor)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-        pstm = DBConnection.getConnection().prepareStatement(sqlAluno);
+        PreparedStatement pstm = DBConnection.getConnection().prepareStatement(sqlAluno);
         pstm.setString(1, turma.getNome());
         pstm.setDate(2, new Date(turma.getDataInicioAulas().getTime()));
         pstm.setDate(3, new Date(turma.getDataTerminoAulas().getTime()));
@@ -45,121 +42,48 @@ public class TurmaDAO {
         pstm.setString(6, turma.getCidadeDemandande());
         pstm.setString(7, turma.getResponsavel());
         pstm.setInt(8, turma.getCurso().getId());
-        pstm.setInt(9, idEndereco);
+        pstm.setInt(9, new EnderecoDAO().inserir(turma.getEndereco()));
         pstm.setInt(10, turma.getOrientador().getId());
         pstm.setInt(11, turma.getSupervisor().getId());
         pstm.execute();
         pstm.close();
         DBConnection.close();
-        ResultSet rs;
         int id = -1;
         String sqlPesquisa = "SELECT MAX(idTurma) FROM Turma;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisa);
-        rs = pstm.executeQuery();
+         ResultSet rs = pstm.executeQuery();
         if (rs.next()) {
             id = rs.getInt("MAX(idTurma)");
         }
-        inserirDiasAula(turma, id);
-        inserirDisciplina(turma, id);
-        assossiarProfessorATurma(turma, id);
+        new DiasAulaDAO().inserir(turma.getAulasSemana(), id);
+        new DisciplinaDAO().inserir(turma.getDisciplinas(), id);
+        new ProfessorDAO().assossiarATurma(turma.getProfessores(), id);
         pstm.close();
         DBConnection.close();
         return true;
     }
 
-    private int inserirEndereco(Turma turma) throws SQLException {
-        PreparedStatement pstm;
-        String sqlEndereco = "INSERT INTO endereco (rua, numero, bairro, estado, cidade)"
-                + " VALUES (?, ?, ?, ?, ?);";
-        pstm = DBConnection.getConnection().prepareStatement(sqlEndereco);
-        pstm.setString(1, turma.getEndereco().getRua());
-        pstm.setInt(2, turma.getEndereco().getNumero());
-        pstm.setString(3, turma.getEndereco().getBairro());
-        pstm.setString(4, turma.getEndereco().getEstado());
-        pstm.setString(5, turma.getEndereco().getCidade());
-        pstm.execute();
-        ResultSet rs;
-        int id = -1;
-        String sqlPesquisa = "SELECT MAX(idEndereco) FROM Endereco;";
-        pstm = DBConnection.getConnection().prepareStatement(sqlPesquisa);
-        rs = pstm.executeQuery();
-        if (rs.next()) {
-            id = rs.getInt("MAX(idEndereco)");
-        }
-        pstm.close();
-        DBConnection.close();
-        return id;
-    }
-
-    private void inserirDisciplina(Turma turma, int idTurma) throws SQLException {
-        PreparedStatement pstm;
-        for (Disciplina disciplina : turma.getDisciplinas()) {
-            String sqlDisciplina = "INSERT INTO disciplina (nomeDisciplina, dataInicioDisciplina, dataTerminoDisciplina)"
-                    + "VALUES (?,?,?)";
-            pstm = DBConnection.getConnection().prepareStatement(sqlDisciplina);
-            pstm.setString(1, disciplina.getNome());
-            pstm.setDate(2, new Date(disciplina.getDataDeInicio().getTime()));
-            pstm.setDate(3, new Date(disciplina.getDataDeTermino().getTime()));
-            pstm.execute();
-            ResultSet rs;
-            int id = -1;
-            String sqlPesquisa = "SELECT MAX(idDisciplina) FROM Disciplina;";
-            pstm = DBConnection.getConnection().prepareStatement(sqlPesquisa);
-            rs = pstm.executeQuery();
-            if (rs.next()) {
-                id = rs.getInt("MAX(idDisciplina)");
-            }
-            assossiarDisciplinaATurma(idTurma, id);
-        }
-    }
-
-    private void assossiarDisciplinaATurma(int idTurma, int idDisciplina) throws SQLException {
-        PreparedStatement pstm;
-        String sqlTurmaEDisciplina = "INSERT INTO turma_disciplina (turma_idTurma, disciplina_idDisciplina)"
-                + "VALUES (?,?)";
-        pstm = DBConnection.getConnection().prepareStatement(sqlTurmaEDisciplina);
-        pstm.setInt(1, idTurma);
-        pstm.setInt(2, idDisciplina);
-        pstm.execute();
-    }
-
-    private void assossiarProfessorATurma(Turma turma, int idTurma) throws SQLException {
-        PreparedStatement pstm;
-        String sqlTurmaEDisciplina = "INSERT INTO turma_professor (Turma_idTurma, Professor_idProfessor)"
-                + "VALUES (?,?)";
-        pstm = DBConnection.getConnection().prepareStatement(sqlTurmaEDisciplina);
-        for (Professor professor : turma.getProfessores()) {
-            pstm.setInt(1, idTurma);
-            pstm.setInt(2, professor.getId());
-            pstm.execute();
-        }
-    }
-
-    private void inserirDiasAula(Turma turma, int idTurma) throws SQLException {
-        PreparedStatement pstm;
-        String sqlDisciplina = "INSERT INTO turma_diasaula (diaAula, idTurma)"
-                + "VALUES (?,?)";
-        pstm = DBConnection.getConnection().prepareStatement(sqlDisciplina);
-        for (String dias : turma.getAulasSemana()) {
-            pstm.setString(1, dias);
-            pstm.setInt(2, idTurma);
-            pstm.execute();
-        }
-    }
-
     public boolean atualizar(Turma turma) throws SQLException {
-        String sql = "UPDATE turma t, endereco e, orientador o, supervisor s, curso c, turma_professor tp, "
+        String sql = "UPDATE turma t, orientador o, supervisor s, curso c, turma_professor tp, "
                 + "turma_disciplina tdisciplina, turma_diasaula taula SET t.nome = ?, t.campusOfertante = ?,"
                 + " t.cidadeDemandante = ?, t.idcurso= ?, t.dataInicio = ?, t.dataFinal = ?, t.turno = ?,"
                 + " t.responsavel = ?,t.idOrientador = ?, t.idSupervisor = ?";
         PreparedStatement pstm = DBConnection.getConnection().prepareStatement(sql);
         pstm.setString(1, turma.getNome());
+        pstm.setString(2, turma.getCampusOfertante());
+        pstm.setString(3, turma.getCidadeDemandande());
+        pstm.setInt(4, turma.getCurso().getId());
+        pstm.setDate(5, new Date(turma.getDataInicioAulas().getTime()));
+        pstm.setDate(6, new Date(turma.getDataTerminoAulas().getTime()));
+        pstm.setString(7, turma.getTurno());
+        pstm.setString(8, turma.getResponsavel());
+        pstm.setInt(9, turma.getOrientador().getId());
+        pstm.setInt(10, turma.getSupervisor().getId());
         pstm.execute();
         pstm.close();
         DBConnection.close();
         return true;
     }
-
     public boolean remover(Turma turma) throws SQLException {
         String sql = "DELETE FROM turma WHERE idTurma = ?";
         PreparedStatement pstm = DBConnection.getConnection().prepareStatement(sql);
@@ -181,6 +105,22 @@ public class TurmaDAO {
         preparedStatement.close();
         DBConnection.close();
         return listaTurma;
+    }
+    
+    
+    public Turma buscarPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM turma t, curso c, endereco e, supervisor s, orientador o, professor p,"
+                + " turma_professor tp  WHERE idTurma = ? " +
+                    "AND t.idEndereco = e.idEndereco AND t.idcurso = c.idcurso AND t.idOrientador = o.idOrientador "+
+                    "AND t.idSupervisor = s.idSupervisor AND t.idTurma = tp.Turma_idTurma " +
+                    "AND p.idprofessor = tp.Professor_idprofessor";
+        PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        Turma turma = null;
+        if (resultSet.next()) 
+            turma = transformarResultSet(resultSet);
+        return turma;
     }
 
     public List<Turma> buscarPorCurso(Curso curso) throws SQLException {
@@ -255,26 +195,6 @@ public class TurmaDAO {
         return listaTurma;
     }
     
-    private List<Disciplina> listarDisciplinas(int idTurma) throws SQLException{
-        String sql = "SELECT * FROM disciplina d, turma_disciplina td where d.idDisciplina = td.disciplina_idDisciplina"
-                + " AND td.turma_idTurma = ? ORDER BY nomeDisciplina";
-        List<Disciplina> listaDisciplinas = new ArrayList<>();
-        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-        ps.setInt(1, idTurma);
-        ResultSet rs = ps.executeQuery();
-        Disciplina disciplina;
-        while (rs.next()) {
-            disciplina = new Disciplina(
-                    rs.getInt("d.idDisciplina"),
-                    rs.getString("d.nomeDisciplina"),
-                    rs.getDate("d.dataInicioDisciplina"),
-                    rs.getDate("d.dataTerminoDisciplina")
-            );
-            listaDisciplinas.add(disciplina);
-        }
-        return listaDisciplinas;
-    }
-    
     private List<Turma> getParametrosDeTurma(ResultSet resultSet) throws SQLException {
         listaTurma = new ArrayList<>();
         Turma turma;
@@ -293,22 +213,6 @@ public class TurmaDAO {
         return listaTurma;
     }
     
-    private List<String> listarDiasAula(int idTurma) throws SQLException{
-        String sql = "SELECT diaAula FROM turma_diasaula where idTurma = ?";
-        List<String> listaDiasAula= new ArrayList<>();
-        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-        ps.setInt(1, idTurma);
-        ResultSet rs = ps.executeQuery();
-        String dia;
-        while (rs.next()) {
-            dia = rs.getString("diaAula");
-            listaDiasAula.add(dia);
-        }
-        ps.close();
-        DBConnection.close();
-        return listaDiasAula;
-    }
-    
      private Turma transformarResultSet(ResultSet rs) throws SQLException {
         int idTurma = rs.getInt("t.idTurma");
         Turma turma = new Turma(
@@ -317,7 +221,7 @@ public class TurmaDAO {
                 rs.getString("t.campusOfertante"),
                 rs.getString("t.nome"),
                 rs.getString("t.turno"),
-                listarDiasAula(idTurma),
+                new DiasAulaDAO().listarTodasAsAulas(idTurma),
                 rs.getDate("t.dataInicio"),
                 rs.getDate("t.dataFinal"),
                 new Endereco(
@@ -358,24 +262,9 @@ public class TurmaDAO {
                         rs.getString("c.eixoTecnologico"),
                         rs.getString("c.cargaHoraria"),
                         rs.getBoolean("c.status")), 
-                listarDisciplinas(idTurma)
+                new DisciplinaDAO().listarDisciplinas(idTurma)
         );
 
-        return turma;
-    }
-
-    public Turma buscarPorId(int id) throws SQLException {
-        String sql = "SELECT * FROM turma t, curso c, endereco e, supervisor s, orientador o, professor p,"
-                + " turma_professor tp  WHERE idTurma = ? " +
-                    "AND t.idEndereco = e.idEndereco AND t.idcurso = c.idcurso AND t.idOrientador = o.idOrientador "+
-                    "AND t.idSupervisor = s.idSupervisor AND t.idTurma = tp.Turma_idTurma " +
-                    "AND p.idprofessor = tp.Professor_idprofessor";
-        PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(sql);
-        preparedStatement.setInt(1, id);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        Turma turma = null;
-        if (resultSet.next()) 
-            turma = transformarResultSet(resultSet);
         return turma;
     }
 }
