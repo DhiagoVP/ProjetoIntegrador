@@ -1,6 +1,9 @@
 package form;
 
 import dao.CursoDAO;
+import dao.DiasAulaDAO;
+import dao.DisciplinaDAO;
+import dao.EnderecoDAO;
 import dao.OrientadorDAO;
 import dao.ProfessorDAO;
 import dao.SupervisorDAO;
@@ -43,6 +46,10 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
     List<Professor> listaProfessoresCombo;
     List<Supervisor> listaDeSupervisores;
     List<String> listaDeEstados = new ArrayList<>();
+    private Turma velhaTurma = null;
+    private List<String> listaDeDiasDeAulaDaTurmaVelha;
+    private List<Professor> listaProfessoresTabelaVelha;
+    private List<Disciplina> listaDeDisciplinasVelha;
 
     public DlgGerenciadorTurma(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -833,11 +840,48 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btAlterarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAlterarTurmaActionPerformed
-        try {
-            getDados();
-            new TurmaDAO().atualizar(turma);
-        } catch (SQLException ex) {
-            Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+        if (algumCampoVazio()) {
+            JOptionPane.showMessageDialog(this, "Verifique se há algum campo vazio!", "Erro!", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                getDados();
+            } catch (SQLException ex) {
+                Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (compararDadosGeraisTurmas(turma, velhaTurma)) {
+                try {
+                    new TurmaDAO().atualizar(turma);
+                } catch (SQLException ex) {
+                    Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (compararEnderecoTurma(turma, velhaTurma)) {
+                try {
+                    new EnderecoDAO().atualizar(turma.getEndereco());
+                } catch (SQLException ex) {
+                    Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            try {
+                manipularDiasDeAula();
+            } catch (SQLException ex) {
+                Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                manipularDisciplinas();
+            } catch (SQLException ex) {
+                Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                manipularProfessores();
+            } catch (SQLException ex) {
+                Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(this, "Alteração realizada com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+            limparTodosCampos();
+            estadoInicial();
         }
     }//GEN-LAST:event_btAlterarTurmaActionPerformed
 
@@ -915,16 +959,20 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
 
     private void btCadastrarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarTurmaActionPerformed
         boolean resultado = false;
-        try {
-            getDados();
-            resultado = new TurmaDAO().cadastrar(turma);
-        } catch (SQLException ex) {
-            Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (resultado) {
-            JOptionPane.showMessageDialog(this, "Turma cadastrada com sucesso!");
+        if (algumCampoVazio()) {
+            JOptionPane.showMessageDialog(this, "Verifique se há algum campo vazio!", "Erro!", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "Ocorreu um erro!");
+            try {
+                getDados();
+                resultado = new TurmaDAO().cadastrar(turma);
+            } catch (SQLException ex) {
+                Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (resultado) {
+                JOptionPane.showMessageDialog(this, "Turma cadastrada com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro!");
+            }
         }
         limparTodosCampos();
     }//GEN-LAST:event_btCadastrarTurmaActionPerformed
@@ -1133,7 +1181,7 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
         cbProfessor.setSelectedIndex(-1);
         cbSupervisor.setSelectedIndex(-1);
         cbTurno.setSelectedIndex(-1);
-        
+
         disciplinaTableModel = new DisciplinaTurmaTableModel();
         tbDisciplinas.setModel(disciplinaTableModel);
         professorTableModel = new ProfessorTurmaTableModel();
@@ -1215,7 +1263,6 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
             }
         }
         cbProfessor.setSelectedIndex(-1);
-        //ordenarListaDeProfessores();
     }
 
     private void atualizarListaDeAulasDaTurma() {
@@ -1267,19 +1314,20 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
     private void removerProfessorDoCombo(Professor professor) {
         // o professor que for adicionado na tabela será removido da lista do combo de professores
         cbProfessor.removeItem(professor);
-        
+
     }
 
     private void atualizarComboProfessor() {
         // o professor que for adicionado na tabela será adicionado novamente à lista do combo de professores
         cbProfessor.removeAllItems();
-        for(Professor professor : listaProfessoresCombo){
+        for (Professor professor : listaProfessoresCombo) {
             cbProfessor.addItem(professor);
         }
     }
 
     private void getDados() throws SQLException {
-        turma = new Turma(tfCidadeDemandante.getText(),
+        turma = new Turma(velhaTurma.getId(),
+                tfCidadeDemandante.getText(),
                 tfCampusOfertante.getText(),
                 tfNomeTurma.getText(),
                 cbTurno.getSelectedItem().toString(),
@@ -1298,13 +1346,11 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
                 tfResponsavel.getText(),
                 new CursoDAO().buscarPorNome(cbCurso.getSelectedItem().toString()),
                 listaDeDisciplinas);
-
     }
 
     void recuperarDadosDeTurmaParaEdicao(int idTurma) throws SQLException {
-        turma = new Turma();
-        turma = new TurmaDAO().buscarPorId(idTurma);
-
+        velhaTurma = new Turma();
+        velhaTurma = new TurmaDAO().buscarPorId(idTurma);
         setDados();
         estadoEditarExcluir();
     }
@@ -1318,37 +1364,46 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
     }
 
     private void setDados() {
-        tfNomeTurma.setText(turma.getNome());
-        tfCampusOfertante.setText(turma.getCampusOfertante());
-        tfCidadeDemandante.setText(turma.getCidadeDemandande());
-        tfEixoTecnologico.setText(turma.getCurso().getEixoTecnologico());
-        tfCidade.setText(turma.getEndereco().getCidade());
-        tfBairro.setText(turma.getEndereco().getBairro());
-        tfNumero.setText(Integer.toString(turma.getEndereco().getNumero()));
-        tfResponsavel.setText(turma.getResponsavel());
-        tfRua.setText(turma.getEndereco().getRua());
-        dateInicioTurma.setDate(turma.getDataInicioAulas());
-        dateTerminoTurma.setDate(turma.getDataTerminoAulas());
-        cbEstado.setSelectedItem(turma.getEndereco().getEstado());
-        cbCurso.setSelectedItem(turma.getCurso());
-        cbOrientador.setSelectedItem(turma.getOrientador());
-        cbSupervisor.setSelectedItem(turma.getSupervisor());
-        cbTurno.setSelectedItem(turma.getTurno());
-        listaDeDiasDeAulaDaTurma = turma.getAulasSemana();
+        tfNomeTurma.setText(velhaTurma.getNome());
+        tfCampusOfertante.setText(velhaTurma.getCampusOfertante());
+        tfCidadeDemandante.setText(velhaTurma.getCidadeDemandande());
+        tfEixoTecnologico.setText(velhaTurma.getCurso().getEixoTecnologico());
+        tfCidade.setText(velhaTurma.getEndereco().getCidade());
+        tfBairro.setText(velhaTurma.getEndereco().getBairro());
+        tfNumero.setText(Integer.toString(velhaTurma.getEndereco().getNumero()));
+        tfResponsavel.setText(velhaTurma.getResponsavel());
+        tfRua.setText(velhaTurma.getEndereco().getRua());
+        dateInicioTurma.setDate(velhaTurma.getDataInicioAulas());
+        dateTerminoTurma.setDate(velhaTurma.getDataTerminoAulas());
+        cbEstado.setSelectedItem(velhaTurma.getEndereco().getEstado());
+        cbCurso.setSelectedItem(velhaTurma.getCurso());
+        cbOrientador.setSelectedItem(velhaTurma.getOrientador());
+        cbSupervisor.setSelectedItem(velhaTurma.getSupervisor());
+        cbTurno.setSelectedItem(velhaTurma.getTurno());
+        listaDeDiasDeAulaDaTurmaVelha = velhaTurma.getAulasSemana();
+        for (String dia : listaDeDiasDeAulaDaTurmaVelha) {
+            listaDeDiasDeAulaDaTurma.add(dia);
+        }
         atualizarListaDeAulasDaTurma();
-        if (!turma.getProfessores().isEmpty()) {
-            for (Professor professor : turma.getProfessores()) {
+        if (!velhaTurma.getProfessores().isEmpty()) {
+            for (Professor professor : velhaTurma.getProfessores()) {
                 listaProfessoresCombo.remove(professor);
             }
             cbProfessor.removeAllItems();
             for (Professor professor : listaProfessoresCombo) {
                 cbProfessor.addItem(professor);
             }
-            listaProfessoresTabela = turma.getProfessores();
+            listaProfessoresTabelaVelha = velhaTurma.getProfessores();
+            for (Professor professor : listaProfessoresTabelaVelha) {
+                listaProfessoresTabela.add(professor);
+            }
             atualizarTabelaProfessor(professorTableModel);
         }
 
-        listaDeDisciplinas = turma.getDisciplinas();
+        listaDeDisciplinasVelha = velhaTurma.getDisciplinas();
+        for (Disciplina disciplina : listaDeDisciplinasVelha) {
+            listaDeDisciplinas.add(disciplina);
+        }
         atualizarTabelaDisciplinas(disciplinaTableModel);
     }
 
@@ -1363,5 +1418,118 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
     private void ordenarListaDeProfessorComboETabela() {
         Collections.sort(listaProfessoresCombo, new Comparador());
         Collections.sort(listaProfessoresTabela, new Comparador());
+    }
+
+    private boolean compararDadosGeraisTurmas(Turma turma, Turma novaTurma) {
+        return !turma.getNome().equals(novaTurma.getNome())
+                || !turma.getCampusOfertante().equals(novaTurma.getCampusOfertante())
+                || !turma.getCidadeDemandande().equals(novaTurma.getCidadeDemandande())
+                || !turma.getDataInicioAulas().equals(novaTurma.getDataInicioAulas())
+                || !turma.getDataTerminoAulas().equals(novaTurma.getDataTerminoAulas())
+                || !turma.getResponsavel().equals(novaTurma.getResponsavel())
+                || !turma.getTurno().equals(novaTurma.getTurno())
+                || turma.getCurso().getId() != novaTurma.getCurso().getId()
+                || turma.getOrientador().getId() != novaTurma.getOrientador().getId()
+                || turma.getSupervisor().getId() != novaTurma.getSupervisor().getId();
+    }
+
+    private boolean compararEnderecoTurma(Turma turma, Turma novaTurma) {
+        return !turma.getEndereco().getRua().equals(novaTurma.getEndereco().getRua())
+                || !turma.getEndereco().getBairro().equals(novaTurma.getEndereco().getBairro())
+                || !turma.getEndereco().getCidade().equals(novaTurma.getEndereco().getCidade())
+                || !turma.getEndereco().getEstado().equals(novaTurma.getEndereco().getEstado())
+                || turma.getEndereco().getNumero() != novaTurma.getEndereco().getNumero();
+    }
+
+    private void manipularDiasDeAula() throws SQLException {
+        new DiasAulaDAO().remover(diasRemovidosDaLista(), velhaTurma.getId());
+        new DiasAulaDAO().inserir(diasAcrescentadosNaLista(), velhaTurma.getId());
+    }
+
+    private void manipularDisciplinas() throws SQLException {
+        new DisciplinaDAO().remover(disiciplinasRemovidasDaLista(), velhaTurma.getId());
+        new DisciplinaDAO().inserir(disciplinasAcrescentadasNaLista(), velhaTurma.getId());
+    }
+
+    private void manipularProfessores() throws SQLException {
+        new ProfessorDAO().assossiarATurma(professoresAcresentadosNaLista(), velhaTurma.getId());
+        new ProfessorDAO().desassossiarATurma(professoresRemovidosDaLista(), velhaTurma.getId());
+    }
+
+    private List<String> diasRemovidosDaLista() {
+        List<String> diasRemovidos = new ArrayList<>();
+        for (String dia : velhaTurma.getAulasSemana()) {
+            if (!turma.getAulasSemana().contains(dia)
+                    && velhaTurma.getAulasSemana().contains(dia)) {
+                diasRemovidos.add(dia);
+            }
+        }
+        return diasRemovidos;
+    }
+
+    private List<String> diasAcrescentadosNaLista() {
+        List<String> diasAcresentados = new ArrayList<>();
+        for (String dia : turma.getAulasSemana()) {
+            if (turma.getAulasSemana().contains(dia)
+                    && !velhaTurma.getAulasSemana().contains(dia)) {
+                diasAcresentados.add(dia);
+            }
+        }
+        return diasAcresentados;
+    }
+
+    private List<Disciplina> disiciplinasRemovidasDaLista() {
+        List<Disciplina> disciplinasRemovidas = new ArrayList<>();
+        for (Disciplina disciplina : velhaTurma.getDisciplinas()) {
+            if (!turma.getDisciplinas().contains(disciplina)
+                    && velhaTurma.getDisciplinas().contains(disciplina)) {
+                disciplinasRemovidas.add(disciplina);
+            }
+        }
+        return disciplinasRemovidas;
+    }
+
+    private List<Disciplina> disciplinasAcrescentadasNaLista() {
+        List<Disciplina> disciplinasAcresentadas = new ArrayList<>();
+        for (Disciplina disciplina : turma.getDisciplinas()) {
+            if (turma.getDisciplinas().contains(disciplina)
+                    && !velhaTurma.getDisciplinas().contains(disciplina)) {
+                disciplinasAcresentadas.add(disciplina);
+            }
+        }
+        return disciplinasAcresentadas;
+    }
+
+    private List<Professor> professoresAcresentadosNaLista() {
+        List<Professor> professoresAcresentados = new ArrayList<>();
+        for (Professor professor : turma.getProfessores()) {
+            if (turma.getProfessores().contains(professor)
+                    && !velhaTurma.getProfessores().contains(professor)) {
+                professoresAcresentados.add(professor);
+            }
+        }
+        return professoresAcresentados;
+    }
+
+    private List<Professor> professoresRemovidosDaLista() {
+        List<Professor> professoresRemovidos = new ArrayList<>();
+        for (Professor professor : velhaTurma.getProfessores()) {
+            if (!turma.getProfessores().contains(professor)
+                    && velhaTurma.getProfessores().contains(professor)) {
+                professoresRemovidos.add(professor);
+            }
+        }
+        return professoresRemovidos;
+    }
+
+    private boolean algumCampoVazio() {
+        return cbCurso.getSelectedIndex() < 0 || cbEstado.getSelectedIndex() < 0
+                || cbOrientador.getSelectedIndex() < 0 || cbTurno.getSelectedIndex() < 0
+                || tfNomeTurma.getText().isEmpty() || tfCampusOfertante.getText().isEmpty()
+                || tfCidadeDemandante.getText().isEmpty() || tfEixoTecnologico.getText().isEmpty()
+                || tfResponsavel.getText().isEmpty() || tfRua.getText().isEmpty()
+                || tfBairro.getText().isEmpty() || tfCidade.getText().isEmpty() || tfNumero.getText().isEmpty()
+                || tbDisciplinas.getRowCount() < 0 || tbProfessor.getRowCount() < 0
+                || dateInicioTurma.getDate() == null || dateTerminoTurma.getDate() == null;
     }
 }

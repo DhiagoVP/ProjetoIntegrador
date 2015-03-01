@@ -19,6 +19,8 @@ import java.util.List;
 public class DiasAulaDAO {
     
     public void inserir(List<String> listaDiasDeAula, int idTurma) throws SQLException {
+        if(listaDiasDeAula.isEmpty())
+            return;
         String sqlDisciplina = "INSERT INTO turma_diasaula (diaAula, idTurma)"
                 + "VALUES (?,?)";
         PreparedStatement pstm = DBConnection.getConnection().prepareStatement(sqlDisciplina);
@@ -27,15 +29,6 @@ public class DiasAulaDAO {
             pstm.setInt(2, idTurma);
             pstm.execute();
         }
-    }
-    
-    public void alterar(List<String> listaDiasDeAula, int idTurma) throws SQLException{
-        String sql = "DELETE FROM turma_diasaula where idTurma = ?";
-        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-        ps.setInt(1, idTurma);
-        ps.close();
-        DBConnection.close();
-        inserir(listaDiasDeAula, idTurma);
     }
     
     public List<String> listarTodasAsAulas(int idTurma) throws SQLException{
@@ -52,5 +45,19 @@ public class DiasAulaDAO {
         ps.close();
         DBConnection.close();
         return listaDiasAula;
+    }
+    
+    public void remover(List<String> dias, int idTurma) throws SQLException{
+        if (dias.isEmpty()) 
+            return;
+        String sql = "DELETE FROM turma_diasaula where idTurma = ? and diaAula = ?";
+        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+        for(String dia : dias){
+            ps.setInt(1, idTurma);
+            ps.setString(2, dia);
+            ps.execute();
+        }
+        ps.close();
+        DBConnection.close();
     }
 }

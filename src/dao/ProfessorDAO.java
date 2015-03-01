@@ -250,6 +250,8 @@ public class ProfessorDAO {
     }
     
     public void assossiarATurma(List<Professor> listaProfessores,int idTurma) throws SQLException {
+        if(listaProfessores.isEmpty())
+            return;
         PreparedStatement pstm;
         String sqlTurmaEDisciplina = "INSERT INTO turma_professor (Turma_idTurma, Professor_idProfessor)"
                 + "VALUES (?,?)";
@@ -259,8 +261,24 @@ public class ProfessorDAO {
             pstm.setInt(2, professor.getId());
             pstm.execute();
         }
+        pstm.close();
+        DBConnection.close();
     }
     
+    public void desassossiarATurma(List<Professor> listaProfessores,int idTurma) throws SQLException {
+        if(listaProfessores.isEmpty())
+            return;
+        PreparedStatement pstm;
+        String sqlTurmaEDisciplina = "DELETE FROM turma_professor WHERE Turma_idTurma = ? and Professor_idProfessor = ?";
+        pstm = DBConnection.getConnection().prepareStatement(sqlTurmaEDisciplina);
+        for (Professor professor : listaProfessores) {
+            pstm.setInt(1, idTurma);
+            pstm.setInt(2, professor.getId());
+            pstm.execute();
+        }
+        pstm.close();
+        DBConnection.close();
+    }
     
     public Professor transformarResultSet(ResultSet rs) throws SQLException {
         Professor professor = new Professor(

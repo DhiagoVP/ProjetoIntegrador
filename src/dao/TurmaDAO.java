@@ -64,10 +64,9 @@ public class TurmaDAO {
     }
 
     public boolean atualizar(Turma turma) throws SQLException {
-        String sql = "UPDATE turma t, orientador o, supervisor s, curso c, turma_professor tp, "
-                + "turma_disciplina tdisciplina, turma_diasaula taula SET t.nome = ?, t.campusOfertante = ?,"
-                + " t.cidadeDemandante = ?, t.idcurso= ?, t.dataInicio = ?, t.dataFinal = ?, t.turno = ?,"
-                + " t.responsavel = ?,t.idOrientador = ?, t.idSupervisor = ?";
+        String sql = "UPDATE turma SET nome = ?, campusOfertante = ?,"
+                + " cidadeDemandante = ?, idcurso= ?, dataInicio = ?, dataFinal = ?, turno = ?,"
+                + " responsavel = ?,idOrientador = ?, idSupervisor = ? WHERE idTurma = ?";
         PreparedStatement pstm = DBConnection.getConnection().prepareStatement(sql);
         pstm.setString(1, turma.getNome());
         pstm.setString(2, turma.getCampusOfertante());
@@ -79,6 +78,7 @@ public class TurmaDAO {
         pstm.setString(8, turma.getResponsavel());
         pstm.setInt(9, turma.getOrientador().getId());
         pstm.setInt(10, turma.getSupervisor().getId());
+        pstm.setInt(11, turma.getId());
         pstm.execute();
         pstm.close();
         DBConnection.close();

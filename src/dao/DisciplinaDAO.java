@@ -21,6 +21,8 @@ import model.Disciplina;
 public class DisciplinaDAO {
     
     public void inserir(List<Disciplina> listaDisciplinas,  int idTurma) throws SQLException {
+        if(listaDisciplinas.isEmpty())
+            return;
         for (Disciplina disciplina : listaDisciplinas) {
             String sqlDisciplina = "INSERT INTO disciplina (nomeDisciplina, dataInicioDisciplina, dataTerminoDisciplina)"
                     + "VALUES (?,?,?)";
@@ -50,12 +52,15 @@ public class DisciplinaDAO {
         pstm.execute();
     }
     
-    public boolean alterar(List<Disciplina> listaDisciplinas,  int idTurma){
-        return true;
+    public void remover(List<Disciplina> listaDisciplinas,  int idTurma) throws SQLException{
+        if(listaDisciplinas.isEmpty())
+            return;
+        String sql = "DELETE FROM turma_disciplina where idTurma = ?";
+        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+        ps.setInt(1, idTurma);
+        ps.close();
+        DBConnection.close();
     }
-    
-    
-    
     public List<Disciplina> listarDisciplinas(int idTurma) throws SQLException{
         String sql = "SELECT * FROM disciplina d, turma_disciplina td where d.idDisciplina = td.disciplina_idDisciplina"
                 + " AND td.turma_idTurma = ? ORDER BY nomeDisciplina";

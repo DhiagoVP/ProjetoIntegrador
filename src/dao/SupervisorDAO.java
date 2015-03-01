@@ -131,9 +131,9 @@ public class SupervisorDAO {
     public Supervisor buscarPorNome(String nome) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorNome = "SELECT * FROM Supervisor o, Endereco e, ContaBancaria cb "
-                + "WHERE o.Nome LIKE \"" + nome + "%\" "
-                + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;";
+        String sqlPesquisarPorNome = "SELECT * FROM Supervisor s, Endereco e, ContaBancaria cb "
+                + "WHERE s.Nome LIKE \"" + nome + "%\" "
+                + "AND s.idEndereco = e.idEndereco AND s.idContaBancaria = cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorNome);
         rs = pstm.executeQuery();
         Supervisor supervisor;
