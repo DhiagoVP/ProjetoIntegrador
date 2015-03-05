@@ -6,7 +6,6 @@
 package form;
 
 import dao.BeneficioDAO;
-import dao.CursoDAO;
 import dao.TurmaDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import model.Beneficio;
-import model.Curso;
 import model.Turma;
 
 /**
@@ -175,7 +173,7 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
                     .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPagamentoLayout.createSequentialGroup()
-                        .addGap(18, 23, Short.MAX_VALUE)
+                        .addGap(18, 21, Short.MAX_VALUE)
                         .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -185,7 +183,7 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btRemoverBeneficioAPagar)
                         .addGap(22, 22, 22)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelar)
                     .addComponent(btPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -205,7 +203,7 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 14, Short.MAX_VALUE))
         );
 
         pack();
@@ -226,7 +224,8 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
 
     private void btPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagarActionPerformed
         DlgEfetuarPagamentoBeneficio beneficio = new DlgEfetuarPagamentoBeneficio(null, rootPaneCheckingEnabled);
-        beneficio.carregarLabel(cbTurma.getSelectedItem().toString());
+        Turma turma = listaTurma.get(cbTurma.getSelectedIndex());
+        beneficio.carregarDados(turma);
         beneficio.setVisible(true);
     }//GEN-LAST:event_btPagarActionPerformed
 
@@ -292,10 +291,10 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void carregarComboBoxTurma() {
-        List<Turma> litaTurma = new ArrayList();
+        listaTurma = new ArrayList();
         try {
-            litaTurma = new TurmaDAO().listarTodos();
-            for (Turma turma : litaTurma) {
+            listaTurma = new TurmaDAO().listarTodos();
+            for (Turma turma : listaTurma) {
                 cbTurma.addItem(turma);
             }
         } catch (SQLException ex) {

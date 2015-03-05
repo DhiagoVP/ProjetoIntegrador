@@ -5,6 +5,8 @@
  */
 package form;
 
+import model.Turma;
+
 /**
  *
  * @author Acerpc
@@ -29,10 +31,10 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     private void initComponents() {
 
         panelGerarPagamento = new javax.swing.JPanel();
-        labelCurso = new javax.swing.JLabel();
+        labelOrientador = new javax.swing.JLabel();
         labelTurma = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablePagamentoBeneficio = new javax.swing.JTable();
+        tbPagamentoBeneficio = new javax.swing.JTable();
         labelTotalPagar = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -44,18 +46,18 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
 
         panelGerarPagamento.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gerar Pagamento de Benefício", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 18), new java.awt.Color(0, 102, 204))); // NOI18N
 
-        labelCurso.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        labelCurso.setText("Curso");
+        labelOrientador.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        labelOrientador.setText("Orientador");
 
         labelTurma.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         labelTurma.setText("Turma");
 
-        tablePagamentoBeneficio.setModel(new javax.swing.table.DefaultTableModel(
+        tbPagamentoBeneficio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null,  new Boolean(true)},
+                {null, null, null, null, null,  new Boolean(true)},
+                {null, null, null, null, null,  new Boolean(true)},
+                {null, null, null, null, null,  new Boolean(true)}
             },
             new String [] {
                 "CPF", "Nome", "Status", "Faltas", "Valor a pagar", "Pagar"
@@ -76,15 +78,15 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        tablePagamentoBeneficio.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tablePagamentoBeneficio);
-        if (tablePagamentoBeneficio.getColumnModel().getColumnCount() > 0) {
-            tablePagamentoBeneficio.getColumnModel().getColumn(0).setResizable(false);
-            tablePagamentoBeneficio.getColumnModel().getColumn(1).setResizable(false);
-            tablePagamentoBeneficio.getColumnModel().getColumn(2).setResizable(false);
-            tablePagamentoBeneficio.getColumnModel().getColumn(3).setResizable(false);
-            tablePagamentoBeneficio.getColumnModel().getColumn(4).setResizable(false);
-            tablePagamentoBeneficio.getColumnModel().getColumn(5).setResizable(false);
+        tbPagamentoBeneficio.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tbPagamentoBeneficio);
+        if (tbPagamentoBeneficio.getColumnModel().getColumnCount() > 0) {
+            tbPagamentoBeneficio.getColumnModel().getColumn(0).setResizable(false);
+            tbPagamentoBeneficio.getColumnModel().getColumn(1).setResizable(false);
+            tbPagamentoBeneficio.getColumnModel().getColumn(2).setResizable(false);
+            tbPagamentoBeneficio.getColumnModel().getColumn(3).setResizable(false);
+            tbPagamentoBeneficio.getColumnModel().getColumn(4).setResizable(false);
+            tbPagamentoBeneficio.getColumnModel().getColumn(5).setResizable(false);
         }
 
         labelTotalPagar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -96,7 +98,6 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         buttonSalva.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        buttonSalva.setIcon(new javax.swing.ImageIcon("C:\\Users\\Acerpc\\Documents\\GitHub\\ProjetoIntegrador\\src\\icon\\Check-icon.png")); // NOI18N
         buttonSalva.setText("Salvar");
         buttonSalva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,7 +136,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                 .addGroup(panelGerarPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelGerarPagamentoLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(labelCurso)
+                        .addComponent(labelOrientador)
                         .addGap(18, 18, 18)
                         .addComponent(labelTurma)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -152,11 +153,11 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
             .addGroup(panelGerarPagamentoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelGerarPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCurso)
+                    .addComponent(labelOrientador)
                     .addComponent(labelTurma))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelGerarPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelGerarPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(labelTotalPagar)
@@ -242,15 +243,23 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JLabel labelCurso;
+    private javax.swing.JLabel labelOrientador;
     private javax.swing.JLabel labelTotalPagar;
     private javax.swing.JLabel labelTurma;
     private javax.swing.JPanel panelGerarPagamento;
-    private javax.swing.JTable tablePagamentoBeneficio;
+    private javax.swing.JTable tbPagamentoBeneficio;
     // End of variables declaration//GEN-END:variables
 
-    public void carregarLabel(String turma) {
-        labelTurma.setText("Turma: " + turma);
+    public void carregarLabel(Turma turma) {
+        labelTurma.setText("Turma: " + turma.getNome());
+        labelOrientador.setText("Orientador: " + turma.getOrientador().getNome());
+    }
+
+    public void carregarDados(Turma turma) {
+        carregarLabel(turma);
     }
     
+    private void atualizarTabela() {
+        
+    }
 }
