@@ -249,8 +249,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     private javax.swing.JTable tablePagamentoBeneficio;
     // End of variables declaration//GEN-END:variables
 
-    public void carregarLabel(String curso, String turma) {
-        labelCurso.setText("Curso:" + curso);
+    public void carregarLabel(String turma) {
         labelTurma.setText("Turma: " + turma);
     }
     
