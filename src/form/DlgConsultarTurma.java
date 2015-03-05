@@ -85,6 +85,11 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
             }
         });
         tbTurmasEncontradas.getTableHeader().setReorderingAllowed(false);
+        tbTurmasEncontradas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbTurmasEncontradasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbTurmasEncontradas);
 
         tfItemDeBusca.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -291,6 +296,11 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
         this.dispose();
         dlgTurma.setVisible(true);
     }//GEN-LAST:event_btVoltarActionPerformed
+
+    private void tbTurmasEncontradasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTurmasEncontradasMouseClicked
+        if (evt.getClickCount() == 2) 
+                btEnviarActionPerformed(null);
+    }//GEN-LAST:event_tbTurmasEncontradasMouseClicked
 
     /**
      * @param args the command line arguments
