@@ -841,47 +841,48 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
 
     private void btAlterarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAlterarTurmaActionPerformed
         if (algumCampoVazio()) {
-            JOptionPane.showMessageDialog(this, "Verifique se há algum campo vazio!", "Erro!", JOptionPane.ERROR_MESSAGE);
-        } else {
-            try {
-                getDados();
-            } catch (SQLException ex) {
-                Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if (compararDadosGeraisTurmas(turma, velhaTurma)) {
+            int resposta = JOptionPane.showConfirmDialog(this, "Há campos vazios. Deseja continuar?", "Aviso!", JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
                 try {
-                    new TurmaDAO().atualizar(turma);
+                    getDados();
                 } catch (SQLException ex) {
                     Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-            if (compararEnderecoTurma(turma, velhaTurma)) {
+                if (compararDadosGeraisTurmas(turma, velhaTurma)) {
+                    try {
+                        new TurmaDAO().atualizar(turma);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                if (compararEnderecoTurma(turma, velhaTurma)) {
+                    try {
+                        new EnderecoDAO().atualizar(turma.getEndereco());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 try {
-                    new EnderecoDAO().atualizar(turma.getEndereco());
+                    manipularDiasDeAula();
                 } catch (SQLException ex) {
                     Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-            try {
-                manipularDiasDeAula();
-            } catch (SQLException ex) {
-                Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
-            }
 
-            try {
-                manipularDisciplinas();
-            } catch (SQLException ex) {
-                Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                try {
+                    manipularDisciplinas();
+                } catch (SQLException ex) {
+                    Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-            try {
-                manipularProfessores();
-            } catch (SQLException ex) {
-                Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    manipularProfessores();
+                } catch (SQLException ex) {
+                    Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                JOptionPane.showMessageDialog(this, "Alteração realizada com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+                limparTodosCampos();
+                estadoInicial();
             }
-            JOptionPane.showMessageDialog(this, "Alteração realizada com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
-            limparTodosCampos();
-            estadoInicial();
         }
     }//GEN-LAST:event_btAlterarTurmaActionPerformed
 
@@ -960,21 +961,22 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
     private void btCadastrarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarTurmaActionPerformed
         boolean resultado = false;
         if (algumCampoVazio()) {
-            JOptionPane.showMessageDialog(this, "Verifique se há algum campo vazio!", "Erro!", JOptionPane.ERROR_MESSAGE);
-        } else {
-            try {
-                getDados();
-                resultado = new TurmaDAO().cadastrar(turma);
-            } catch (SQLException ex) {
-                Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if (resultado) {
-                JOptionPane.showMessageDialog(this, "Turma cadastrada com sucesso!");
-            } else {
-                JOptionPane.showMessageDialog(this, "Ocorreu um erro!");
+            int resposta = JOptionPane.showConfirmDialog(this, "Há campos vazios. Deseja continuar?", "Aviso!", JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
+                try {
+                    getDados();
+                    resultado = new TurmaDAO().cadastrar(turma);
+                } catch (SQLException ex) {
+                    Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if (resultado) {
+                    JOptionPane.showMessageDialog(this, "Turma cadastrada com sucesso!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocorreu um erro!");
+                }
             }
         }
-        limparTodosCampos();
+            limparTodosCampos();
     }//GEN-LAST:event_btCadastrarTurmaActionPerformed
 
     private void btCancelarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarTurmaActionPerformed
