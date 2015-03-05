@@ -22,6 +22,15 @@ public class Aluno {
     private String observacoes;
     private Endereco endereco;
     private ContaBancaria contaBancaria;
+    private int faltas;
+
+    public int getFaltas() {
+        return faltas;
+    }
+
+    public void setFaltas(int faltas) {
+        this.faltas = faltas;
+    }
 
     public Aluno(int id, String nome, String cpf, String rg, Date dataNascimento, String sexo, String escolaridade,
             String profissao, String telefone, String email, String situacao,

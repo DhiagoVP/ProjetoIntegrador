@@ -28,6 +28,7 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
     List<Beneficio> listaBeneficio = null;
     List<String> listaBeneficiosParaPagar = null;
     DefaultListModel modeloListaBeneficio = new DefaultListModel();
+    List<Turma> listaTurma;
 
     public DlgGerarPagamento(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
