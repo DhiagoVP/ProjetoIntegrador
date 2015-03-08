@@ -59,8 +59,8 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
         btRemoverBeneficioAPagar = new javax.swing.JButton();
         labelMes = new javax.swing.JLabel();
         labelDiasLetivos = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jSpinner1 = new javax.swing.JSpinner();
+        cbMes = new javax.swing.JComboBox();
+        spinnerDiasLetivos = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Efetuar Pagamento");
@@ -119,10 +119,11 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
         labelDiasLetivos.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         labelDiasLetivos.setText("Dias letivos/mês");
 
-        jComboBox1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" }));
+        cbMes.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        cbMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" }));
 
-        jSpinner1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        spinnerDiasLetivos.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        spinnerDiasLetivos.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
 
         javax.swing.GroupLayout panelPagamentoLayout = new javax.swing.GroupLayout(panelPagamento);
         panelPagamento.setLayout(panelPagamentoLayout);
@@ -152,26 +153,26 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
                             .addComponent(cbTurma, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(panelPagamentoLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbMes, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(14, 14, 14)
                                 .addComponent(labelDiasLetivos)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(spinnerDiasLetivos, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         panelPagamentoLayout.setVerticalGroup(
             panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPagamentoLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(22, 22, 22)
                 .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelTurma)
                     .addComponent(cbTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelMes)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelDiasLetivos)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spinnerDiasLetivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPagamentoLayout.createSequentialGroup()
                         .addGap(18, 21, Short.MAX_VALUE)
@@ -220,7 +221,15 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_btAdicionarBeneficioAPagarActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
+        if (listBeneficiosParaPagar.getSelectedIndex() != -1) {
+            cbTurma.setSelectedIndex(0);
+            cbMes.setSelectedIndex(0);
+            listBeneficiosCadastrados.setSelectedIndex(0);
+            listBeneficiosParaPagar.setSelectionModel(null);
+            spinnerDiasLetivos.setValue(1);
+        } else {
+            this.dispose();
+        }
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void btPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagarActionPerformed
@@ -278,17 +287,17 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btPagar;
     private javax.swing.JButton btRemoverBeneficioAPagar;
+    private javax.swing.JComboBox cbMes;
     private javax.swing.JComboBox cbTurma;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JLabel labelDiasLetivos;
     private javax.swing.JLabel labelMes;
     private javax.swing.JLabel labelTurma;
     private javax.swing.JList listBeneficiosCadastrados;
     private javax.swing.JList listBeneficiosParaPagar;
     private javax.swing.JPanel panelPagamento;
+    private javax.swing.JSpinner spinnerDiasLetivos;
     // End of variables declaration//GEN-END:variables
 
     private void carregarComboBoxTurma() {

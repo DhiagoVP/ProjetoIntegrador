@@ -88,6 +88,7 @@ public class DlgRealizarMatricula extends javax.swing.JDialog {
         dcDataInicio.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         dcDataTermino.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        dcDataTermino.setMinSelectableDate(dcDataInicio.getDate());
 
         btConfirmar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cadastrar.png"))); // NOI18N

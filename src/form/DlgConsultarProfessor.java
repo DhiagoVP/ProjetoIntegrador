@@ -61,6 +61,11 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
         lbNome.setText("Pesquisar por");
 
         tfNome.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfNomeKeyTyped(evt);
+            }
+        });
 
         btBuscarPorNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btBuscarPorNome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
@@ -284,6 +289,20 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
         this.atualizarTabela("SELECT * FROM Professor o, Endereco e, ContaBancaria cb "
                 + "WHERE o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
     }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void tfNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNomeKeyTyped
+        if (cbItemPesquisa.getSelectedItem().toString() == "Nome") {
+            String caracteres = "0987654321.";
+            if (caracteres.contains(evt.getKeyChar() + "")) {
+                evt.consume();
+            }
+        } else {
+            String caracteres = "0987654321";
+            if (!caracteres.contains(evt.getKeyChar() + "")) {
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_tfNomeKeyTyped
 
     public void limparCampos() {
         this.tfNome.setText(null);

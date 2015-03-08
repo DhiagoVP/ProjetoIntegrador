@@ -60,6 +60,11 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
         lbNome.setText("Pesquisar por");
 
         tfItemBusca.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfItemBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfItemBuscaKeyTyped(evt);
+            }
+        });
 
         btBuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
@@ -263,6 +268,20 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
                 break;
         }
     }//GEN-LAST:event_btBuscarActionPerformed
+
+    private void tfItemBuscaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfItemBuscaKeyTyped
+        if (cbTipoPesquisa.getSelectedItem().toString() == "Nome") {
+            String caracteres = "0987654321.";
+            if (caracteres.contains(evt.getKeyChar() + "")) {
+                evt.consume();
+            }
+        } else {
+            String caracteres = "0987654321";
+            if (!caracteres.contains(evt.getKeyChar() + "")) {
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_tfItemBuscaKeyTyped
 
     public void limparCampos() {
         this.tfItemBusca.setText(null);
