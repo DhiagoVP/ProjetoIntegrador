@@ -5,13 +5,25 @@
  */
 package form;
 
+import dao.AlunoDAO;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Aluno;
+import model.Pagamento;
 import model.Turma;
+import table.PagamentoTableModel;
 
 /**
  *
  * @author Acerpc
  */
 public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
+    private List<Aluno> listaAlunos;
+    private PagamentoTableModel pagamentoTable;
+    private List<Pagamento> listaPagamento;
 
     /**
      * Creates new form DlgEfetuarPagamentoBeneficio
@@ -257,9 +269,19 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
 
     public void carregarDados(Turma turma) {
         carregarLabel(turma);
+        buscarTodosOsAlunos(turma);
     }
     
     private void atualizarTabela() {
-        
+       pagamentoTable = new PagamentoTableModel((ArrayList<Pagamento>) listaPagamento);
+       tbPagamentoBeneficio.setModel(pagamentoTable);
+    }
+
+    private void buscarTodosOsAlunos(Turma turma) {
+        try {
+            listaAlunos = new AlunoDAO().buscarPorTurma(turma.getId());
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

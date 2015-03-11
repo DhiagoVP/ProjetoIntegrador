@@ -199,6 +199,25 @@ public class AlunoDAO {
         return aluno;
     }
     
+    public List<Aluno> buscarPorTurma(int idTurma) throws SQLException{
+        String sql = "SELECT a.idAluno, a.cpf, a.nome, a.situacao FROM aluno a, turma t, aluno_turma al_t "
+                + "WHERE al_t.idTurma = ? AND a.idAluno = al_t.idAluno AND t.idTurma = al_t.idTurma";
+        List<Aluno> listaAlunos = new ArrayList<>();
+        PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+        ps.setInt(1, idTurma);
+        ResultSet rs = ps.executeQuery();
+        Aluno aluno;
+        while (rs.next()) {
+            aluno =  new Aluno(
+                rs.getInt("a.idAluno"),
+                rs.getString("a.nome"),
+                rs.getString("a.cpf"),
+                rs.getString("a.situacao"));
+            listaAlunos.add(aluno);
+        }
+        return listaAlunos;
+    }
+    
     public List<Aluno> listarTodos() throws SQLException {
         String sql = "SELECT * FROM aluno a, endereco e, contabancaria cb WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria ORDER BY a.nome;";
         List<Aluno> listaAluno = new ArrayList<>();
