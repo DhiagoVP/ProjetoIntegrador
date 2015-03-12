@@ -67,6 +67,14 @@ public class Aluno {
         this.contaBancaria = contaBancaria;
     }
 
+    public Aluno(int id, String nome, String cpf, String situacao) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.situacao = situacao;
+    }
+    
+
     public Aluno() {
     }
 

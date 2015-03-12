@@ -1302,8 +1302,8 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
     }
 
     private boolean campoVazio() {
-        return tfNomeDisciplina.getText() == null
-                || tfNomeDisciplina.getText().equals("")
+        return tfNomeDisciplina.getText().isEmpty()
+                || tfNomeDisciplina.getText().isEmpty()
                 || dateInicioDisciplina.getDate() == null
                 || dateTerminoDisciplina.getDate() == null;
     }

@@ -32,6 +32,13 @@ public class Pagamento {
         return valorAPagar;
     }
 
+    public void setValorAPagar(double valorAPagar) {
+        this.valorAPagar = valorAPagar;
+    }
+
+    public void setPagar(boolean pagar) {
+        this.pagar = pagar;
+    }
     public boolean isPagar() {
         return pagar;
     }
