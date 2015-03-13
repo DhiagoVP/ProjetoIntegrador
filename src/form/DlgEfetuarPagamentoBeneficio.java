@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Aluno;
+import model.Beneficio;
 import model.Pagamento;
 import model.Turma;
 import table.PagamentoTableModel;
@@ -267,13 +268,18 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         labelOrientador.setText("Orientador: " + turma.getOrientador().getNome());
     }
 
-    public void carregarDados(Turma turma) {
+    public void carregarDados(Turma turma, List<Beneficio> beneficios, int diasLetivos) {
         carregarLabel(turma);
         buscarTodosOsAlunos(turma);
+        atualizarTabela();
+        for (int linha = 0; linha < listaAlunos.size(); linha++) {
+            if ((Boolean)tbPagamentoBeneficio.getValueAt(linha, 5))
+                tbPagamentoBeneficio.setValueAt(calcularValorBeneficio(beneficios, diasLetivos), linha, 4);
+        }   
     }
     
     private void atualizarTabela() {
-       pagamentoTable = new PagamentoTableModel((ArrayList<Pagamento>) listaPagamento);
+       pagamentoTable = new PagamentoTableModel((ArrayList<Aluno>) listaAlunos);
        tbPagamentoBeneficio.setModel(pagamentoTable);
     }
 
@@ -283,5 +289,13 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private double calcularValorBeneficio(List<Beneficio> listaBeneficios, int diasLetivos) {
+        double valorPorAluno = 0;
+        for(Beneficio beneficio : listaBeneficios){
+            valorPorAluno += beneficio.getValor() * diasLetivos;
+        }
+        return valorPorAluno;
     }
 }

@@ -842,48 +842,49 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
     private void btAlterarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAlterarTurmaActionPerformed
         if (algumCampoVazio()) {
             int resposta = JOptionPane.showConfirmDialog(this, "Há campos vazios. Deseja continuar?", "Aviso!", JOptionPane.YES_NO_OPTION);
-            if (resposta == JOptionPane.YES_OPTION) {
-                try {
-                    getDados();
-                } catch (SQLException ex) {
-                    Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if (compararDadosGeraisTurmas(turma, velhaTurma)) {
-                    try {
-                        new TurmaDAO().atualizar(turma);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                if (compararEnderecoTurma(turma, velhaTurma)) {
-                    try {
-                        new EnderecoDAO().atualizar(turma.getEndereco());
-                    } catch (SQLException ex) {
-                        Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                try {
-                    manipularDiasDeAula();
-                } catch (SQLException ex) {
-                    Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                try {
-                    manipularDisciplinas();
-                } catch (SQLException ex) {
-                    Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                try {
-                    manipularProfessores();
-                } catch (SQLException ex) {
-                    Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                JOptionPane.showMessageDialog(this, "Alteração realizada com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
-                limparTodosCampos();
-                estadoInicial();
+            if (resposta != JOptionPane.YES_OPTION) {
+                return;
             }
         }
+        try {
+            getDadosEditados();
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (compararDadosGeraisTurmas(turma, velhaTurma)) {
+            try {
+                new TurmaDAO().atualizar(turma);
+            } catch (SQLException ex) {
+                Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (compararEnderecoTurma(turma, velhaTurma)) {
+            try {
+                new EnderecoDAO().atualizar(turma.getEndereco());
+            } catch (SQLException ex) {
+                Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        try {
+            manipularDiasDeAula();
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            manipularDisciplinas();
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            manipularProfessores();
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog(this, "Alteração realizada com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+        limparTodosCampos();
+        estadoInicial();
     }//GEN-LAST:event_btAlterarTurmaActionPerformed
 
     private void btRemoverDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoverDisciplinaActionPerformed
@@ -946,10 +947,14 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Turma excluída com sucesso!");
                     estadoInicial();
                     limparTodosCampos();
-                }
+                
+
+}
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DlgGerenciadorTurma.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btExcluirTurmaActionPerformed
 
@@ -962,21 +967,20 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
         boolean resultado = false;
         if (algumCampoVazio()) {
             int resposta = JOptionPane.showConfirmDialog(this, "Há campos vazios. Deseja continuar?", "Aviso!", JOptionPane.YES_NO_OPTION);
-            if (resposta == JOptionPane.YES_OPTION) {
-                try {
-                    getDados();
-                    resultado = new TurmaDAO().cadastrar(turma);
-                } catch (SQLException ex) {
-                    Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if (resultado) {
-                    JOptionPane.showMessageDialog(this, "Turma cadastrada com sucesso!");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Ocorreu um erro!");
-                }
+            if (resposta != JOptionPane.YES_OPTION) {
+                return;
             }
         }
-            limparTodosCampos();
+        try {
+            getDados();
+            resultado = new TurmaDAO().cadastrar(turma);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro!");
+        }
+        if (resultado) {
+            JOptionPane.showMessageDialog(this, "Turma cadastrada com sucesso!");
+        }
+        limparTodosCampos();
     }//GEN-LAST:event_btCadastrarTurmaActionPerformed
 
     private void btCancelarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarTurmaActionPerformed
@@ -1045,16 +1049,32 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+                
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -1065,11 +1085,11 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             @Override
-            public void run() {
+        public void run() {
                 DlgGerenciadorTurma dialog = new DlgGerenciadorTurma(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
+        public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
                 });
@@ -1208,8 +1228,12 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
         listaDeSupervisores = new ArrayList();
         try {
             listaDeCursos = new CursoDAO().listarTodos();
-        } catch (SQLException ex) {
-            Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+        
+
+} catch (SQLException ex) {
+            Logger.getLogger(DlgGerenciadorTurma.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
         for (Curso curso : listaDeCursos) {
             cbCurso.addItem(curso);
@@ -1217,8 +1241,12 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
 
         try {
             listaDeOrientadores = new OrientadorDAO().listarTodos();
-        } catch (SQLException ex) {
-            Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+        
+
+} catch (SQLException ex) {
+            Logger.getLogger(DlgGerenciadorTurma.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
         for (Orientador orientador : listaDeOrientadores) {
             cbOrientador.addItem(orientador);
@@ -1226,8 +1254,12 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
 
         try {
             listaDeSupervisores = new SupervisorDAO().listarTodos();
-        } catch (SQLException ex) {
-            Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+        
+
+} catch (SQLException ex) {
+            Logger.getLogger(DlgGerenciadorTurma.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
         for (Supervisor supervisor : listaDeSupervisores) {
             cbSupervisor.addItem(supervisor);
@@ -1241,8 +1273,12 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
 
         try {
             listaProfessoresCombo = new ProfessorDAO().listarTodos();
-        } catch (SQLException ex) {
-            Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
+        
+
+} catch (SQLException ex) {
+            Logger.getLogger(DlgGerenciadorTurma.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
         if (tbProfessor.getRowCount() == 0) {
             for (Professor professor : listaProfessoresCombo) {
@@ -1326,8 +1362,29 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
             cbProfessor.addItem(professor);
         }
     }
-
     private void getDados() throws SQLException {
+        turma = new Turma(tfCidadeDemandante.getText(),
+                tfCampusOfertante.getText(),
+                tfNomeTurma.getText(),
+                cbTurno.getSelectedItem().toString(),
+                listaDeDiasDeAulaDaTurma,
+                dateInicioTurma.getDate(),
+                dateTerminoTurma.getDate(),
+                new Endereco(tfRua.getText(),
+                        Integer.parseInt(tfNumero.getText()),
+                        tfBairro.getText(),
+                        cbEstado.getSelectedItem().toString(),
+                        tfCidade.getText()),
+                true,
+                new OrientadorDAO().buscarPorNome(cbOrientador.getSelectedItem().toString()),
+                new SupervisorDAO().buscarPorNome(cbSupervisor.getSelectedItem().toString()),
+                listaProfessoresTabela,
+                tfResponsavel.getText(),
+                new CursoDAO().buscarPorNome(cbCurso.getSelectedItem().toString()),
+                listaDeDisciplinas);
+    }
+
+    private void getDadosEditados() throws SQLException {
         turma = new Turma(velhaTurma.getId(),
                 tfCidadeDemandante.getText(),
                 tfCampusOfertante.getText(),
@@ -1336,7 +1393,8 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
                 listaDeDiasDeAulaDaTurma,
                 dateInicioTurma.getDate(),
                 dateTerminoTurma.getDate(),
-                new Endereco(tfRua.getText(),
+                new Endereco(velhaTurma.getEndereco().getId(),
+                        tfRua.getText(),
                         Integer.parseInt(tfNumero.getText()),
                         tfBairro.getText(),
                         cbEstado.getSelectedItem().toString(),

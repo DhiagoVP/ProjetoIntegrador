@@ -23,6 +23,8 @@ public class Aluno {
     private Endereco endereco;
     private ContaBancaria contaBancaria;
     private int faltas;
+    boolean recece = true;
+    protected double valorRecebido;
 
     public int getFaltas() {
         return faltas;
@@ -212,6 +214,22 @@ public class Aluno {
         }
         final Aluno other = (Aluno) obj;
         return this.id == other.id;
+    }
+
+    public boolean isRecece() {
+        return recece;
+    }
+
+    public void setRecece(boolean recece) {
+        this.recece = recece;
+    }
+
+    public double getValorRecebido() {
+        return valorRecebido;
+    }
+    
+    public void setValorRecebido(double valorRecebido) {
+        this.valorRecebido = valorRecebido;
     }
 
 }

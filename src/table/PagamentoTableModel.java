@@ -8,6 +8,7 @@ package table;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import model.Aluno;
 import model.Pagamento;
 
 /**
@@ -16,7 +17,7 @@ import model.Pagamento;
  */
 public class PagamentoTableModel extends AbstractTableModel {
 
-    private List<Pagamento> pagamentos;
+    private List<Aluno> alunos;
 
     private String[] colunas = new String[]{ "CPF", "Nome", "Status", "Faltas", "Valor a Pagar", "Pagar"};
 
@@ -27,17 +28,17 @@ public class PagamentoTableModel extends AbstractTableModel {
     private static final int VALOR_A_PAGAR = 4;
     private static final int PAGAR = 5;
 
-    public PagamentoTableModel(List<Pagamento> listaPagamento) {
-        pagamentos = new ArrayList<Pagamento>(listaPagamento);
+    public PagamentoTableModel(List<Aluno> listaAlunos) {
+        alunos = new ArrayList<Aluno>(listaAlunos);
     }
 
     public PagamentoTableModel() {
-        pagamentos = new ArrayList<Pagamento>();
+        alunos = new ArrayList<Aluno>();
     }
 
     @Override
     public int getRowCount() {
-        return pagamentos.size();
+        return alunos.size();
     }
 
     @Override
@@ -47,20 +48,21 @@ public class PagamentoTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Pagamento pagamento = pagamentos.get(rowIndex);
+        Pagamento pagamento;
+        Aluno aluno = alunos.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return pagamento.getAluno().getCpf();
+                return aluno.getCpf();
             case 1:
-                return pagamento.getAluno().getNome();
+                return aluno.getNome();
             case 2:
-                return pagamento.getAluno().getSituacao();
+                return aluno.getSituacao();
             case 3:
-                return pagamento.getAluno().getFaltas();
+                return aluno.getFaltas();
             case 4:
-                return pagamento.getValorAPagar();
+                return aluno.getValorRecebido();
             case 5:
-                return pagamento.isPagar();
+                return aluno.isRecece();
         }
         return null;
     }
@@ -92,25 +94,25 @@ public class PagamentoTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Pagamento pagamento = pagamentos.get(rowIndex);
+        Aluno aluno= alunos.get(rowIndex);
         switch (columnIndex) {
             case CPF:
-                pagamento.getAluno().setCpf((String) aValue);
+                aluno.setCpf((String) aValue);
                 break;
             case NOME:
-                pagamento.getAluno().setNome((String) aValue);
+                aluno.setNome((String) aValue);
                 break;
             case STATUS:
-                pagamento.getAluno().setSituacao((String) aValue);
+                aluno.setSituacao((String) aValue);
                 break;
             case FALTAS:
-                pagamento.getAluno().setFaltas((Integer) aValue);
+                aluno.setFaltas((Integer) aValue);
                 break;
             case VALOR_A_PAGAR:
-                pagamento.setValorAPagar((Double) aValue);
+                aluno.setValorRecebido((Double) aValue);
                 break;
             case PAGAR:
-                pagamento.setPagar((Boolean) true);
+                aluno.setRecece((Boolean) aValue);
                 break;
             default:
                 throw new IndexOutOfBoundsException("Índice de coluna não encontrado");
@@ -129,12 +131,12 @@ public class PagamentoTableModel extends AbstractTableModel {
         }
     }  
     
-    public Pagamento getPagamento(int indiceLinha) {
-        return pagamentos.get(indiceLinha);
+    public Aluno getAluno(int indiceLinha) {
+        return alunos.get(indiceLinha);
     }
 
     public void limpar() {
-        pagamentos.clear();
+        alunos.clear();
         fireTableDataChanged();
     }
     

@@ -26,7 +26,7 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
      * Creates new form DlgEfetuarPagamento
      */
     List<Beneficio> listaBeneficio = null;
-    List<String> listaBeneficiosParaPagar = null;
+    List<String> listaBeneficiosParaPagar = new ArrayList<>();
     DefaultListModel modeloListaBeneficio = new DefaultListModel();
     List<Turma> listaTurma;
 
@@ -217,7 +217,8 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_btRemoverBeneficioAPagarActionPerformed
 
     private void btAdicionarBeneficioAPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarBeneficioAPagarActionPerformed
-        adicionarListaParaPagar(listBeneficiosCadastrados.getSelectedValue());
+        String beneficio = listBeneficiosCadastrados.getSelectedValue().toString();
+        adicionarListaParaPagar(beneficio);
     }//GEN-LAST:event_btAdicionarBeneficioAPagarActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
@@ -235,7 +236,9 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
     private void btPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagarActionPerformed
         DlgEfetuarPagamentoBeneficio beneficio = new DlgEfetuarPagamentoBeneficio(null, rootPaneCheckingEnabled);
         Turma turma = listaTurma.get(cbTurma.getSelectedIndex());
-        beneficio.carregarDados(turma);
+        int diasLetivos = Integer.parseInt(spinnerDiasLetivos.getValue().toString());
+        beneficio.carregarDados(turma, buscarBeneficio(), diasLetivos);
+        this.dispose();
         beneficio.setVisible(true);
     }//GEN-LAST:event_btPagarActionPerformed
 
@@ -332,9 +335,9 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
         return modelo;
     }
 
-    private void adicionarListaParaPagar(Object beneficio) {
-
-        modeloListaBeneficio.addElement(beneficio.toString());
+    private void adicionarListaParaPagar(String beneficio) {
+        listaBeneficiosParaPagar.add(beneficio);
+        modeloListaBeneficio.addElement(beneficio);
         listBeneficiosParaPagar.setModel(modeloListaBeneficio);
         removerBeneficioCadastrado();
     }
@@ -342,5 +345,16 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
     private void removerBeneficioCadastrado() {
         listaBeneficio.remove(listBeneficiosCadastrados.getSelectedIndex());
         listBeneficiosCadastrados.setModel(atualizarList(listaBeneficio));
+    }
+    
+    private List<Beneficio> buscarBeneficio(){      
+        for(String beneficio: listaBeneficiosParaPagar){
+            try {
+                listaBeneficio.add(new BeneficioDAO().recuperarPorNome(beneficio));
+            } catch (SQLException ex) {
+                Logger.getLogger(DlgGerarPagamento.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return listaBeneficio;
     }
 }
