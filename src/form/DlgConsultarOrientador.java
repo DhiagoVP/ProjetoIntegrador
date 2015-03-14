@@ -276,7 +276,7 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
                 evt.consume();
             }
         } else {
-            String caracteres = "0987654321";
+            String caracteres = "0987654321.-";
             if (!caracteres.contains(evt.getKeyChar() + "")) {
                 evt.consume();
             }
