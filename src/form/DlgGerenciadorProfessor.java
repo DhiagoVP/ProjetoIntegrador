@@ -209,8 +209,7 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
         jLabel14.setText("Estado");
 
         cbEstado.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        cbEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federa", " Goiás", "Espírito Santo", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraiba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Rorâima", "São Paulo", "Santa Catarina", "Sergipe", "Tocantins" }));
-        cbEstado.setSelectedIndex(-1);
+        cbEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AC", "AL", "AM", "AP", "BA", "CE", "DF", "GO", "ES", "MA", "MG", "MS", "MT", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RO", "RR", "RS", "SE", "SC", "SP", "TO" }));
 
         javax.swing.GroupLayout panelEnderecoLayout = new javax.swing.GroupLayout(panelEndereco);
         panelEndereco.setLayout(panelEnderecoLayout);
@@ -224,16 +223,16 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
                     .addComponent(jLabel13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfRua, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(tfRua, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                     .addComponent(tfCidade, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(tfBairro))
                 .addGap(18, 18, 18)
-                .addGroup(panelEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEnderecoLayout.createSequentialGroup()
+                .addGroup(panelEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelEnderecoLayout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEnderecoLayout.createSequentialGroup()
+                        .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelEnderecoLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -445,8 +444,8 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
                 professor = new Professor();
                 this.getDados();
                 if (professorDAO.cadastrar(professor)) {
-                    janelaConsulta.atualizarTabela("SELECT * FROM Professor o, Endereco e, ContaBancaria cb "
-                            + "WHERE o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+                    janelaConsulta.atualizarTabela("SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
+                            + "WHERE p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;");
                     JOptionPane.showMessageDialog(this, "Este professor foi inserido com sucesso!");
                     this.limparCampos();
                 } else {
@@ -480,8 +479,8 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
             try {
                 this.getDados();
                 professorDAO.atualizar(professor);
-                janelaConsulta.atualizarTabela("SELECT * FROM Professor o, Endereco e, ContaBancaria cb "
-                        + "WHERE o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+                janelaConsulta.atualizarTabela("SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
+                        + "WHERE p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;");
                 JOptionPane.showMessageDialog(this, "Este professor foi atualizado com sucesso!");
                 this.limparCampos();
                 this.tratarControles(false);
@@ -497,8 +496,8 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
         if (professor != null) {
             try {
                 professorDAO.remover(professor);
-                janelaConsulta.atualizarTabela("SELECT * FROM Professor o, Endereco e, ContaBancaria cb "
-                        + "WHERE o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+                janelaConsulta.atualizarTabela("SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
+                        + "WHERE p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;");
                 JOptionPane.showMessageDialog(this, "Este professor foi removido com sucesso!");
                 this.limparCampos();
                 this.tratarControles(false);
@@ -514,32 +513,13 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void setDados() {
-        MaskFormatter mf = null;
         this.tfNome.setText(professor.getNome());
         this.jChStatus.setSelected(professor.isStatus());
-        try {
-            mf = new MaskFormatter("###.###.###-##");
-        } catch (ParseException ex) {
-            System.out.println("ERRO: " + ex.getMessage());
-        }
-        mf.setPlaceholder(professor.getCpf());
-        this.ftfCpf.setText(new DefaultFormatterFactory(mf).toString());
-        try {
-            mf = new MaskFormatter("#.###.###");
-        } catch (ParseException ex) {
-            System.out.println("ERRO: " + ex.getMessage());
-        }
-        mf.setPlaceholder(professor.getRg());
-        this.ftfRg.setText(new DefaultFormatterFactory(mf).toString());
+        this.ftfCpf.setText(professor.getCpf());
+        this.ftfRg.setText(professor.getRg());
         this.cbTitulacao.setSelectedItem(professor.getTitulacao());
-        this.dtcDataEntrada.setDateFormatString(df.format(professor.getDataEntrada()));
-        try {
-            mf = new MaskFormatter("(##)####-####");
-        } catch (ParseException ex) {
-            System.out.println("ERRO: " + ex.getMessage());
-        }
-        mf.setPlaceholder(professor.getTelefone());
-        this.ftfTelefone.setText(new DefaultFormatterFactory(mf).toString());
+        this.dtcDataEntrada.setDate(professor.getDataEntrada());
+        this.ftfTelefone.setText(professor.getTelefone());
         this.tfEmail.setText(professor.getEmail());
         this.cbEstado.setSelectedItem(professor.getEndereco().getEstado());
         this.tfCidade.setText(professor.getEndereco().getCidade());
@@ -551,7 +531,6 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
         this.tfConta.setText(Integer.toString(professor.getContaBancaria().getNumeroConta()));
 
     }
-    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
     private void getDados() throws ParseException, ProfessorException {
         if (!tfNome.getText().isEmpty()) {

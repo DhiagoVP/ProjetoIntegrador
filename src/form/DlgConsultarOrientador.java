@@ -60,6 +60,11 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
         lbNome.setText("Pesquisar por");
 
         tfItemBusca.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfItemBusca.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfItemBuscaCaretUpdate(evt);
+            }
+        });
         tfItemBusca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfItemBuscaKeyTyped(evt);
@@ -275,13 +280,39 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
             if (caracteres.contains(evt.getKeyChar() + "")) {
                 evt.consume();
             }
-        } else {
+        } else if (cbTipoPesquisa.getSelectedItem().toString() == "CPF") {
             String caracteres = "0987654321.-";
+            if (!caracteres.contains(evt.getKeyChar() + "")) {
+                evt.consume();
+            }
+        } else {
+            String caracteres = "0987654321";
             if (!caracteres.contains(evt.getKeyChar() + "")) {
                 evt.consume();
             }
         }
     }//GEN-LAST:event_tfItemBuscaKeyTyped
+
+    private void tfItemBuscaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfItemBuscaCaretUpdate
+        if (tfItemBusca.getText().isEmpty()) {
+            atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
+                    + "WHERE o.rg = " + orientador.getRg() + " AND "
+                    + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+        }
+
+        if (cbTipoPesquisa.getSelectedItem().toString() == "Nome" || tfItemBusca.getText() != null) {
+            try {
+                orientador = orientadorDAO.buscarPorNome(tfItemBusca.getText());
+                if (orientador != null) {
+                    atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
+                            + "WHERE a.nome LIKE '%" + tfItemBusca.getText() + "%' AND "
+                            + "a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_tfItemBuscaCaretUpdate
 
     public void limparCampos() {
         this.tfItemBusca.setText(null);

@@ -14,17 +14,13 @@ import java.util.Date;
 public class RealizarMatricula {
     private Aluno aluno;
     private Turma turma;
-    private Date dataMatricula;
-    private Date dataTermino;
 
     public RealizarMatricula() {
     }
 
-    public RealizarMatricula(Aluno aluno, Turma turma, Date dataMatricula, Date dataTermino) {
+    public RealizarMatricula(Aluno aluno, Turma turma) {
         this.aluno = aluno;
         this.turma = turma;
-        this.dataMatricula = dataMatricula;
-        this.dataTermino = dataTermino;
     }
 
     
@@ -43,22 +39,4 @@ public class RealizarMatricula {
     public void setTurma(Turma turma) {
         this.turma = turma;
     }
-
-    public Date getDataMatricula() {
-        return dataMatricula;
-    }
-
-    public void setDataMatricula(Date dataMatricula) {
-        this.dataMatricula = dataMatricula;
-    }
-
-    public Date getDataTermino() {
-        return dataTermino;
-    }
-
-    public void setDataTermino(Date dataTermino) {
-        this.dataTermino = dataTermino;
-    }
-    
-    
 }

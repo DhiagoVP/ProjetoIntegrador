@@ -18,6 +18,7 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
 
     CursoDAO cursoDAO = new CursoDAO();
     List<Curso> listaCurso = new ArrayList<>();
+    Curso curso = null;
     
     public DlgConsultarCurso(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -49,7 +50,7 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableCurso = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        tfNome = new javax.swing.JTextField();
+        tfItemBusca = new javax.swing.JTextField();
         btBuscar = new javax.swing.JButton();
         btVoltar = new javax.swing.JButton();
         btEnviar = new javax.swing.JButton();
@@ -83,7 +84,12 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Nome");
 
-        tfNome.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfItemBusca.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfItemBusca.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfItemBuscaCaretUpdate(evt);
+            }
+        });
 
         btBuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
@@ -131,7 +137,7 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
@@ -143,7 +149,7 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
@@ -160,11 +166,11 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
 
     private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
         try {
-            Curso curso = cursoDAO.buscarPorNome(tfNome.getText());
-            this.limparCampos();
+            curso = cursoDAO.buscarPorNome(tfItemBusca.getText());
             if (curso != null) {
                 //JOptionPane.showMessageDialog(this, "O Curso foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-                atualizarTabela("SELECT * FROM Curso c WHERE c.nome LIKE \"" + curso.getNome() + "%\" ORDER BY c.nome;");
+                atualizarTabela("SELECT * FROM Curso c WHERE c.nome LIKE '%" + curso.getNome() + "%' ORDER BY c.nome;");
+                this.limparCampos();
             } else {
                 JOptionPane.showMessageDialog(this, "O curso não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -175,16 +181,12 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
     DlgGerenciadorCurso janelaCurso;
     private void tableCursoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCursoMouseClicked
         if (evt.getClickCount() == 2) {
-            if (this.tableCurso.getSelectedRow() == -1) {
-                JOptionPane.showMessageDialog(this, "É nescessário selecionar um curso na tabela!");
-            } else {
                 int linhaSelecionada = this.tableCurso.getSelectedRow();
                 int idCurso = (int) this.tableCurso.getValueAt(linhaSelecionada, 0);
                 janelaCurso = new DlgGerenciadorCurso(null, true);
                 janelaCurso.recuperarDadosAlterarCurso(idCurso);
                 this.dispose();
                 janelaCurso.setVisible(true);
-            }
         }
     }//GEN-LAST:event_tableCursoMouseClicked
 
@@ -207,8 +209,25 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btEnviarActionPerformed
 
+    private void tfItemBuscaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfItemBuscaCaretUpdate
+        if(tfItemBusca.getText().isEmpty()) {
+            this.atualizarTabela("SELECT * FROM Curso c ORDER BY c.nome;");
+        }
+        
+        if (tfItemBusca.getText() != null ) {
+            try {
+                    curso = cursoDAO.buscarPorNome(tfItemBusca.getText());
+                    if (curso != null) {
+                        atualizarTabela("SELECT * FROM Curso c WHERE c.nome LIKE '%" + tfItemBusca.getText()+ "%' ORDER BY c.nome;");
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                }
+        }
+    }//GEN-LAST:event_tfItemBuscaCaretUpdate
+
     private void limparCampos(){
-        this.tfNome.setText(null);
+        this.tfItemBusca.setText(null);
     }
     public static void main(String args[]) {
 
@@ -258,6 +277,6 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
     private javax.swing.JPopupMenu popupMenuAlterar;
     private javax.swing.JPopupMenu popupMenuRemover;
     private javax.swing.JTable tableCurso;
-    private javax.swing.JTextField tfNome;
+    private javax.swing.JTextField tfItemBusca;
     // End of variables declaration//GEN-END:variables
 }

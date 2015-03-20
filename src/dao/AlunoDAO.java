@@ -22,8 +22,8 @@ public class AlunoDAO {
         PreparedStatement pstm;
         String sqlAluno = "INSERT INTO aluno "
                 + "(nome, cpf, rg, dataNascimento, sexo, escolaridade, profissao,"
-                + " telefone, email, situacao, observacao, idEndereco, idContaBancaria)"
-                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                + " telefone, email, situacao, observacao, idEndereco, idContaBancaria, idTurma)"
+                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         pstm = DBConnection.getConnection().prepareStatement(sqlAluno);
         pstm.setString(1, aluno.getNome());
         pstm.setString(2, aluno.getCpf());
@@ -38,6 +38,7 @@ public class AlunoDAO {
         pstm.setString(11, aluno.getObservacoes());
         pstm.setInt(12, idEndereco);
         pstm.setInt(13, idContaBancaria);
+        pstm.setInt(14, aluno.getIdTurma());
         pstm.execute();
         pstm.close();
         DBConnection.close();
@@ -92,7 +93,7 @@ public class AlunoDAO {
         String sql = "UPDATE aluno a, endereco e, contabancaria cb SET a.nome = ?, "
                 + "a.cpf = ?, a.rg = ?, a.dataNascimento = ?,"
                 + "a.sexo = ?, a.escolaridade = ?, a.profissao = ?, a.telefone = ?, "
-                + "a.email = ?, a.situacao = ?, a.observacao = ?"
+                + "a.email = ?, a.situacao = ?, a.observacao = ?, a.idTurma = ?"
                 + "e.rua = ?, e.numero = ?, e.bairro = ?, e.estado = ?, e.cidade = ?, "
                 + "cb.nomeBanco = ?, cb.agencia = ?, cb.numero = ? "
                 + "WHERE a.idAluno = ? AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;";
@@ -109,18 +110,19 @@ public class AlunoDAO {
         pstm.setString(9, aluno.getEmail());
         pstm.setString(10, aluno.getSituacao());
         pstm.setString(11, aluno.getObservacoes());
+        pstm.setInt(12, aluno.getIdTurma());
 
-        pstm.setString(12, aluno.getEndereco().getRua());
-        pstm.setInt(13, aluno.getEndereco().getNumero());
-        pstm.setString(14, aluno.getEndereco().getBairro());
-        pstm.setString(15, aluno.getEndereco().getEstado());
-        pstm.setString(16, aluno.getEndereco().getCidade());
+        pstm.setString(13, aluno.getEndereco().getRua());
+        pstm.setInt(14, aluno.getEndereco().getNumero());
+        pstm.setString(15, aluno.getEndereco().getBairro());
+        pstm.setString(16, aluno.getEndereco().getEstado());
+        pstm.setString(17, aluno.getEndereco().getCidade());
 
-        pstm.setString(17, aluno.getContaBancaria().getNomeBanco());
-        pstm.setInt(18, aluno.getContaBancaria().getAgencia());
-        pstm.setInt(19, aluno.getContaBancaria().getNumeroConta());
+        pstm.setString(18, aluno.getContaBancaria().getNomeBanco());
+        pstm.setInt(19, aluno.getContaBancaria().getAgencia());
+        pstm.setInt(20, aluno.getContaBancaria().getNumeroConta());
 
-        pstm.setInt(20, aluno.getId());
+        pstm.setInt(21, aluno.getId());
 
         pstm.execute();
 
@@ -141,7 +143,7 @@ public class AlunoDAO {
         PreparedStatement pstm;
         ResultSet rs;
         String sqlPesquisarPorNome = "SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                + "WHERE a.Nome LIKE \"" + nome + "%\" "
+                + "WHERE a.Nome LIKE '" + nome + "%' OR a.Nome LIKE '%" + nome + "%' "
                 + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorNome);
         rs = pstm.executeQuery();
@@ -280,7 +282,8 @@ public class AlunoDAO {
                         rs.getString("cb.nomeBanco"),
                         rs.getInt("cb.agencia"),
                         rs.getInt("cb.numero")
-                )
+                ),
+                rs.getInt("a.idTurma")
         );
         return aluno;
     }
@@ -317,7 +320,8 @@ public class AlunoDAO {
                             rs.getString("cb.nomeBanco"),
                             rs.getInt("cb.agencia"),
                             rs.getInt("cb.numero")
-                    )
+                    ),
+                    rs.getInt("a.idTurma")
             );
             alunos.add(aluno);
         }
