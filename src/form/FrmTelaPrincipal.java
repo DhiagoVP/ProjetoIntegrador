@@ -62,8 +62,8 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         menuItemGerenciadorSupervisor = new javax.swing.JMenuItem();
         menuItemGerenciadorProfessor = new javax.swing.JMenuItem();
         menuItemGerenciadorBeneficio = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menuConsultas = new javax.swing.JMenu();
-        menuRealizarMatricula = new javax.swing.JMenu();
         menuSair = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -129,6 +129,7 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         btRealizarMatricula.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btRealizarMatricula.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Matricula.png"))); // NOI18N
         btRealizarMatricula.setText("Realizar Matricula            ");
+        btRealizarMatricula.setEnabled(false);
         btRealizarMatricula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btRealizarMatriculaActionPerformed(evt);
@@ -263,6 +264,15 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         });
         menuGerenciadores.add(menuItemGerenciadorBeneficio);
 
+        jMenuItem1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jMenuItem1.setText("Efetuar Pagamento");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menuGerenciadores.add(jMenuItem1);
+
         jMenuBar1.add(menuGerenciadores);
 
         menuConsultas.setText("Consultas");
@@ -273,16 +283,6 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
             }
         });
         jMenuBar1.add(menuConsultas);
-
-        menuRealizarMatricula.setText("Realizar Matricula");
-        menuRealizarMatricula.setEnabled(false);
-        menuRealizarMatricula.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        menuRealizarMatricula.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuRealizarMatriculaMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(menuRealizarMatricula);
 
         menuSair.setText("Sair");
         menuSair.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -409,13 +409,6 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         }
     }//GEN-LAST:event_btRealizarMatriculaActionPerformed
 
-    private void menuRealizarMatriculaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuRealizarMatriculaMouseClicked
-        if (this.menuRealizarMatricula.isEnabled()) {
-            DlgRealizarMatricula realizarMatricula = new DlgRealizarMatricula(this, true);
-            realizarMatricula.setVisible(true);
-        }
-    }//GEN-LAST:event_menuRealizarMatriculaMouseClicked
-
     private void lbRelogioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbRelogioMouseClicked
         JOptionPane.showMessageDialog(this, "Esperamos que tenha um ótimo dia!");
     }//GEN-LAST:event_lbRelogioMouseClicked
@@ -431,6 +424,10 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
     private void btEfetuarPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEfetuarPagamentoActionPerformed
         new DlgGerarPagamento(this, rootPaneCheckingEnabled).setVisible(true);
     }//GEN-LAST:event_btEfetuarPagamentoActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        btEfetuarPagamentoActionPerformed(evt);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     public static void main(String args[]) {
 
@@ -477,6 +474,7 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
     private javax.swing.JButton btSair;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbRelogio;
     private javax.swing.JMenu menuConsultas;
@@ -486,7 +484,6 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
     private javax.swing.JMenuItem menuItemGerenciadorOrientador;
     private javax.swing.JMenuItem menuItemGerenciadorProfessor;
     private javax.swing.JMenuItem menuItemGerenciadorSupervisor;
-    private javax.swing.JMenu menuRealizarMatricula;
     private javax.swing.JMenu menuSair;
     // End of variables declaration//GEN-END:variables
 

@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import model.Beneficio;
 import model.Turma;
 
@@ -27,8 +30,8 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
      */
     List<Beneficio> listaBeneficio = null;
     List<String> listaBeneficiosParaPagar = new ArrayList<>();
-    DefaultListModel modeloListaBeneficio = new DefaultListModel();
     List<Turma> listaTurma;
+    SpinnerModel modelo = null;
 
     public DlgGerarPagamento(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -121,6 +124,11 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
 
         cbMes.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         cbMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" }));
+        cbMes.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbMesItemStateChanged(evt);
+            }
+        });
 
         spinnerDiasLetivos.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         spinnerDiasLetivos.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
@@ -217,8 +225,7 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_btRemoverBeneficioAPagarActionPerformed
 
     private void btAdicionarBeneficioAPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarBeneficioAPagarActionPerformed
-        String beneficio = listBeneficiosCadastrados.getSelectedValue().toString();
-        adicionarListaParaPagar(beneficio);
+        adicionarListaParaPagar(listBeneficiosCadastrados.getSelectedValue());
     }//GEN-LAST:event_btAdicionarBeneficioAPagarActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
@@ -234,13 +241,21 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void btPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagarActionPerformed
-        DlgEfetuarPagamentoBeneficio beneficio = new DlgEfetuarPagamentoBeneficio(null, rootPaneCheckingEnabled);
-        Turma turma = listaTurma.get(cbTurma.getSelectedIndex());
-        int diasLetivos = Integer.parseInt(spinnerDiasLetivos.getValue().toString());
-        beneficio.carregarDados(turma, buscarBeneficio(), diasLetivos);
-        this.dispose();
-        beneficio.setVisible(true);
+        if (listBeneficiosParaPagar.getLastVisibleIndex() <0)
+            JOptionPane.showMessageDialog(this, "Selecione no minímo um beneficio");
+        else{
+            DlgEfetuarPagamentoBeneficio beneficio = new DlgEfetuarPagamentoBeneficio(null, rootPaneCheckingEnabled);
+            Turma turma = listaTurma.get(cbTurma.getSelectedIndex());
+            int diasLetivos = Integer.parseInt(spinnerDiasLetivos.getValue().toString());
+            beneficio.carregarDados(turma, buscarBeneficio(), diasLetivos);
+            this.dispose();
+            beneficio.setVisible(true);
+        }
     }//GEN-LAST:event_btPagarActionPerformed
+
+    private void cbMesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMesItemStateChanged
+        quantidadeDiasMes(cbMes.getSelectedItem().toString());
+    }//GEN-LAST:event_cbMesItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -334,11 +349,18 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
         }
         return modelo;
     }
-
-    private void adicionarListaParaPagar(String beneficio) {
-        listaBeneficiosParaPagar.add(beneficio);
-        modeloListaBeneficio.addElement(beneficio);
+    
+    private void atualizarListaParaPagar() {
+       DefaultListModel modeloListaBeneficio = new DefaultListModel();
+        for (String beneficio : listaBeneficiosParaPagar) {
+            modeloListaBeneficio.addElement(beneficio);
+        }
         listBeneficiosParaPagar.setModel(modeloListaBeneficio);
+    }
+
+    private void adicionarListaParaPagar(Object beneficio) {
+        listaBeneficiosParaPagar.add(beneficio.toString());
+        atualizarListaParaPagar();
         removerBeneficioCadastrado();
     }
 
@@ -346,10 +368,9 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
         listaBeneficio.remove(listBeneficiosCadastrados.getSelectedIndex());
         listBeneficiosCadastrados.setModel(atualizarList(listaBeneficio));
     }
-    
-    private List<Beneficio> buscarBeneficio(){ 
-        listaBeneficio.clear();
-        for(String beneficio: listaBeneficiosParaPagar){
+
+    private List<Beneficio> buscarBeneficio() {
+        for (String beneficio : listaBeneficiosParaPagar) {
             try {
                 listaBeneficio.add(new BeneficioDAO().recuperarPorNome(beneficio));
             } catch (SQLException ex) {
@@ -357,5 +378,18 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
             }
         }
         return listaBeneficio;
+    }
+
+    private void quantidadeDiasMes(String mes) {
+        if (mes.equals("Fevereiro")) {
+            modelo = new SpinnerNumberModel(1, 1, 28, 1);
+        } else if (mes.equals("Janeiro") || mes.equals("Março")
+                || mes.equals("Maio") || mes.equals("Julho")
+                || mes.equals("Agosto") || mes.equals("Outubro") || mes.equals("Dezembro")) {
+            modelo = new SpinnerNumberModel(1, 1, 31, 1);
+        } else {
+            modelo = new SpinnerNumberModel(1, 1, 30, 1);
+        }
+        spinnerDiasLetivos.setModel(modelo);
     }
 }

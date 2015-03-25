@@ -198,7 +198,7 @@ public class DlgRealizarMatricula extends javax.swing.JDialog {
     private void btConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConfirmarActionPerformed
         if (matricula == null) {
             matricula = new RealizarMatricula();
-            carregarDados();
+            //carregarDados();
             try {
                 if (new RealizarMatriculaDAO().cadastrar(matricula)) {
                     new AlunoDAO().AtualizarSituação(matricula.getAluno());
@@ -213,11 +213,9 @@ public class DlgRealizarMatricula extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btConfirmarActionPerformed
 
-    public void carregarDados() {
-        matricula.setAluno((Aluno) cbAluno.getSelectedItem());
-        matricula.setTurma((Turma) cbTurma.getSelectedItem());
-        matricula.setDataMatricula(dcDataInicio.getDate());
-        matricula.setDataTermino(dcDataTermino.getDate());
+    public void carregarDados(Aluno aluno, Turma turma) {
+        matricula.setAluno(aluno);
+        matricula.setTurma(turma);
     }
 
     /**

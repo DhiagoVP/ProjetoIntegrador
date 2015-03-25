@@ -25,7 +25,7 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
     DlgGerenciadorAluno janelaAluno;
     AlunoDAO alunoDAO = new AlunoDAO();
     List<Aluno> listaAluno = new ArrayList<>();
-    Aluno aluno;
+    //Aluno aluno = null;
 
     public void atualizarTabela(String sql) {
         try {
@@ -42,33 +42,38 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tfNome = new javax.swing.JTextField();
-        btBuscarPorNome = new javax.swing.JButton();
+        tfItemBusca = new javax.swing.JTextField();
+        btBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableAluno = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         btEnviar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btVoltar = new javax.swing.JButton();
-        cbTipoBusca = new javax.swing.JComboBox();
+        cbTipoPesquisa = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Consultar Aluno");
 
-        tfNome.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        tfNome.addCaretListener(new javax.swing.event.CaretListener() {
+        tfItemBusca.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfItemBusca.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                tfNomeCaretUpdate(evt);
+                tfItemBuscaCaretUpdate(evt);
+            }
+        });
+        tfItemBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfItemBuscaKeyTyped(evt);
             }
         });
 
-        btBuscarPorNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btBuscarPorNome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
-        btBuscarPorNome.setText("Buscar");
-        btBuscarPorNome.addActionListener(new java.awt.event.ActionListener() {
+        btBuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
+        btBuscar.setText("Buscar");
+        btBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btBuscarPorNomeActionPerformed(evt);
+                btBuscarActionPerformed(evt);
             }
         });
 
@@ -128,8 +133,13 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
         });
         jPanel2.add(btVoltar);
 
-        cbTipoBusca.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        cbTipoBusca.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome", "CPF", "RG" }));
+        cbTipoPesquisa.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        cbTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome", "CPF", "RG" }));
+        cbTipoPesquisa.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbTipoPesquisaItemStateChanged(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Pesquisar por");
@@ -144,11 +154,11 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cbTipoBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btBuscarPorNome, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -163,9 +173,9 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btBuscarPorNome)
-                    .addComponent(cbTipoBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btBuscar)
+                    .addComponent(cbTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -194,15 +204,15 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
     }//GEN-LAST:event_btEnviarActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
-        if (tfNome.getText().isEmpty()) {
-        janelaAluno = new DlgGerenciadorAluno(null, true);
-        this.dispose();
-        janelaAluno.setVisible(true);
+        if (tfItemBusca.getText().isEmpty()) {
+            janelaAluno = new DlgGerenciadorAluno(null, true);
+            this.dispose();
+            janelaAluno.setVisible(true);
         } else {
-            tfNome.setText(null);
-            cbTipoBusca.setSelectedIndex(0);
+            tfItemBusca.setText(null);
+            cbTipoPesquisa.setSelectedIndex(0);
             this.atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+                    + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
         }
     }//GEN-LAST:event_btVoltarActionPerformed
 
@@ -217,15 +227,15 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_tableAlunoMouseClicked
 
-    private void btBuscarPorNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarPorNomeActionPerformed
-        switch (cbTipoBusca.getSelectedItem().toString()) {
+    private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
+        switch (cbTipoPesquisa.getSelectedItem().toString()) {
             case ("Nome"):
                 try {
-                    aluno = alunoDAO.buscarPorNome(tfNome.getText());
+                    Aluno aluno = new AlunoDAO().buscarPorNome(tfItemBusca.getText());
                     this.limparCampos();
                     if (aluno != null) {
                         atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                                + "WHERE a.nome LIKE \"" + aluno.getNome() + "%\" AND "
+                                + "WHERE a.nome LIKE '%" + aluno.getNome() + "%' AND "
                                 + "a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
 
                     } else {
@@ -238,12 +248,10 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
                 break;
             case ("CPF"):
                 try {
-                    aluno = alunoDAO.buscarPorCpf(tfNome.getText());
+                    Aluno aluno = new AlunoDAO().buscarPorCpf(tfItemBusca.getText());
                     this.limparCampos();
                     if (aluno != null) {
-                        atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                                + "WHERE a.cpf = " + aluno.getCpf() + " AND "
-                                + "a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+                        atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb WHERE a.cpf = '" + aluno.getCpf() + "' AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
                     } else {
                         JOptionPane.showMessageDialog(this, "O aluno não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -253,13 +261,10 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
                 break;
             case ("RG"):
                 try {
-                    aluno = alunoDAO.buscarPorCpf(tfNome.getText());
+                    Aluno aluno = new AlunoDAO().buscarPorRg(tfItemBusca.getText());
                     this.limparCampos();
                     if (aluno != null) {
-                        atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                                + "WHERE a.cpf = " + aluno.getCpf() + " AND "
-                                + "a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
-
+                        atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb WHERE a.rg = '" + aluno.getRg() + "' AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
                     } else {
                         JOptionPane.showMessageDialog(this, "O aluno não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -268,17 +273,59 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
                 }
                 break;
         }
-    }//GEN-LAST:event_btBuscarPorNomeActionPerformed
+    }//GEN-LAST:event_btBuscarActionPerformed
 
-    private void tfNomeCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfNomeCaretUpdate
-        if(tfNome.getText().isEmpty()) {
+    private void tfItemBuscaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfItemBuscaCaretUpdate
+        if (tfItemBusca.getText().isEmpty()) {
             this.atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+                    + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+            limparCampos();
         }
-    }//GEN-LAST:event_tfNomeCaretUpdate
+
+        if (cbTipoPesquisa.getSelectedItem().toString() == "Nome" && !tfItemBusca.getText().isEmpty()) {
+                    atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
+                            + "WHERE a.nome LIKE '%" + tfItemBusca.getText() + "%'" 
+                            + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+        }
+
+        if (cbTipoPesquisa.getSelectedItem().toString() == "CPF" && !tfItemBusca.getText().isEmpty()) {
+                    atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
+                            + "WHERE a.cpf LIKE '%" + tfItemBusca.getText() + "%'"
+                            + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+        }
+
+        if (cbTipoPesquisa.getSelectedItem().toString() == "RG" && !tfItemBusca.getText().isEmpty()) {
+                    atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
+                            + "WHERE a.rg LIKE '" + tfItemBusca.getText() + "%'"
+                            + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+        }
+    }//GEN-LAST:event_tfItemBuscaCaretUpdate
+
+    private void tfItemBuscaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfItemBuscaKeyTyped
+        if (cbTipoPesquisa.getSelectedItem().toString() == "Nome") {
+            String caracteres = "0987654321.";
+            if (caracteres.contains(evt.getKeyChar() + "")) {
+                evt.consume();
+            }
+        } else if (cbTipoPesquisa.getSelectedItem().toString() == "CPF") {
+            String caracteres = "0987654321.-";
+            if (!caracteres.contains(evt.getKeyChar() + "")) {
+                evt.consume();
+            }
+        } else {
+            String caracteres = "0987654321";
+            if (!caracteres.contains(evt.getKeyChar() + "")) {
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_tfItemBuscaKeyTyped
+
+    private void cbTipoPesquisaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbTipoPesquisaItemStateChanged
+        limparCampos();
+    }//GEN-LAST:event_cbTipoPesquisaItemStateChanged
 
     public void limparCampos() {
-        this.tfNome.setText(null);
+        this.tfItemBusca.setText(null);
     }
 
     public static void main(String args[]) {
@@ -323,15 +370,15 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btBuscarPorNome;
+    private javax.swing.JButton btBuscar;
     private javax.swing.JButton btEnviar;
     private javax.swing.JButton btVoltar;
-    private javax.swing.JComboBox cbTipoBusca;
+    private javax.swing.JComboBox cbTipoPesquisa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableAluno;
-    private javax.swing.JTextField tfNome;
+    private javax.swing.JTextField tfItemBusca;
     // End of variables declaration//GEN-END:variables
 }

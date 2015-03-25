@@ -24,7 +24,7 @@ public class TurmaTableModel extends AbstractTableModel {
     private static final int CURSO = 1;
     private static final int ORIENTADOR = 2;
     private static final int SUPERVISOR = 3;
-    private static final int CIADADEDEMANDANTE = 4;
+    private static final int CIDADEDEMANDANTE = 4;
     private static final int CAMPUSOFERTANTE = 5;
     private static final int TURNO = 6;
 
@@ -84,7 +84,7 @@ public class TurmaTableModel extends AbstractTableModel {
                 return String.class;
             case SUPERVISOR:
                 return String.class;
-            case CIADADEDEMANDANTE:
+            case CIDADEDEMANDANTE:
                 return String.class;
             case CAMPUSOFERTANTE:
                 return String.class;
@@ -111,7 +111,7 @@ public class TurmaTableModel extends AbstractTableModel {
             case SUPERVISOR:
                 turma.getSupervisor().setNome((String) aValue);
                 break;
-            case CIADADEDEMANDANTE:
+            case CIDADEDEMANDANTE:
                 turma.setCidadeDemandande((String) aValue);
                 break;
             case CAMPUSOFERTANTE:

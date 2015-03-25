@@ -20,14 +20,13 @@ import model.Turma;
 public class RealizarMatriculaDAO {
     public boolean cadastrar (RealizarMatricula matricula) throws SQLException {
         PreparedStatement pstm;
-        String sql = "INSERT INTO aluno_turma (idAluno, idTurma, dataInicio, dataTermino) VALUES (?, ?, ?, ?);";
+        String sql = "INSERT INTO aluno_turma (idAluno, idTurma) VALUES (?, ?);";
         pstm = DBConnection.getConnection().prepareStatement(sql);
         pstm.setInt(1, matricula.getAluno().getId());
         pstm.setInt(2, matricula.getTurma().getId());
-        pstm.setDate(3, new java.sql.Date(matricula.getDataMatricula().getTime()));
-        pstm.setDate(4, new java.sql.Date(matricula.getDataTermino().getTime()));
         System.out.println("Cadastrar Turma - Cadastrando");
         pstm.executeUpdate();
+        System.out.println("Cadastrar Turma - Cadastrou");
         DBConnection.close();
         return true;
     }

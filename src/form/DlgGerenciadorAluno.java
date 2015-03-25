@@ -1,10 +1,14 @@
 package form;
 
 import dao.AlunoDAO;
+import dao.RealizarMatriculaDAO;
+import dao.TurmaDAO;
 import exceptions.AlunoException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -13,6 +17,8 @@ import javax.swing.text.MaskFormatter;
 import model.Aluno;
 import model.ContaBancaria;
 import model.Endereco;
+import model.RealizarMatricula;
+import model.Turma;
 
 /**
  *
@@ -24,6 +30,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.taObservacao.setLineWrap(true);
+        carregarComboBoxTurma();
     }
 
     DlgConsultarAluno janelaConsulta = new DlgConsultarAluno(null, true);
@@ -84,6 +91,8 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         btCancelar = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         taObservacao = new javax.swing.JTextArea();
+        labelTurma = new javax.swing.JLabel();
+        cbTurma = new javax.swing.JComboBox();
         panelControles = new javax.swing.JPanel();
         panelNavegacao = new javax.swing.JPanel();
 
@@ -395,7 +404,6 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         cbSituacao.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cbSituacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Em curso", "Cancelado", "Apto", "Não apto" }));
         cbSituacao.setSelectedIndex(-1);
-        cbSituacao.setEnabled(false);
         cbSituacao.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbSituacaoItemStateChanged(evt);
@@ -464,12 +472,17 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         taObservacao.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Observações", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 102, 255))); // NOI18N
         jScrollPane3.setViewportView(taObservacao);
 
+        labelTurma.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        labelTurma.setText("Turma");
+
+        cbTurma.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
         javax.swing.GroupLayout panelGeralLayout = new javax.swing.GroupLayout(panelGeral);
         panelGeral.setLayout(panelGeralLayout);
         panelGeralLayout.setHorizontalGroup(
             panelGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelGeralLayout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
+                .addGap(14, 14, 14)
                 .addGroup(panelGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelBotao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 841, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -479,28 +492,37 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(panelGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelGeralLayout.createSequentialGroup()
-                                .addGap(186, 186, 186)
-                                .addComponent(lbSituação)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbSituacao, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(panelGeralLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(panelGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(panelEndereco, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(panelDadosBancarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap())))))
+                                    .addComponent(panelDadosBancarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelGeralLayout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addGroup(panelGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lbSituação)
+                                    .addComponent(labelTurma))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbTurma, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(panelGeralLayout.createSequentialGroup()
+                                        .addComponent(cbSituacao, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addContainerGap())))
         );
         panelGeralLayout.setVerticalGroup(
             panelGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelGeralLayout.createSequentialGroup()
                 .addGroup(panelGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelGeralLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap()
                         .addGroup(panelGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbSituação)
                             .addComponent(cbSituacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelTurma))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(panelDadosBancarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(panelEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -566,11 +588,10 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
                 if (alunoDAO.cadastrar(aluno)) {
                     janelaConsulta.atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
                             + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
-                    JOptionPane.showMessageDialog(this, "Este aluno foi inserido com sucesso!");
+                    JOptionPane.showMessageDialog(this, "Cadastro efetuado!");
                     this.limparCampos();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Já existe aluno cadastrado!",
-                            "Cadastro de  Aluno", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Já existe aluno cadastrado!","Cadastro de  Aluno", JOptionPane.ERROR_MESSAGE);
                     aluno = null;
                 }
             }
@@ -588,10 +609,10 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
         if (tfNome.getText().isEmpty() && tfRg.getText().isEmpty() && dtcDataNascimento.getDate() == null) {
-        dispose();
+            dispose();
         } else {
-        this.limparCampos();
-        this.tratarControles(false);
+            this.limparCampos();
+            this.tratarControles(false);
         }
     }//GEN-LAST:event_btCancelarActionPerformed
 
@@ -663,32 +684,15 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
     }//GEN-LAST:event_tfNomeKeyTyped
 
     private void setDados() {
-        //MaskFormatter mf = null;
-
         this.tfNome.setText(aluno.getNome());
         this.cbSituacao.setSelectedItem(aluno.getSituacao());
-
-        /*try {
-         mf = new MaskFormatter("###.###.###-##");
-         } catch (ParseException ex) {
-         System.out.println("ERRO: " + ex.getMessage());
-         }
-         mf.setPlaceholder(aluno.getCpf());*/
-        this.ftfCpf.setText(/*new DefaultFormatterFactory(mf).toString()*/aluno.getCpf());
+        this.ftfCpf.setText(aluno.getCpf());
         this.tfRg.setText(aluno.getRg());
         this.cbEscolaridade.setSelectedItem(aluno.getEscolaridade());
         tfProfissao.setText(aluno.getProfissao());
-        //this.dtcDataNascimento.setDateFormatString(df.format(aluno.getDataNascimento()));
         dtcDataNascimento.setDate(aluno.getDataNascimento());
         cbSexo.setSelectedItem(aluno.getSexo());
-        /*try {
-         mf = new MaskFormatter("(##)####-####");
-         } catch (ParseException ex) {
-         System.out.println("ERRO: " + ex.getMessage());
-         }
-         mf.setPlaceholder(aluno.getTelefone());*/
-
-        this.ftfTelefone.setText(/*new DefaultFormatterFactory(mf).toString()*/aluno.getTelefone());
+        this.ftfTelefone.setText(aluno.getTelefone());
         this.tfEmail.setText(aluno.getEmail());
         this.cbEstado.setSelectedItem(aluno.getEndereco().getEstado());
         this.tfCidade.setText(aluno.getEndereco().getCidade());
@@ -698,6 +702,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         this.tfNomeBanco.setText(aluno.getContaBancaria().getNomeBanco());
         this.tfAgencia.setText(Integer.toString(aluno.getContaBancaria().getAgencia()));
         this.tfNumeroConta.setText(Integer.toString(aluno.getContaBancaria().getNumeroConta()));
+        this.taObservacao.setText(aluno.getObservacoes());
 
     }
 
@@ -718,7 +723,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
                 aluno.setObservacoes(taObservacao.getText());
             }
             if (cbSituacao.getSelectedItem() == null) {
-                aluno.setSituacao("SemMatricula");
+                aluno.setSituacao("Sem matricula");
             } else {
                 aluno.setSituacao(cbSituacao.getSelectedItem().toString());
             }
@@ -738,6 +743,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
                             Integer.parseInt(tfNumeroConta.getText())
                     )
             );
+            aluno.setIdTurma(pegarIdTurma());
         }
         validar();
     }
@@ -773,6 +779,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         this.tfCidade.setEnabled(status);
         this.cbEstado.setEnabled(status);
         this.taObservacao.setEnabled(status);
+        cbSituacao.setEnabled(status);
 
     }
 
@@ -796,6 +803,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         this.cbEstado.setSelectedIndex(-1);
         this.taObservacao.setText(null);
         this.cbSituacao.setSelectedIndex(-1);
+        cbTurma.setSelectedIndex(-1);
     }
 
     private void tratarControles(boolean status) {
@@ -812,6 +820,18 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
             this.tratarControles(true);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }    
+
+    private void carregarComboBoxTurma() {
+        List<Turma> listaTurma = new ArrayList();
+        try {
+            listaTurma = new TurmaDAO().listarTodos();
+            for (Turma turma : listaTurma) {
+                cbTurma.addItem(turma);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgRealizarMatricula.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -860,11 +880,13 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
     private javax.swing.JComboBox cbEstado;
     private javax.swing.JComboBox cbSexo;
     private javax.swing.JComboBox cbSituacao;
+    private javax.swing.JComboBox cbTurma;
     private com.toedter.calendar.JDateChooser dtcDataNascimento;
     private javax.swing.JFormattedTextField ftfCpf;
     private javax.swing.JFormattedTextField ftfTelefone;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel labelTurma;
     private javax.swing.JLabel lbAgencia;
     private javax.swing.JLabel lbBairro;
     private javax.swing.JLabel lbCidade;
@@ -903,5 +925,10 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
     private javax.swing.JTextField tfRg;
     private javax.swing.JTextField tfRua;
     // End of variables declaration//GEN-END:variables
+
+    private int pegarIdTurma() {
+        Turma turma = ((Turma) cbTurma.getSelectedItem());
+        return turma.getId();
+    }
 
 }

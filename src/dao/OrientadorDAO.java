@@ -131,10 +131,10 @@ public class OrientadorDAO {
     public Orientador buscarPorNome(String nome) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorNome = "SELECT * FROM Orientador o, Endereco e, ContaBancaria cb WHERE o.Nome = ? "+
-                " AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria";
+        String sqlPesquisarPorNome = "SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
+                + "WHERE o.nome LIKE '%" + nome + "%'"
+                + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorNome);
-        pstm.setString(1, nome);
         rs = pstm.executeQuery();
         Orientador orientador;
         while (rs.next()) {
@@ -143,7 +143,7 @@ public class OrientadorDAO {
         }
         return null;
     }
-    
+
     public Orientador buscarPorNomeRetornandoAtributosSimples(String nome) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
@@ -165,9 +165,7 @@ public class OrientadorDAO {
     public Orientador buscarPorCpf(String cpf) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorCpf = "SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
-                + "WHERE o.cpf = \"" + cpf + "\" "
-                + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;";
+        String sqlPesquisarPorCpf = "SELECT * FROM Orientador o, Endereco e, ContaBancaria cb WHERE o.cpf LIKE '%" + cpf + "%' AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorCpf);
         rs = pstm.executeQuery();
         Orientador orientador;
@@ -181,9 +179,7 @@ public class OrientadorDAO {
     public Orientador buscarPorRg(String rg) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorRg = "SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
-                + "WHERE o.rg = \"" + rg + "\" "
-                + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;";
+        String sqlPesquisarPorRg = "SELECT * FROM Orientador o, Endereco e, ContaBancaria cb WHERE o.rg LIKE '%" + rg + "%' AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorRg);
         rs = pstm.executeQuery();
         Orientador orientador;

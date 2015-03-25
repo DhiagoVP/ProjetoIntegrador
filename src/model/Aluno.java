@@ -22,6 +22,7 @@ public class Aluno {
     private String observacoes;
     private Endereco endereco;
     private ContaBancaria contaBancaria;
+    private int idTurma;
     private int faltas;
     boolean recece = true;
     protected double valorRecebido;
@@ -51,6 +52,26 @@ public class Aluno {
         this.observacoes = observacoes;
         this.endereco = endereco;
         this.contaBancaria = contaBancaria;
+    }
+    
+    public Aluno(int id, String nome, String cpf, String rg, Date dataNascimento, String sexo, String escolaridade,
+            String profissao, String telefone, String email, String situacao,
+            String observacoes, Endereco endereco, ContaBancaria contaBancaria, Integer idturma) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.dataNascimento = dataNascimento;
+        this.sexo = sexo;
+        this.escolaridade = escolaridade;
+        this.profissao = profissao;
+        this.telefone = telefone;
+        this.email = email;
+        this.situacao = situacao;
+        this.observacoes = observacoes;
+        this.endereco = endereco;
+        this.contaBancaria = contaBancaria;
+        this.idTurma = idturma;
     }
 
     public Aluno(String nome, String cpf, String rg, Date dataNascimento, String sexo, String escolaridade, String profissao, String telefone, String email, String situacao, String observacoes, Endereco endereco, ContaBancaria contaBancaria) {
@@ -230,6 +251,14 @@ public class Aluno {
     
     public void setValorRecebido(double valorRecebido) {
         this.valorRecebido = valorRecebido;
+    }
+
+    public int getIdTurma() {
+        return idTurma;
+    }
+
+    public void setIdTurma(int idTurma) {
+        this.idTurma = idTurma;
     }
 
 }

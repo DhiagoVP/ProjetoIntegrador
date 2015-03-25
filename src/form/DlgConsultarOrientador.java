@@ -25,7 +25,6 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
     DlgGerenciadorOrientador janelaOrientador;
     OrientadorDAO orientadorDAO = new OrientadorDAO();
     List<Orientador> listaOrientador = new ArrayList<>();
-    Orientador orientador;
 
     public void atualizarTabela(String sql) {
         try {
@@ -60,6 +59,11 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
         lbNome.setText("Pesquisar por");
 
         tfItemBusca.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfItemBusca.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfItemBuscaCaretUpdate(evt);
+            }
+        });
         tfItemBusca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfItemBuscaKeyTyped(evt);
@@ -133,6 +137,11 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
 
         cbTipoPesquisa.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         cbTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome", "CPF", "RG" }));
+        cbTipoPesquisa.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbTipoPesquisaItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -143,10 +152,10 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbNome)
-                        .addGap(4, 4, 4)
-                        .addComponent(cbTipoPesquisa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfItemBusca)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -218,13 +227,12 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
         switch (cbTipoPesquisa.getSelectedItem().toString()) {
             case ("Nome"):
                 try {
-                    orientador = orientadorDAO.buscarPorNome(tfItemBusca.getText());
+                    Orientador orientador = new OrientadorDAO().buscarPorNome(tfItemBusca.getText());
                     this.limparCampos();
                     if (orientador != null) {
                         atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
-                                + "WHERE o.nome LIKE \"" + orientador.getNome() + "%\" AND "
-                                + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
-
+                                + "WHERE o.nome LIKE '%" + orientador.getNome() + "%'"
+                                + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
                     } else {
                         JOptionPane.showMessageDialog(this, "O orientador não foi encontrado!", "Informação",
                                 JOptionPane.INFORMATION_MESSAGE);
@@ -235,13 +243,12 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
                 break;
             case ("CPF"):
                 try {
-                    orientador = orientadorDAO.buscarPorCpf(tfItemBusca.getText());
+                    Orientador orientador = new OrientadorDAO().buscarPorCpf(tfItemBusca.getText());
                     this.limparCampos();
                     if (orientador != null) {
                         atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
-                                + "WHERE o.cpf = " + orientador.getCpf() + " AND "
-                                + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
-
+                                + "WHERE o.cpf = '" + orientador.getCpf() + "'"
+                                + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
                     } else {
                         JOptionPane.showMessageDialog(this, "O orientador não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -252,13 +259,12 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
 
             case ("RG"):
                 try {
-                    orientador = orientadorDAO.buscarPorRg(tfItemBusca.getText());
+                    Orientador orientador = new OrientadorDAO().buscarPorRg(tfItemBusca.getText());
                     this.limparCampos();
                     if (orientador != null) {
                         atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
-                                + "WHERE o.rg = " + orientador.getRg() + " AND "
-                                + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
-
+                                + "WHERE o.rg = '" + orientador.getRg() + "'"
+                                + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
                     } else {
                         JOptionPane.showMessageDialog(this, "O orientador não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -275,13 +281,48 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
             if (caracteres.contains(evt.getKeyChar() + "")) {
                 evt.consume();
             }
+        } else if (cbTipoPesquisa.getSelectedItem().toString() == "CPF") {
+            String caracteres = "0987654321.-";
+            if (!caracteres.contains(evt.getKeyChar() + "")) {
+                evt.consume();
+            }
         } else {
-            String caracteres = "0987654321";
+            String caracteres = "0987654321.";
             if (!caracteres.contains(evt.getKeyChar() + "")) {
                 evt.consume();
             }
         }
     }//GEN-LAST:event_tfItemBuscaKeyTyped
+
+    private void tfItemBuscaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfItemBuscaCaretUpdate
+        if (tfItemBusca.getText().isEmpty()) {
+            atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
+                    + "WHERE o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+            limparCampos();
+        }
+
+        if (cbTipoPesquisa.getSelectedItem().toString() == "Nome" && !tfItemBusca.getText().isEmpty()) {
+                    atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
+                            + "WHERE o.nome LIKE '%" + tfItemBusca.getText() + "%'"
+                            + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+        }
+        
+        if (cbTipoPesquisa.getSelectedItem().toString() == "CPF" && !tfItemBusca.getText().isEmpty()) {
+                    atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
+                            + "WHERE o.cpf LIKE '%" + tfItemBusca.getText() + "%' AND "
+                            + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+        }
+        
+        if (cbTipoPesquisa.getSelectedItem().toString() == "RG" && !tfItemBusca.getText().isEmpty()) {
+                    atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
+                            + "WHERE o.rg LIKE '" + tfItemBusca.getText() + "%' AND "
+                            + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+        }
+    }//GEN-LAST:event_tfItemBuscaCaretUpdate
+
+    private void cbTipoPesquisaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbTipoPesquisaItemStateChanged
+        limparCampos();
+    }//GEN-LAST:event_cbTipoPesquisaItemStateChanged
 
     public void limparCampos() {
         this.tfItemBusca.setText(null);

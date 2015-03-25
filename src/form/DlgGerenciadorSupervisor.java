@@ -212,8 +212,7 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
         jLabel14.setText("Número");
 
         cbEstado.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        cbEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SC" }));
-        cbEstado.setSelectedIndex(-1);
+        cbEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AC", "AL", "AM", "AP", "BA", "CE", "DF", "GO", "ES", "MA", "MG", "MS", "MT", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RO", "RR", "RS", "SE", "SC", "SP", "TO" }));
 
         javax.swing.GroupLayout panelEnderecoLayout = new javax.swing.GroupLayout(panelEndereco);
         panelEndereco.setLayout(panelEnderecoLayout);
@@ -511,8 +510,12 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        this.limparCampos();
-        this.tratarControles(false);
+        if (tfNome.getText().isEmpty()) {
+            this.dispose();
+        } else {
+            this.limparCampos();
+            this.tratarControles(false);
+        }
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void setDados() {
@@ -520,33 +523,33 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
         this.tfNome.setText(supervisor.getNome());
         this.jChStatus.setSelected(supervisor.isStatus());
         /*
-        try {
-            mf = new MaskFormatter("###.###.###-##");
-        } catch (ParseException ex) {
-            System.out.println("ERRO: " + ex.getMessage());
-        }
-        mf.setPlaceholder(supervisor.getCpf());
-        */
+         try {
+         mf = new MaskFormatter("###.###.###-##");
+         } catch (ParseException ex) {
+         System.out.println("ERRO: " + ex.getMessage());
+         }
+         mf.setPlaceholder(supervisor.getCpf());
+         */
         this.ftfCpf.setText(supervisor.getCpf().toString());
         /*
-        try {
-            mf = new MaskFormatter("#.###.###");
-        } catch (ParseException ex) {
-            System.out.println("ERRO: " + ex.getMessage());
-        }
-        mf.setPlaceholder(supervisor.getRg());
-        */
+         try {
+         mf = new MaskFormatter("#.###.###");
+         } catch (ParseException ex) {
+         System.out.println("ERRO: " + ex.getMessage());
+         }
+         mf.setPlaceholder(supervisor.getRg());
+         */
         this.ftfRg.setText(supervisor.getRg().toString());
         this.cbTitulacao.setSelectedItem(supervisor.getTitulacao());
         this.dtcDataEntrada.setDate(supervisor.getDataEntrada());
         /*
-        try {
-            mf = new MaskFormatter("(##)####-####");
-        } catch (ParseException ex) {
-            System.out.println("ERRO: " + ex.getMessage());
-        }
-        mf.setPlaceholder(supervisor.getTelefone());
-        */
+         try {
+         mf = new MaskFormatter("(##)####-####");
+         } catch (ParseException ex) {
+         System.out.println("ERRO: " + ex.getMessage());
+         }
+         mf.setPlaceholder(supervisor.getTelefone());
+         */
         this.ftfTelefone.setText(supervisor.getTelefone().toString());
         this.tfEmail.setText(supervisor.getEmail());
         this.cbEstado.setSelectedItem(supervisor.getEndereco().getEstado());
@@ -642,7 +645,7 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
         this.tfNumero.setText(null);
         this.tfBairro.setText(null);
         this.tfCidade.setText(null);
-        this.cbEstado.setSelectedIndex(-1);
+        this.cbEstado.setSelectedIndex(0);
     }
 
     public void recuperarDadosAlterarSupervisor(int idSupervisor) {

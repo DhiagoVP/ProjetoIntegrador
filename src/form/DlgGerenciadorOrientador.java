@@ -101,6 +101,11 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
         lbDataEntrada.setText("Data de Entrada");
 
         dtcDataEntrada.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        dtcDataEntrada.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                dtcDataEntradaKeyTyped(evt);
+            }
+        });
 
         lbTelefone.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbTelefone.setText("Telefone");
@@ -111,6 +116,11 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
             ex.printStackTrace();
         }
         ftfTelefone.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        ftfTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ftfTelefoneKeyTyped(evt);
+            }
+        });
 
         lbEmail.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbEmail.setText("E-mail");
@@ -141,11 +151,21 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
         jLabel7.setText("Agencia");
 
         tfAgencia.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfAgencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfAgenciaKeyTyped(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel8.setText("Conta");
 
         tfConta.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfConta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfContaKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelDadosBancariosLayout = new javax.swing.GroupLayout(panelDadosBancarios);
         panelDadosBancarios.setLayout(panelDadosBancariosLayout);
@@ -194,6 +214,11 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
         jLabel5.setText("Numero");
 
         tfNumero.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfNumero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfNumeroKeyTyped(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel10.setText("Rua");
@@ -265,6 +290,11 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
             ex.printStackTrace();
         }
         ftfCpf.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        ftfCpf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ftfCpfKeyTyped(evt);
+            }
+        });
 
         try {
             ftfRg.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#.###.###")));
@@ -272,6 +302,11 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
             ex.printStackTrace();
         }
         ftfRg.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        ftfRg.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ftfRgKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -511,9 +546,44 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        this.limparCampos();
-        this.tratarControles(false);
+        if (tfNome.getText().isEmpty()){
+            this.dispose();
+        } else {
+            this.limparCampos();
+            this.tratarControles(false);
+        }    
     }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void ftfCpfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfCpfKeyTyped
+        String caracteres = "0987654321";
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_ftfCpfKeyTyped
+
+    private void ftfTelefoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfTelefoneKeyTyped
+        ftfCpfKeyTyped(evt);
+    }//GEN-LAST:event_ftfTelefoneKeyTyped
+
+    private void dtcDataEntradaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtcDataEntradaKeyTyped
+        ftfCpfKeyTyped(evt);
+    }//GEN-LAST:event_dtcDataEntradaKeyTyped
+
+    private void tfAgenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAgenciaKeyTyped
+        ftfCpfKeyTyped(evt);
+    }//GEN-LAST:event_tfAgenciaKeyTyped
+
+    private void tfContaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfContaKeyTyped
+        ftfCpfKeyTyped(evt);
+    }//GEN-LAST:event_tfContaKeyTyped
+
+    private void tfNumeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNumeroKeyTyped
+        ftfCpfKeyTyped(evt);
+    }//GEN-LAST:event_tfNumeroKeyTyped
+
+    private void ftfRgKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfRgKeyTyped
+        ftfCpfKeyTyped(evt);
+    }//GEN-LAST:event_ftfRgKeyTyped
 
     private void setDados() {
         MaskFormatter mf = null;
@@ -642,7 +712,7 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
         this.tfNumero.setText(null);
         this.tfBairro.setText(null);
         this.tfCidade.setText(null);
-        this.cbEstado.setSelectedIndex(-1);
+        this.cbEstado.setSelectedIndex(0);
     }
 
     public void recuperarDadosAlterarOrientador(int idOrientador) {
