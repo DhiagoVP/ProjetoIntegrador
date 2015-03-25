@@ -347,7 +347,8 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
         listBeneficiosCadastrados.setModel(atualizarList(listaBeneficio));
     }
     
-    private List<Beneficio> buscarBeneficio(){      
+    private List<Beneficio> buscarBeneficio(){ 
+        listaBeneficio.clear();
         for(String beneficio: listaBeneficiosParaPagar){
             try {
                 listaBeneficio.add(new BeneficioDAO().recuperarPorNome(beneficio));

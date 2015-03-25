@@ -6,11 +6,16 @@
 package form;
 
 import dao.AlunoDAO;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 import model.Aluno;
 import model.Beneficio;
 import model.Pagamento;
@@ -25,6 +30,10 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     private List<Aluno> listaAlunos;
     private PagamentoTableModel pagamentoTable;
     private List<Pagamento> listaPagamento;
+    private List<Beneficio> listaBeneficio;
+    private Turma turma = new Turma();
+    private Pagamento pagamento = new Pagamento();
+    private PagamentoTableModel pagamentoModel = new PagamentoTableModel();
 
     /**
      * Creates new form DlgEfetuarPagamentoBeneficio
@@ -32,6 +41,64 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     public DlgEfetuarPagamentoBeneficio(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+//        tbPagamentoBeneficio.addMouseListener(new MouseListener(){
+//
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//            }
+//
+//            @Override
+//            public void mousePressed(MouseEvent e) {
+//                if(tbPagamentoBeneficio.getSelectedColumn() == 5){
+//                    int linha = tbPagamentoBeneficio.getSelectedRow();
+//                    tbPagamentoBeneficio.setValueAt(0, linha, 3);
+//                    tbPagamentoBeneficio.setValueAt(0, linha, 4);
+//                    
+//                    tbPagamentoBeneficio.updateUI();
+//                }
+//            }
+//
+//            @Override
+//            public void mouseReleased(MouseEvent e) {
+//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//            }
+//
+//            @Override
+//            public void mouseEntered(MouseEvent e) {
+//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//            }
+//
+//            @Override
+//            public void mouseExited(MouseEvent e) {
+//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//            }
+//        
+//        
+//        });
+        
+        tbPagamentoBeneficio.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {}
+
+            @Override
+            public void keyPressed(KeyEvent e) {}
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (tbPagamentoBeneficio.getRowCount() > 0) {
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        int linha = tbPagamentoBeneficio.getSelectedRow();
+                        int faltas = Integer.parseInt(tbPagamentoBeneficio.getValueAt(linha, 3).toString());
+                        int dias = pagamento.getDiasLetivos() - faltas;
+                        tbPagamentoBeneficio.setValueAt(calcularValorBeneficio(dias), linha, 4);
+                        tbPagamentoBeneficio.updateUI();
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -49,7 +116,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbPagamentoBeneficio = new javax.swing.JTable();
         labelTotalPagar = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tfTotalAPagar = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         buttonSalva = new javax.swing.JButton();
         btImprimir = new javax.swing.JButton();
@@ -106,7 +173,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         labelTotalPagar.setText("Total a pagar");
         labelTotalPagar.setToolTipText("");
 
-        jTextField1.setEditable(false);
+        tfTotalAPagar.setEditable(false);
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
@@ -156,7 +223,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                     .addGroup(panelGerarPagamentoLayout.createSequentialGroup()
                         .addComponent(labelTotalPagar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfTotalAPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -174,7 +241,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                 .addGroup(panelGerarPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelGerarPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(labelTotalPagar)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(tfTotalAPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
@@ -196,7 +263,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btImprimirActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btImprimirActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
@@ -249,18 +316,22 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         });
     }
 
+    public JTable getTbPagamentoBeneficio() {
+        return tbPagamentoBeneficio;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btImprimir;
     private javax.swing.JButton buttonSalva;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel labelOrientador;
     private javax.swing.JLabel labelTotalPagar;
     private javax.swing.JLabel labelTurma;
     private javax.swing.JPanel panelGerarPagamento;
     private javax.swing.JTable tbPagamentoBeneficio;
+    private javax.swing.JTextField tfTotalAPagar;
     // End of variables declaration//GEN-END:variables
 
     public void carregarLabel(Turma turma) {
@@ -268,14 +339,22 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         labelOrientador.setText("Orientador: " + turma.getOrientador().getNome());
     }
 
-    public void carregarDados(Turma turma, List<Beneficio> beneficios, int diasLetivos) {
+    public void carregarDados(Turma turmaParaPagar, List<Beneficio> beneficios, int diasLetivos) {
+        turma = turmaParaPagar;
+        listaBeneficio = beneficios;
+        pagamento.setDiasLetivos(diasLetivos);
         carregarLabel(turma);
         buscarTodosOsAlunos(turma);
         atualizarTabela();
+        calcularTotalPorAluno(diasLetivos);
+        calcularTotal();
+    }
+
+    private void calcularTotalPorAluno(int diasLetivos) {
         for (int linha = 0; linha < listaAlunos.size(); linha++) {
             if ((Boolean)tbPagamentoBeneficio.getValueAt(linha, 5))
-                tbPagamentoBeneficio.setValueAt(calcularValorBeneficio(beneficios, diasLetivos), linha, 4);
-        }   
+                tbPagamentoBeneficio.setValueAt(calcularValorBeneficio(diasLetivos), linha, 4);
+        }
     }
     
     private void atualizarTabela() {
@@ -291,11 +370,19 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         }
     }
 
-    private double calcularValorBeneficio(List<Beneficio> listaBeneficios, int diasLetivos) {
+    private double calcularValorBeneficio(int diasLetivos) {
         double valorPorAluno = 0;
-        for(Beneficio beneficio : listaBeneficios){
-            valorPorAluno += beneficio.getValor() * diasLetivos;
+        for(Beneficio beneficio : listaBeneficio){
+            valorPorAluno += (beneficio.getValor() * diasLetivos);
         }
         return valorPorAluno;
+    }
+
+    private void calcularTotal() {
+        double totalAPagar = 0.0;
+        for (int linha = 0; linha < listaAlunos.size(); linha++) {
+                totalAPagar += Double.parseDouble(tbPagamentoBeneficio.getValueAt(linha, 4).toString());
+        }
+        tfTotalAPagar.setText("RS" +totalAPagar);
     }
 }

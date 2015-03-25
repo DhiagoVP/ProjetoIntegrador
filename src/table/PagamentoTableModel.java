@@ -5,6 +5,7 @@
  */
 package table;
 
+import form.DlgEfetuarPagamentoBeneficio;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -16,10 +17,11 @@ import model.Pagamento;
  * @author Ana Paula
  */
 public class PagamentoTableModel extends AbstractTableModel {
-
+    DlgEfetuarPagamentoBeneficio dlgEfetuarPagamento;
+    
     private List<Aluno> alunos;
 
-    private String[] colunas = new String[]{ "CPF", "Nome", "Status", "Faltas", "Valor a Pagar", "Pagar"};
+    private String[] colunas = new String[]{"CPF", "Nome", "Status", "Faltas", "Valor a Pagar", "Pagar"};
 
     private static final int CPF = 0;
     private static final int NOME = 1;
@@ -48,7 +50,6 @@ public class PagamentoTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Pagamento pagamento;
         Aluno aluno = alunos.get(rowIndex);
         switch (columnIndex) {
             case 0:
@@ -94,7 +95,7 @@ public class PagamentoTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Aluno aluno= alunos.get(rowIndex);
+        Aluno aluno = alunos.get(rowIndex);
         switch (columnIndex) {
             case CPF:
                 aluno.setCpf((String) aValue);
@@ -119,18 +120,20 @@ public class PagamentoTableModel extends AbstractTableModel {
         }
     }
 
-    @Override  
-    public boolean isCellEditable(int rowIndex, int columnIndex) {  
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 3:
+                return true;
+            case 4:
                 return true;
             case 5:
                 return true;
             default:
                 throw new IndexOutOfBoundsException("Índice de coluna não encontrado");
         }
-    }  
-    
+    }
+
     public Aluno getAluno(int indiceLinha) {
         return alunos.get(indiceLinha);
     }
@@ -139,5 +142,4 @@ public class PagamentoTableModel extends AbstractTableModel {
         alunos.clear();
         fireTableDataChanged();
     }
-    
 }

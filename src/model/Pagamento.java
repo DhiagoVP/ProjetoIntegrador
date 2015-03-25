@@ -10,11 +10,12 @@ package model;
  * @author Ana Paula
  */
 public class Pagamento {
-    int id;
-    Aluno aluno;
-    Beneficio benefio;
-    double valorAPagar;
-    boolean pagar;
+    private int id;
+    private Aluno aluno;
+    private Beneficio benefio;
+    private double valorAPagar;
+    private boolean pagar;
+    private int diasLetivos;
 
     public int getId() {
         return id;
@@ -44,8 +45,28 @@ public class Pagamento {
     }
     
     public void calcularTotalAPagar(){
-        if (pagar) {
+        if (isPagar()) {
             
         }
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+    /**
+     * @return the diasLetivos
+     */
+    public int getDiasLetivos() {
+        return diasLetivos;
+    }
+
+    /**
+     * @param diasLetivos the diasLetivos to set
+     */
+    public void setDiasLetivos(int diasLetivos) {
+        this.diasLetivos = diasLetivos;
     }
 }
