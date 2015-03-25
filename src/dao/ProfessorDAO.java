@@ -131,9 +131,7 @@ public class ProfessorDAO {
     public Professor buscarPorNome(String nome) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorNome = "SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
-                + "WHERE p.Nome LIKE '%" + nome + "%' "
-                + "AND p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;";
+        String sqlPesquisarPorNome = "SELECT * FROM Professor p, Endereco e, ContaBancaria cb WHERE p.Nome LIKE '%" + nome + "%' AND p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorNome);
         rs = pstm.executeQuery();
         Professor professor;
@@ -165,9 +163,7 @@ public class ProfessorDAO {
     public Professor buscarPorCpf(String cpf) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorCpf = "SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
-                + "WHERE p.cpf = \"" + cpf + "\" "
-                + "AND p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;";
+        String sqlPesquisarPorCpf = "SELECT * FROM Professor p, Endereco e, ContaBancaria cb WHERE p.cpf = '" + cpf + "' AND p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorCpf);
         rs = pstm.executeQuery();
         Professor professor;
@@ -181,9 +177,7 @@ public class ProfessorDAO {
     public Professor buscarPorRg(String rg) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorRg = "SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
-                + "WHERE p.rg LIKE '%" + rg + "%' "
-                + "AND p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;";
+        String sqlPesquisarPorRg = "SELECT * FROM Professor p, Endereco e, ContaBancaria cb WHERE p.rg = '" + rg + "' AND p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorRg);
         rs = pstm.executeQuery();
         Professor professor;

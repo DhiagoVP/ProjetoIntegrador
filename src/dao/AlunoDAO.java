@@ -143,7 +143,7 @@ public class AlunoDAO {
         PreparedStatement pstm;
         ResultSet rs;
         String sqlPesquisarPorNome = "SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                + "WHERE a.Nome LIKE '" + nome + "%' OR a.Nome LIKE '%" + nome + "%' "
+                + "WHERE a.Nome LIKE '%" + nome + "%'"
                 + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorNome);
         rs = pstm.executeQuery();
@@ -158,9 +158,7 @@ public class AlunoDAO {
     public Aluno buscarPorCpf(String cpf) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorCpf = "SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                + "WHERE a.cpf = \"" + cpf + "\" "
-                + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;";
+        String sqlPesquisarPorCpf = "SELECT * FROM Aluno a, Endereco e, ContaBancaria cb WHERE a.cpf LIKE '%" + cpf + "%' AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorCpf);
         rs = pstm.executeQuery();
         Aluno aluno;
@@ -174,9 +172,7 @@ public class AlunoDAO {
     public Aluno buscarPorRg(String rg) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorRg = "SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                + "WHERE a.rg = \"" + rg + "\" "
-                + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;";
+        String sqlPesquisarPorRg = "SELECT * FROM Aluno a, Endereco e, ContaBancaria cb WHERE a.rg LIKE '" + rg + "%' AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorRg);
         rs = pstm.executeQuery();
         Aluno aluno;

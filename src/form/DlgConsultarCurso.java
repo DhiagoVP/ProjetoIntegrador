@@ -168,7 +168,6 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
         try {
             curso = cursoDAO.buscarPorNome(tfItemBusca.getText());
             if (curso != null) {
-                //JOptionPane.showMessageDialog(this, "O Curso foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
                 atualizarTabela("SELECT * FROM Curso c WHERE c.nome LIKE '%" + curso.getNome() + "%' ORDER BY c.nome;");
                 this.limparCampos();
             } else {
@@ -212,17 +211,11 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
     private void tfItemBuscaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfItemBuscaCaretUpdate
         if(tfItemBusca.getText().isEmpty()) {
             this.atualizarTabela("SELECT * FROM Curso c ORDER BY c.nome;");
+            limparCampos();
         }
         
-        if (tfItemBusca.getText() != null ) {
-            try {
-                    curso = cursoDAO.buscarPorNome(tfItemBusca.getText());
-                    if (curso != null) {
+        if (!tfItemBusca.getText().isEmpty()) {
                         atualizarTabela("SELECT * FROM Curso c WHERE c.nome LIKE '%" + tfItemBusca.getText()+ "%' ORDER BY c.nome;");
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                }
         }
     }//GEN-LAST:event_tfItemBuscaCaretUpdate
 

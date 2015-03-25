@@ -25,7 +25,7 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
     DlgGerenciadorAluno janelaAluno;
     AlunoDAO alunoDAO = new AlunoDAO();
     List<Aluno> listaAluno = new ArrayList<>();
-    Aluno aluno;
+    //Aluno aluno = null;
 
     public void atualizarTabela(String sql) {
         try {
@@ -135,6 +135,11 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
 
         cbTipoPesquisa.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         cbTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome", "CPF", "RG" }));
+        cbTipoPesquisa.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbTipoPesquisaItemStateChanged(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Pesquisar por");
@@ -200,14 +205,14 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
         if (tfItemBusca.getText().isEmpty()) {
-        janelaAluno = new DlgGerenciadorAluno(null, true);
-        this.dispose();
-        janelaAluno.setVisible(true);
+            janelaAluno = new DlgGerenciadorAluno(null, true);
+            this.dispose();
+            janelaAluno.setVisible(true);
         } else {
             tfItemBusca.setText(null);
             cbTipoPesquisa.setSelectedIndex(0);
             this.atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+                    + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
         }
     }//GEN-LAST:event_btVoltarActionPerformed
 
@@ -226,11 +231,11 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
         switch (cbTipoPesquisa.getSelectedItem().toString()) {
             case ("Nome"):
                 try {
-                    aluno = alunoDAO.buscarPorNome(tfItemBusca.getText());
+                    Aluno aluno = new AlunoDAO().buscarPorNome(tfItemBusca.getText());
                     this.limparCampos();
                     if (aluno != null) {
                         atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                                + "WHERE a.nome LIKE \"" + aluno.getNome() + "%\" AND "
+                                + "WHERE a.nome LIKE '%" + aluno.getNome() + "%' AND "
                                 + "a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
 
                     } else {
@@ -243,12 +248,10 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
                 break;
             case ("CPF"):
                 try {
-                    aluno = alunoDAO.buscarPorCpf(tfItemBusca.getText());
+                    Aluno aluno = new AlunoDAO().buscarPorCpf(tfItemBusca.getText());
                     this.limparCampos();
                     if (aluno != null) {
-                        atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                                + "WHERE a.cpf = " + aluno.getCpf() + " AND "
-                                + "a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+                        atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb WHERE a.cpf = '" + aluno.getCpf() + "' AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
                     } else {
                         JOptionPane.showMessageDialog(this, "O aluno não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -258,13 +261,10 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
                 break;
             case ("RG"):
                 try {
-                    aluno = alunoDAO.buscarPorCpf(tfItemBusca.getText());
+                    Aluno aluno = new AlunoDAO().buscarPorRg(tfItemBusca.getText());
                     this.limparCampos();
                     if (aluno != null) {
-                        atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                                + "WHERE a.rg = " + aluno.getRg() + " AND "
-                                + "a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
-
+                        atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb WHERE a.rg = '" + aluno.getRg() + "' AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
                     } else {
                         JOptionPane.showMessageDialog(this, "O aluno não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -276,22 +276,28 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
     }//GEN-LAST:event_btBuscarActionPerformed
 
     private void tfItemBuscaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfItemBuscaCaretUpdate
-        if(tfItemBusca.getText().isEmpty()) {
+        if (tfItemBusca.getText().isEmpty()) {
             this.atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+                    + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+            limparCampos();
         }
-        
-        if (cbTipoPesquisa.getSelectedItem().toString() == "Nome" || tfItemBusca.getText() != null ) {
-            try {
-                    aluno = alunoDAO.buscarPorNome(tfItemBusca.getText());
-                    if (aluno != null) {
-                        atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                                + "WHERE a.nome LIKE '%" + tfItemBusca.getText() + "%' AND "
-                                + "a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                }
+
+        if (cbTipoPesquisa.getSelectedItem().toString() == "Nome" && !tfItemBusca.getText().isEmpty()) {
+                    atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
+                            + "WHERE a.nome LIKE '%" + tfItemBusca.getText() + "%'" 
+                            + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+        }
+
+        if (cbTipoPesquisa.getSelectedItem().toString() == "CPF" && !tfItemBusca.getText().isEmpty()) {
+                    atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
+                            + "WHERE a.cpf LIKE '%" + tfItemBusca.getText() + "%'"
+                            + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+        }
+
+        if (cbTipoPesquisa.getSelectedItem().toString() == "RG" && !tfItemBusca.getText().isEmpty()) {
+                    atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
+                            + "WHERE a.rg LIKE '" + tfItemBusca.getText() + "%'"
+                            + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
         }
     }//GEN-LAST:event_tfItemBuscaCaretUpdate
 
@@ -313,6 +319,10 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_tfItemBuscaKeyTyped
+
+    private void cbTipoPesquisaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbTipoPesquisaItemStateChanged
+        limparCampos();
+    }//GEN-LAST:event_cbTipoPesquisaItemStateChanged
 
     public void limparCampos() {
         this.tfItemBusca.setText(null);

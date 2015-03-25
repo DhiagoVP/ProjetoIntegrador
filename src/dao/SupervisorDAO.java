@@ -86,11 +86,11 @@ public class SupervisorDAO {
     public void atualizar(Supervisor supervisor) throws SQLException {
         PreparedStatement pstm;
         String sql;
-        sql = "UPDATE supervisor o, endereco e, contabancaria cb SET o.nome = ?, o.cpf = ?, o.rg = ?, o.titulacao = ?, "
-                + "o.telefone = ?, o.email = ?, o.dataEntrada = ?, o.status = ?, "
+        sql = "UPDATE supervisor s, endereco e, contabancaria cb SET s.nome = ?, s.cpf = ?, s.rg = ?, s.titulacao = ?, "
+                + "s.telefone = ?, s.email = ?, s.dataEntrada = ?, s.status = ?, "
                 + "e.rua = ?, e.numero = ?, e.bairro = ?, e.estado = ?, e.cidade = ?, "
                 + "cb.nomeBanco = ?, cb.agencia = ?, cb.numero = ? "
-                + "WHERE o.idSupervisor = ? AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;";
+                + "WHERE s.idSupervisor = ? AND s.idEndereco = e.idEndereco AND s.idContaBancaria = cb.idContaBancaria;";
 
         pstm = DBConnection.getConnection().prepareStatement(sql);
         pstm.setString(1, supervisor.getNome());
@@ -132,7 +132,7 @@ public class SupervisorDAO {
         PreparedStatement pstm;
         ResultSet rs;
         String sqlPesquisarPorNome = "SELECT * FROM Supervisor s, Endereco e, ContaBancaria cb "
-                + "WHERE s.Nome LIKE \"" + nome + "%\" "
+                + "WHERE s.nome LIKE '%" + nome + "%'"
                 + "AND s.idEndereco = e.idEndereco AND s.idContaBancaria = cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorNome);
         rs = pstm.executeQuery();
@@ -163,9 +163,9 @@ public class SupervisorDAO {
     public Supervisor buscarPorCpf(String cpf) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorCpf = "SELECT * FROM Supervisor o, Endereco e, ContaBancaria cb "
-                + "WHERE o.cpf = \"" + cpf + "\" "
-                + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;";
+        String sqlPesquisarPorCpf = "SELECT * FROM Supervisor s, Endereco e, ContaBancaria cb "
+                + "WHERE s.cpf = '" + cpf + "'"
+                + "AND s.idEndereco = e.idEndereco AND s.idContaBancaria = cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorCpf);
         rs = pstm.executeQuery();
         Supervisor supervisor;
@@ -179,9 +179,9 @@ public class SupervisorDAO {
     public Supervisor buscarPorRg(String rg) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorRg = "SELECT * FROM Supervisor o, Endereco e, ContaBancaria cb "
-                + "WHERE o.rg = \"" + rg + "\" "
-                + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;";
+        String sqlPesquisarPorRg = "SELECT * FROM Supervisor s, Endereco e, ContaBancaria cb "
+                + "WHERE s.rg = '" + rg + "'"
+                + "AND s.idEndereco = e.idEndereco AND s.idContaBancaria = cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorRg);
         rs = pstm.executeQuery();
         Supervisor supervisor;
@@ -258,15 +258,15 @@ public class SupervisorDAO {
         ResultSet rs = pstm.executeQuery();
         while (rs.next()) {
             Supervisor supervisor = new Supervisor(
-                    rs.getInt("o.idSupervisor"),
-                    rs.getString("o.nome"),
-                    rs.getString("o.cpf"),
-                    rs.getString("o.rg"),
-                    rs.getString("o.titulacao"),
-                    rs.getString("o.telefone"),
-                    rs.getString("o.email"),
-                    rs.getBoolean("o.status"),
-                    rs.getDate("o.dataEntrada"),
+                    rs.getInt("s.idSupervisor"),
+                    rs.getString("s.nome"),
+                    rs.getString("s.cpf"),
+                    rs.getString("s.rg"),
+                    rs.getString("s.titulacao"),
+                    rs.getString("s.telefone"),
+                    rs.getString("s.email"),
+                    rs.getBoolean("s.status"),
+                    rs.getDate("s.dataEntrada"),
                     new Endereco(
                             rs.getInt("e.idEndereco"),
                             rs.getString("e.rua"),

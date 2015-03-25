@@ -508,8 +508,12 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+        if (tfNome.getText().isEmpty()){
+            this.dispose();
+        } else {
         this.limparCampos();
         this.tratarControles(false);
+        }
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void setDados() {
@@ -613,7 +617,7 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
         this.tfNumero.setText(null);
         this.tfBairro.setText(null);
         this.tfCidade.setText(null);
-        this.cbEstado.setSelectedIndex(-1);
+        this.cbEstado.setSelectedIndex(0);
     }
 
     public void recuperarDadosAlterarProfessor(int idProfessor) {

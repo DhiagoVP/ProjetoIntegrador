@@ -510,8 +510,12 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        this.limparCampos();
-        this.tratarControles(false);
+        if (tfNome.getText().isEmpty()) {
+            this.dispose();
+        } else {
+            this.limparCampos();
+            this.tratarControles(false);
+        }
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void setDados() {
@@ -519,33 +523,33 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
         this.tfNome.setText(supervisor.getNome());
         this.jChStatus.setSelected(supervisor.isStatus());
         /*
-        try {
-            mf = new MaskFormatter("###.###.###-##");
-        } catch (ParseException ex) {
-            System.out.println("ERRO: " + ex.getMessage());
-        }
-        mf.setPlaceholder(supervisor.getCpf());
-        */
+         try {
+         mf = new MaskFormatter("###.###.###-##");
+         } catch (ParseException ex) {
+         System.out.println("ERRO: " + ex.getMessage());
+         }
+         mf.setPlaceholder(supervisor.getCpf());
+         */
         this.ftfCpf.setText(supervisor.getCpf().toString());
         /*
-        try {
-            mf = new MaskFormatter("#.###.###");
-        } catch (ParseException ex) {
-            System.out.println("ERRO: " + ex.getMessage());
-        }
-        mf.setPlaceholder(supervisor.getRg());
-        */
+         try {
+         mf = new MaskFormatter("#.###.###");
+         } catch (ParseException ex) {
+         System.out.println("ERRO: " + ex.getMessage());
+         }
+         mf.setPlaceholder(supervisor.getRg());
+         */
         this.ftfRg.setText(supervisor.getRg().toString());
         this.cbTitulacao.setSelectedItem(supervisor.getTitulacao());
         this.dtcDataEntrada.setDate(supervisor.getDataEntrada());
         /*
-        try {
-            mf = new MaskFormatter("(##)####-####");
-        } catch (ParseException ex) {
-            System.out.println("ERRO: " + ex.getMessage());
-        }
-        mf.setPlaceholder(supervisor.getTelefone());
-        */
+         try {
+         mf = new MaskFormatter("(##)####-####");
+         } catch (ParseException ex) {
+         System.out.println("ERRO: " + ex.getMessage());
+         }
+         mf.setPlaceholder(supervisor.getTelefone());
+         */
         this.ftfTelefone.setText(supervisor.getTelefone().toString());
         this.tfEmail.setText(supervisor.getEmail());
         this.cbEstado.setSelectedItem(supervisor.getEndereco().getEstado());
@@ -641,7 +645,7 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
         this.tfNumero.setText(null);
         this.tfBairro.setText(null);
         this.tfCidade.setText(null);
-        this.cbEstado.setSelectedIndex(-1);
+        this.cbEstado.setSelectedIndex(0);
     }
 
     public void recuperarDadosAlterarSupervisor(int idSupervisor) {
