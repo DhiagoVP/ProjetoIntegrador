@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import model.Aluno;
-import model.Pagamento;
 
 /**
  *
@@ -21,14 +20,18 @@ public class PagamentoTableModel extends AbstractTableModel {
     
     private List<Aluno> alunos;
 
-    private String[] colunas = new String[]{"CPF", "Nome", "Status", "Faltas", "Valor a Pagar", "Pagar"};
+    private String[] colunas = new String[]{"CPF", "Nome", "Banco", "Agência", "Conta","Status",
+        "Faltas", "Valor a Pagar", "Pagar"};
 
     private static final int CPF = 0;
     private static final int NOME = 1;
-    private static final int STATUS = 2;
-    private static final int FALTAS = 3;
-    private static final int VALOR_A_PAGAR = 4;
-    private static final int PAGAR = 5;
+    private static final int NOMEBANCO = 2;
+    private static final int NUMEROAGENCIA = 3;
+    private static final int NUMEROCONTA = 4;
+    private static final int STATUS = 5;
+    private static final int FALTAS = 6;
+    private static final int VALOR_A_PAGAR = 7;
+    private static final int PAGAR = 8;
 
     public PagamentoTableModel(List<Aluno> listaAlunos) {
         alunos = new ArrayList<Aluno>(listaAlunos);
@@ -57,12 +60,18 @@ public class PagamentoTableModel extends AbstractTableModel {
             case 1:
                 return aluno.getNome();
             case 2:
-                return aluno.getSituacao();
+                return aluno.getContaBancaria().getNomeBanco();
             case 3:
-                return aluno.getFaltas();
+                return aluno.getContaBancaria().getAgencia();
             case 4:
-                return aluno.getValorRecebido();
+                return aluno.getContaBancaria().getNumeroConta();
             case 5:
+                return aluno.getSituacao();
+            case 6:
+                return aluno.getFaltas();
+            case 7:
+                return aluno.getValorRecebido();
+            case 8:
                 return aluno.isRecece();
         }
         return null;
@@ -80,6 +89,12 @@ public class PagamentoTableModel extends AbstractTableModel {
                 return String.class;
             case NOME:
                 return String.class;
+            case NOMEBANCO:
+                return String.class;
+            case NUMEROAGENCIA:
+                return Integer.class;
+            case NUMEROCONTA:
+                return Integer.class;
             case STATUS:
                 return String.class;
             case FALTAS:
@@ -103,6 +118,15 @@ public class PagamentoTableModel extends AbstractTableModel {
             case NOME:
                 aluno.setNome((String) aValue);
                 break;
+             case NOMEBANCO:
+                aluno.getContaBancaria().setNomeBanco((String)aValue);
+                break;
+            case NUMEROAGENCIA:
+                 aluno.getContaBancaria().setAgencia((Integer)aValue);
+                break;
+            case NUMEROCONTA:
+                 aluno.getContaBancaria().setNumeroConta((Integer)aValue);
+                break;  
             case STATUS:
                 aluno.setSituacao((String) aValue);
                 break;
@@ -123,11 +147,11 @@ public class PagamentoTableModel extends AbstractTableModel {
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         switch (columnIndex) {
-            case 3:
+            case 6:
                 return true;
-            case 4:
+            case 7:
                 return true;
-            case 5:
+            case 8:
                 return true;
             default:
                 throw new IndexOutOfBoundsException("Índice de coluna não encontrado");

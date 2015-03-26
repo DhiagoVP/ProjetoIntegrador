@@ -247,9 +247,16 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
             DlgEfetuarPagamentoBeneficio beneficio = new DlgEfetuarPagamentoBeneficio(null, rootPaneCheckingEnabled);
             Turma turma = listaTurma.get(cbTurma.getSelectedIndex());
             int diasLetivos = Integer.parseInt(spinnerDiasLetivos.getValue().toString());
-            beneficio.carregarDados(turma, buscarBeneficio(), diasLetivos);
-            this.dispose();
-            beneficio.setVisible(true);
+            if(beneficio.carregarDados(turma, buscarBeneficio(), diasLetivos)){
+                beneficio.setVisible(true);
+                this.dispose();
+            }
+            else{
+                cbTurma.setSelectedIndex(0);
+                cbMes.setSelectedIndex(0);
+                listBeneficiosCadastrados.setSelectedIndex(0);  
+                spinnerDiasLetivos.setValue(1);
+            }
         }
     }//GEN-LAST:event_btPagarActionPerformed
 
@@ -370,6 +377,7 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
     }
 
     private List<Beneficio> buscarBeneficio() {
+        listaBeneficio.clear();
         for (String beneficio : listaBeneficiosParaPagar) {
             try {
                 listaBeneficio.add(new BeneficioDAO().recuperarPorNome(beneficio));

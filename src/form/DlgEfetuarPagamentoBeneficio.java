@@ -6,15 +6,15 @@
 package form;
 
 import dao.AlunoDAO;
+import dao.PagamentoDAO;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import model.Aluno;
 import model.Beneficio;
@@ -42,42 +42,6 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-//        tbPagamentoBeneficio.addMouseListener(new MouseListener(){
-//
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//            }
-//
-//            @Override
-//            public void mousePressed(MouseEvent e) {
-//                if(tbPagamentoBeneficio.getSelectedColumn() == 5){
-//                    int linha = tbPagamentoBeneficio.getSelectedRow();
-//                    tbPagamentoBeneficio.setValueAt(0, linha, 3);
-//                    tbPagamentoBeneficio.setValueAt(0, linha, 4);
-//                    
-//                    tbPagamentoBeneficio.updateUI();
-//                }
-//            }
-//
-//            @Override
-//            public void mouseReleased(MouseEvent e) {
-//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//            }
-//
-//            @Override
-//            public void mouseEntered(MouseEvent e) {
-//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//            }
-//
-//            @Override
-//            public void mouseExited(MouseEvent e) {
-//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//            }
-//        
-//        
-//        });
-        
         tbPagamentoBeneficio.addKeyListener(new KeyListener() {
 
             @Override
@@ -91,10 +55,11 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                 if (tbPagamentoBeneficio.getRowCount() > 0) {
                     if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                         int linha = tbPagamentoBeneficio.getSelectedRow();
-                        int faltas = Integer.parseInt(tbPagamentoBeneficio.getValueAt(linha, 3).toString());
+                        int faltas = Integer.parseInt(tbPagamentoBeneficio.getValueAt(linha, 6).toString());
                         int dias = pagamento.getDiasLetivos() - faltas;
-                        tbPagamentoBeneficio.setValueAt(calcularValorBeneficio(dias), linha, 4);
+                        tbPagamentoBeneficio.setValueAt(calcularValorBeneficio(dias), linha, 7);
                         tbPagamentoBeneficio.updateUI();
+                        calcularTotal();
                     }
                 }
             }
@@ -134,20 +99,20 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
 
         tbPagamentoBeneficio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null,  new Boolean(true)},
-                {null, null, null, null, null,  new Boolean(true)},
-                {null, null, null, null, null,  new Boolean(true)},
-                {null, null, null, null, null,  new Boolean(true)}
+                {null, null, null, null, null, null, null, null,  new Boolean(true)},
+                {null, null, null, null, null, null, null, null,  new Boolean(true)},
+                {null, null, null, null, null, null, null, null,  new Boolean(true)},
+                {null, null, null, null, null, null, null, null,  new Boolean(true)}
             },
             new String [] {
-                "CPF", "Nome", "Status", "Faltas", "Valor a pagar", "Pagar"
+                "CPF", "Nome", "Status", "Banco", "Agência", "Conta", "Faltas", "Valor a pagar", "Pagar"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, false, true
+                false, false, false, false, false, false, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -267,11 +232,24 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     }//GEN-LAST:event_btImprimirActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void buttonSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalvaActionPerformed
-        // TODO add your handling code here:
+        for (int linha = 0; linha < listaAlunos.size(); linha++) {
+            listaAlunos.get(linha).setFaltas(
+                    Integer.parseInt(tbPagamentoBeneficio.getValueAt(linha, 6).toString()));
+            listaAlunos.get(linha).setValorRecebido(
+                    Double.parseDouble(tbPagamentoBeneficio.getValueAt(linha, 7).toString()));
+        }
+        Pagamento pagamentoFinal = new Pagamento(listaAlunos,listaBeneficio,
+                Double.parseDouble(tfTotalAPagar.getText().replace("RS","")),pagamento.getDiasLetivos());
+        btImprimir.setEnabled(true);
+        try {
+            new PagamentoDAO().inserir(pagamentoFinal);
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_buttonSalvaActionPerformed
 
     /**
@@ -339,21 +317,28 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         labelOrientador.setText("Orientador: " + turma.getOrientador().getNome());
     }
 
-    public void carregarDados(Turma turmaParaPagar, List<Beneficio> beneficios, int diasLetivos) {
+    public boolean carregarDados(Turma turmaParaPagar, List<Beneficio> beneficios, int diasLetivos) {
         turma = turmaParaPagar;
         listaBeneficio = beneficios;
         pagamento.setDiasLetivos(diasLetivos);
         carregarLabel(turma);
-        buscarTodosOsAlunos(turma);
-        atualizarTabela();
-        calcularTotalPorAluno(diasLetivos);
-        calcularTotal();
+        if(buscarTodosOsAlunos(turma)){
+            atualizarTabela();
+            calcularTotalPorAluno(diasLetivos);
+            calcularTotal();
+        }
+        else{
+            JOptionPane.showMessageDialog(DlgEfetuarPagamentoBeneficio.this, "Nenhum aluno encontrado na turma " + turma.getNome(), 
+                    "Erro!", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
     private void calcularTotalPorAluno(int diasLetivos) {
         for (int linha = 0; linha < listaAlunos.size(); linha++) {
-            if ((Boolean)tbPagamentoBeneficio.getValueAt(linha, 5))
-                tbPagamentoBeneficio.setValueAt(calcularValorBeneficio(diasLetivos), linha, 4);
+            if ((Boolean)tbPagamentoBeneficio.getValueAt(linha, 8))
+                tbPagamentoBeneficio.setValueAt(calcularValorBeneficio(diasLetivos), linha, 7);
         }
     }
     
@@ -362,12 +347,15 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
        tbPagamentoBeneficio.setModel(pagamentoTable);
     }
 
-    private void buscarTodosOsAlunos(Turma turma) {
+    private boolean buscarTodosOsAlunos(Turma turma) {
         try {
             listaAlunos = new AlunoDAO().buscarPorTurma(turma.getId());
         } catch (SQLException ex) {
             Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(Level.SEVERE, null, ex);
         }
+        if (listaAlunos.isEmpty()) 
+            return false;
+        return true;
     }
 
     private double calcularValorBeneficio(int diasLetivos) {
@@ -381,7 +369,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     private void calcularTotal() {
         double totalAPagar = 0.0;
         for (int linha = 0; linha < listaAlunos.size(); linha++) {
-                totalAPagar += Double.parseDouble(tbPagamentoBeneficio.getValueAt(linha, 4).toString());
+                totalAPagar += Double.parseDouble(tbPagamentoBeneficio.getValueAt(linha, 7).toString());
         }
         tfTotalAPagar.setText("RS" +totalAPagar);
     }

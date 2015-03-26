@@ -198,8 +198,10 @@ public class AlunoDAO {
     }
     
     public List<Aluno> buscarPorTurma(int idTurma) throws SQLException{
-        String sql = "SELECT a.idAluno, a.cpf, a.nome, a.situacao FROM aluno a, turma t, aluno_turma al_t "
-                + "WHERE al_t.idTurma = ? AND a.idAluno = al_t.idAluno AND t.idTurma = al_t.idTurma";
+        String sql = "SELECT a.idAluno, a.cpf, a.nome, a.situacao, cb.nomeBanco, cb.agencia, cb.numero"
+                + " FROM aluno a, contabancaria cb, "
+                + "turma t, aluno_turma al_t WHERE al_t.idTurma = ? AND a.idAluno = al_t.idAluno "
+                + "AND t.idTurma = al_t.idTurma AND cb.idContaBancaria = a.idContaBancaria";
         List<Aluno> listaAlunos = new ArrayList<>();
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
         ps.setInt(1, idTurma);
@@ -210,7 +212,12 @@ public class AlunoDAO {
                 rs.getInt("a.idAluno"),
                 rs.getString("a.nome"),
                 rs.getString("a.cpf"),
-                rs.getString("a.situacao"));
+                rs.getString("a.situacao"),
+            new ContaBancaria(
+                        rs.getString("cb.nomeBanco"),
+                        rs.getInt("cb.agencia"),
+                        rs.getInt("cb.numero")
+                ));
             listaAlunos.add(aluno);
         }
         return listaAlunos;

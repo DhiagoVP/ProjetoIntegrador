@@ -25,7 +25,7 @@ public class Aluno {
     private int idTurma;
     private int faltas;
     boolean recece = true;
-    protected double valorRecebido;
+    double valorRecebido;
 
     public int getFaltas() {
         return faltas;
@@ -90,11 +90,12 @@ public class Aluno {
         this.contaBancaria = contaBancaria;
     }
 
-    public Aluno(int id, String nome, String cpf, String situacao) {
+    public Aluno(int id, String nome, String cpf, String situacao, ContaBancaria contaBancaria) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.situacao = situacao;
+        this.contaBancaria = contaBancaria;
     }
     
 

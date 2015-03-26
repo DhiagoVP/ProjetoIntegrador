@@ -5,28 +5,48 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author Ana Paula
  */
 public class Pagamento {
     private int id;
-    private Aluno aluno;
-    private Beneficio benefio;
+    private List<Aluno> aluno;
+    private List<Beneficio> benefio;
     private double valorAPagar;
     private boolean pagar;
     private int diasLetivos;
 
+    public Pagamento() {
+    }
+
+    public Pagamento(List<Aluno> aluno, List<Beneficio> benefio, double valorAPagar, int diasLetivos) {
+        this.aluno = aluno;
+        this.benefio = benefio;
+        this.valorAPagar = valorAPagar;
+        this.diasLetivos = diasLetivos;
+    }
+    
     public int getId() {
         return id;
     }
 
-    public Aluno getAluno() {
+    public List<Aluno> getAluno() {
         return aluno;
     }
 
-    public Beneficio getBenefio() {
+    public void setAluno(List<Aluno> aluno) {
+        this.aluno = aluno;
+    }
+
+    public List<Beneficio> getBenefio() {
         return benefio;
+    }
+
+    public void setBenefio(List<Beneficio> benefio) {
+        this.benefio = benefio;
     }
 
     public double getValorAPagar() {
