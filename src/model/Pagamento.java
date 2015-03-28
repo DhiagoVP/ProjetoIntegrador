@@ -13,48 +13,51 @@ import java.util.List;
  */
 public class Pagamento {
     private int id;
-    private List<Aluno> aluno;
-    private List<Beneficio> benefio;
-    private double valorAPagar;
+    private List<Aluno> alunos;
+    private List<Beneficio> benefios;
+    private double valorAPagarPorTurma;
     private boolean pagar;
     private int diasLetivos;
-
+    private Turma turma;
+    
     public Pagamento() {
     }
 
-    public Pagamento(List<Aluno> aluno, List<Beneficio> benefio, double valorAPagar, int diasLetivos) {
-        this.aluno = aluno;
-        this.benefio = benefio;
-        this.valorAPagar = valorAPagar;
+    public Pagamento(List<Aluno> alunos, List<Beneficio> benefios, double valorAPagarTurma, int diasLetivos,
+            Turma turma) {
+        this.alunos = alunos;
+        this.benefios = benefios;
+        this.valorAPagarPorTurma = valorAPagarTurma;
         this.diasLetivos = diasLetivos;
+        this.turma = turma;
     }
     
     public int getId() {
         return id;
     }
 
-    public List<Aluno> getAluno() {
-        return aluno;
+    public List<Aluno> getAlunos() {
+        return alunos;
     }
 
-    public void setAluno(List<Aluno> aluno) {
-        this.aluno = aluno;
+    public void setAlunos(List<Aluno> alunos) {
+        this.alunos = alunos;
     }
 
-    public List<Beneficio> getBenefio() {
-        return benefio;
+    public List<Beneficio> getBenefios() {
+        return benefios;
     }
 
-    public void setBenefio(List<Beneficio> benefio) {
-        this.benefio = benefio;
+    public void setBenefios(List<Beneficio> benefios) {
+        this.benefios = benefios;
     }
 
-    public double getValorAPagar() {
-        return valorAPagar;
+    public double getValorAPagarPorTurma() {
+        return valorAPagarPorTurma;
     }
 
-    public void setValorAPagar(double valorAPagar) {
-        this.valorAPagar = valorAPagar;
+    public void setValorAPagarPorTurma(double valorAPagar) {
+        this.valorAPagarPorTurma = valorAPagar;
     }
 
     public void setPagar(boolean pagar) {
@@ -88,5 +91,8 @@ public class Pagamento {
      */
     public void setDiasLetivos(int diasLetivos) {
         this.diasLetivos = diasLetivos;
+    }
+    public Turma getTurma() {
+        return turma;
     }
 }

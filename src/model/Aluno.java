@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -24,8 +25,9 @@ public class Aluno {
     private ContaBancaria contaBancaria;
     private int idTurma;
     private int faltas;
-    boolean recece = true;
-    double valorRecebido;
+    private boolean recece = true;
+    private double valorRecebido;
+    private double valorDescontado;
 
     public int getFaltas() {
         return faltas;
@@ -213,31 +215,7 @@ public class Aluno {
     public void setContaBancaria(ContaBancaria contaBancaria) {
         this.contaBancaria = contaBancaria;
     }
-
-    @Override
-    public String toString() {
-        return nome;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + this.id;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Aluno other = (Aluno) obj;
-        return this.id == other.id;
-    }
-
+    
     public boolean isRecece() {
         return recece;
     }
@@ -262,4 +240,37 @@ public class Aluno {
         this.idTurma = idTurma;
     }
 
+    public double getValorDescontado() {
+        return valorDescontado;
+    }
+
+    public void setValorDescontado(List<Beneficio> beneficios) {
+        for(Beneficio beneficio: beneficios){
+             this.valorDescontado += (faltas*beneficio.getValor());
+        }
+    }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Aluno other = (Aluno) obj;
+        return this.id == other.id;
+    }
 }

@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import model.Aluno;
 import model.Beneficio;
 import model.Pagamento;
 import model.Turma;
+import sun.util.calendar.LocalGregorianCalendar;
 import table.PagamentoTableModel;
 
 /**
@@ -83,7 +85,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         labelTotalPagar = new javax.swing.JLabel();
         tfTotalAPagar = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        buttonSalva = new javax.swing.JButton();
+        btSalvar = new javax.swing.JButton();
         btImprimir = new javax.swing.JButton();
         btCancelar = new javax.swing.JButton();
 
@@ -142,14 +144,14 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
-        buttonSalva.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        buttonSalva.setText("Salvar");
-        buttonSalva.addActionListener(new java.awt.event.ActionListener() {
+        btSalvar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btSalvar.setText("Salvar");
+        btSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonSalvaActionPerformed(evt);
+                btSalvarActionPerformed(evt);
             }
         });
-        jPanel2.add(buttonSalva);
+        jPanel2.add(btSalvar);
 
         btImprimir.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/MiniImpressora.png"))); // NOI18N
@@ -235,22 +237,24 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btCancelarActionPerformed
 
-    private void buttonSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalvaActionPerformed
+    private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         for (int linha = 0; linha < listaAlunos.size(); linha++) {
             listaAlunos.get(linha).setFaltas(
                     Integer.parseInt(tbPagamentoBeneficio.getValueAt(linha, 6).toString()));
             listaAlunos.get(linha).setValorRecebido(
                     Double.parseDouble(tbPagamentoBeneficio.getValueAt(linha, 7).toString()));
+            listaAlunos.get(linha).setValorDescontado(listaBeneficio);
         }
         Pagamento pagamentoFinal = new Pagamento(listaAlunos,listaBeneficio,
-                Double.parseDouble(tfTotalAPagar.getText().replace("RS","")),pagamento.getDiasLetivos());
+                Double.parseDouble(tfTotalAPagar.getText().replace("RS","")),pagamento.getDiasLetivos(), turma);
         btImprimir.setEnabled(true);
         try {
             new PagamentoDAO().inserir(pagamentoFinal);
         } catch (SQLException ex) {
             Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_buttonSalvaActionPerformed
+        btSalvar.setEnabled(false);
+    }//GEN-LAST:event_btSalvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,7 +305,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btImprimir;
-    private javax.swing.JButton buttonSalva;
+    private javax.swing.JButton btSalvar;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelOrientador;
