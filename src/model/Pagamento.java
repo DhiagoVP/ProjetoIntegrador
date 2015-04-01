@@ -19,17 +19,19 @@ public class Pagamento {
     private boolean pagar;
     private int diasLetivos;
     private Turma turma;
+    private String mes;
     
     public Pagamento() {
     }
 
-    public Pagamento(List<Aluno> alunos, List<Beneficio> benefios, double valorAPagarTurma, int diasLetivos,
+    public Pagamento(List<Aluno> alunos, List<Beneficio> benefios, double valorAPagarTurma, int diasLetivos, String mes,
             Turma turma) {
         this.alunos = alunos;
         this.benefios = benefios;
         this.valorAPagarPorTurma = valorAPagarTurma;
         this.diasLetivos = diasLetivos;
         this.turma = turma;
+        this.mes = mes;
     }
     
     public int getId() {
@@ -94,5 +96,13 @@ public class Pagamento {
     }
     public Turma getTurma() {
         return turma;
+    }
+    
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
     }
 }

@@ -116,6 +116,7 @@ public class DlgDadosEspecificosRelatorios extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConfirmarActionPerformed
@@ -175,7 +176,7 @@ public class DlgDadosEspecificosRelatorios extends javax.swing.JDialog {
     private javax.swing.JTextField tfLc;
     private javax.swing.JTextField tfSistec;
     // End of variables declaration//GEN-END:variables
-    public Object pegarDadosEspecificos() {
+    public DadosEspecificos pegarDadosEspecificos() {
         return dados;
     }
 }

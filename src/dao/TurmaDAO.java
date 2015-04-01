@@ -96,7 +96,7 @@ public class TurmaDAO {
 
     public List<Turma> listarTodos() throws SQLException {
         String sql = "SELECT t.nome, idTurma, o.nome, o.idOrientador, s.nome, s.idSupervisor, c.nome,"+
-                " c.idCurso, t.campusOfertante, t.cidadeDemandante, t.turno "+
+                " c.idCurso, t.campusOfertante, t.cidadeDemandante, t.turno, t.dataInicio, t.dataFinal "+
                 "FROM turma t, orientador o, supervisor s, curso c where t.idOrientador = o.idOrientador "+
                 "AND t.idSupervisor = s.idSupervisor AND t.idCurso = c.idcurso ORDER BY t.nome";
         PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(sql);
@@ -204,6 +204,8 @@ public class TurmaDAO {
                     resultSet.getString("t.cidadeDemandante"),
                     resultSet.getString("t.campusOfertante"),
                     resultSet.getString("t.turno"),
+                    resultSet.getDate("t.dataInicio"),
+                    resultSet.getDate("t.dataFinal"),
                     new Orientador(resultSet.getInt("o.idOrientador"), resultSet.getString("o.nome")),
                     new Supervisor(resultSet.getInt("s.idSupervisor"), resultSet.getString("s.nome")),
                     new Curso(resultSet.getInt("c.idCurso"),resultSet.getString("c.nome"))

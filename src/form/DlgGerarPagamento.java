@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import model.Beneficio;
+import model.Pagamento;
 import model.Turma;
 
 /**
@@ -32,6 +33,7 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
     List<String> listaBeneficiosParaPagar = new ArrayList<>();
     List<Turma> listaTurma;
     SpinnerModel modelo = null;
+    Pagamento pagamento = new Pagamento();
 
     public DlgGerarPagamento(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -52,7 +54,7 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
         panelPagamento = new javax.swing.JPanel();
         labelTurma = new javax.swing.JLabel();
         cbTurma = new javax.swing.JComboBox();
-        btPagar = new javax.swing.JButton();
+        btAvançar = new javax.swing.JButton();
         btCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listBeneficiosCadastrados = new javax.swing.JList();
@@ -76,12 +78,12 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
 
         cbTurma.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        btPagar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btPagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/MiniPagamento.png"))); // NOI18N
-        btPagar.setText("Pagar");
-        btPagar.addActionListener(new java.awt.event.ActionListener() {
+        btAvançar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btAvançar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/MiniPagamento.png"))); // NOI18N
+        btAvançar.setText("Avançar");
+        btAvançar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btPagarActionPerformed(evt);
+                btAvançarActionPerformed(evt);
             }
         });
 
@@ -141,7 +143,7 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelPagamentoLayout.createSequentialGroup()
-                        .addComponent(btPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btAvançar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btCancelar))
                     .addGroup(panelPagamentoLayout.createSequentialGroup()
@@ -196,7 +198,7 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(panelPagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelar)
-                    .addComponent(btPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btAvançar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -240,14 +242,15 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btCancelarActionPerformed
 
-    private void btPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagarActionPerformed
+    private void btAvançarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAvançarActionPerformed
         if (listBeneficiosParaPagar.getLastVisibleIndex() <0)
             JOptionPane.showMessageDialog(this, "Selecione no minímo um beneficio");
         else{
             DlgEfetuarPagamentoBeneficio beneficio = new DlgEfetuarPagamentoBeneficio(null, rootPaneCheckingEnabled);
             Turma turma = listaTurma.get(cbTurma.getSelectedIndex());
-            int diasLetivos = Integer.parseInt(spinnerDiasLetivos.getValue().toString());
-            if(beneficio.carregarDados(turma, buscarBeneficio(), diasLetivos)){
+            pagamento.setDiasLetivos(Integer.parseInt(spinnerDiasLetivos.getValue().toString()));
+            pagamento.setMes(cbMes.getSelectedItem().toString());
+            if(beneficio.carregarDados(turma, buscarBeneficio(), pagamento)){
                 beneficio.setVisible(true);
                 this.dispose();
             }
@@ -258,7 +261,7 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
                 spinnerDiasLetivos.setValue(1);
             }
         }
-    }//GEN-LAST:event_btPagarActionPerformed
+    }//GEN-LAST:event_btAvançarActionPerformed
 
     private void cbMesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMesItemStateChanged
         quantidadeDiasMes(cbMes.getSelectedItem().toString());
@@ -309,8 +312,8 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdicionarBeneficioAPagar;
+    private javax.swing.JButton btAvançar;
     private javax.swing.JButton btCancelar;
-    private javax.swing.JButton btPagar;
     private javax.swing.JButton btRemoverBeneficioAPagar;
     private javax.swing.JComboBox cbMes;
     private javax.swing.JComboBox cbTurma;

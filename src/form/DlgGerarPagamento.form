@@ -61,7 +61,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="btPagar" min="-2" pref="131" max="-2" attributes="0"/>
+                          <Component id="btAvançar" min="-2" pref="131" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btCancelar" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -132,7 +132,7 @@
                   <EmptySpace pref="18" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btPagar" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
+                      <Component id="btAvançar" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -158,7 +158,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btPagar">
+        <Component class="javax.swing.JButton" name="btAvan&#xe7;ar">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="14" style="1"/>
@@ -166,10 +166,10 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/icon/MiniPagamento.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Pagar"/>
+            <Property name="text" type="java.lang.String" value="Avan&#xe7;ar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btPagarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btAvan&#xe7;arActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btCancelar">

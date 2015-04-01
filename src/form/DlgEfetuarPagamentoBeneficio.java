@@ -5,13 +5,14 @@
  */
 package form;
 
+import com.itextpdf.text.DocumentException;
 import dao.AlunoDAO;
 import dao.PagamentoDAO;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,9 +20,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import model.Aluno;
 import model.Beneficio;
+import model.DadosEspecificos;
 import model.Pagamento;
 import model.Turma;
-import sun.util.calendar.LocalGregorianCalendar;
+import pdf.GeradorPDF;
 import table.PagamentoTableModel;
 
 /**
@@ -31,7 +33,7 @@ import table.PagamentoTableModel;
 public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     private List<Aluno> listaAlunos;
     private PagamentoTableModel pagamentoTable;
-    private List<Pagamento> listaPagamento;
+    private Pagamento pagamentoFinal;
     private List<Beneficio> listaBeneficio;
     private Turma turma = new Turma();
     private Pagamento pagamento = new Pagamento();
@@ -86,7 +88,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         tfTotalAPagar = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         btSalvar = new javax.swing.JButton();
-        btImprimir = new javax.swing.JButton();
+        btGerarRelatorio = new javax.swing.JButton();
         btCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -153,16 +155,16 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         });
         jPanel2.add(btSalvar);
 
-        btImprimir.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/MiniImpressora.png"))); // NOI18N
-        btImprimir.setText("Imprimir relatório");
-        btImprimir.setEnabled(false);
-        btImprimir.addActionListener(new java.awt.event.ActionListener() {
+        btGerarRelatorio.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btGerarRelatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/MiniImpressora.png"))); // NOI18N
+        btGerarRelatorio.setText("Gerar Relatório");
+        btGerarRelatorio.setEnabled(false);
+        btGerarRelatorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btImprimirActionPerformed(evt);
+                btGerarRelatorioActionPerformed(evt);
             }
         });
-        jPanel2.add(btImprimir);
+        jPanel2.add(btGerarRelatorio);
 
         btCancelar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cancelar.png"))); // NOI18N
@@ -191,7 +193,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                         .addComponent(labelTotalPagar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfTotalAPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -229,11 +231,17 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btImprimirActionPerformed
+    private void btGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGerarRelatorioActionPerformed
         DlgDadosEspecificosRelatorios dados = new DlgDadosEspecificosRelatorios(null, rootPaneCheckingEnabled);
         dados.setVisible(true);
-        Object obj = dados.pegarDadosEspecificos();
-    }//GEN-LAST:event_btImprimirActionPerformed
+        DadosEspecificos dadosEspecificos = dados.pegarDadosEspecificos();
+        try {
+            new GeradorPDF().createPdf("C:/teste/first_table.pdf", pagamentoFinal, dadosEspecificos);
+        } catch (IOException | DocumentException ex) {
+            Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btGerarRelatorioActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
         this.dispose();
@@ -247,9 +255,10 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                     Double.parseDouble(tbPagamentoBeneficio.getValueAt(linha, 7).toString()));
             listaAlunos.get(linha).setValorDescontado(listaBeneficio);
         }
-        Pagamento pagamentoFinal = new Pagamento(listaAlunos,listaBeneficio,
-                Double.parseDouble(tfTotalAPagar.getText().replace("RS","")),pagamento.getDiasLetivos(), turma);
-        btImprimir.setEnabled(true);
+        pagamentoFinal = new Pagamento(listaAlunos,listaBeneficio,
+                Double.parseDouble(tfTotalAPagar.getText().replace("RS","")),pagamento.getDiasLetivos(), 
+                pagamento.getMes(), turma);
+        btGerarRelatorio.setEnabled(true);
         try {
             new PagamentoDAO().inserir(pagamentoFinal);
         } catch (SQLException ex) {
@@ -306,7 +315,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
-    private javax.swing.JButton btImprimir;
+    private javax.swing.JButton btGerarRelatorio;
     private javax.swing.JButton btSalvar;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -323,14 +332,14 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         labelOrientador.setText("Orientador: " + turma.getOrientador().getNome());
     }
 
-    public boolean carregarDados(Turma turmaParaPagar, List<Beneficio> beneficios, int diasLetivos) {
+    public boolean carregarDados(Turma turmaParaPagar, List<Beneficio> beneficios, Pagamento pgmeto) {
         turma = turmaParaPagar;
         listaBeneficio = beneficios;
-        pagamento.setDiasLetivos(diasLetivos);
+        pagamento = pgmeto;
         carregarLabel(turma);
         if(buscarTodosOsAlunos(turma)){
             atualizarTabela();
-            calcularTotalPorAluno(diasLetivos);
+            calcularTotalPorAluno(pagamento.getDiasLetivos());
             calcularTotal();
         }
         else{

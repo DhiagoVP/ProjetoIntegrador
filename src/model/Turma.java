@@ -77,12 +77,15 @@ public class Turma {
     public Turma() {
     }
 
-    public Turma(int id, String nome,String cidadeDemandande, String campusOfertante, String turno, Orientador orientador, Supervisor supervisor, Curso curso) {
+    public Turma(int id, String nome,String cidadeDemandande, String campusOfertante, String turno, 
+            Date dataInicio,Date dataTermino,Orientador orientador, Supervisor supervisor, Curso curso) {
         this.id = id;
         this.cidadeDemandande = cidadeDemandande;
         this.campusOfertante = campusOfertante;
         this.nome = nome;
         this.turno = turno;
+        this.dataInicioAulas = dataInicio;
+        this.dataTerminoAulas = dataTermino;
         this.orientador = orientador;
         this.supervisor = supervisor;
         this.curso = curso;
