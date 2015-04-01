@@ -93,7 +93,7 @@ public class AlunoDAO {
         String sql = "UPDATE aluno a, endereco e, contabancaria cb SET a.nome = ?, "
                 + "a.cpf = ?, a.rg = ?, a.dataNascimento = ?,"
                 + "a.sexo = ?, a.escolaridade = ?, a.profissao = ?, a.telefone = ?, "
-                + "a.email = ?, a.situacao = ?, a.observacao = ?, a.idTurma = ?"
+                + "a.email = ?, a.situacao = ?, a.observacao = ?, a.idTurma = ?,"
                 + "e.rua = ?, e.numero = ?, e.bairro = ?, e.estado = ?, e.cidade = ?, "
                 + "cb.nomeBanco = ?, cb.agencia = ?, cb.numero = ? "
                 + "WHERE a.idAluno = ? AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;";

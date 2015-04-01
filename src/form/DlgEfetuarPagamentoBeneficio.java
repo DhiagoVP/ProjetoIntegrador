@@ -230,7 +230,9 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btImprimirActionPerformed
-        
+        DlgDadosEspecificosRelatorios dados = new DlgDadosEspecificosRelatorios(null, rootPaneCheckingEnabled);
+        dados.setVisible(true);
+        Object obj = dados.pegarDadosEspecificos();
     }//GEN-LAST:event_btImprimirActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed

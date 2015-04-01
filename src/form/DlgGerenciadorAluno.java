@@ -68,7 +68,6 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         lbCpf = new javax.swing.JLabel();
         ftfCpf = new javax.swing.JFormattedTextField();
         lbRg = new javax.swing.JLabel();
-        tfRg = new javax.swing.JTextField();
         lbDataNascimento = new javax.swing.JLabel();
         dtcDataNascimento = new com.toedter.calendar.JDateChooser();
         lbSexo = new javax.swing.JLabel();
@@ -81,6 +80,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         ftfTelefone = new javax.swing.JFormattedTextField();
         lbEmail = new javax.swing.JLabel();
         tfEmail = new javax.swing.JTextField();
+        ftfRg = new javax.swing.JFormattedTextField();
         cbSituacao = new javax.swing.JComboBox();
         jSeparator1 = new javax.swing.JSeparator();
         panelBotao = new javax.swing.JPanel();
@@ -139,8 +139,8 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDadosBancariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDadosBancariosLayout.createSequentialGroup()
-                        .addComponent(tfAgencia, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(tfAgencia, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbNumeroConta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfNumeroConta, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))
@@ -272,13 +272,6 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         lbRg.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbRg.setText("RG");
 
-        tfRg.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        tfRg.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tfRgKeyTyped(evt);
-            }
-        });
-
         lbDataNascimento.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbDataNascimento.setText("Data de Nascimento");
 
@@ -324,6 +317,12 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
 
         tfEmail.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
+        try {
+            ftfRg.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#.###.###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout panelDadosPessoaisLayout = new javax.swing.GroupLayout(panelDadosPessoais);
         panelDadosPessoais.setLayout(panelDadosPessoaisLayout);
         panelDadosPessoaisLayout.setHorizontalGroup(
@@ -334,13 +333,13 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
                         .addContainerGap()
                         .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lbEmail)
-                            .addComponent(lbRg)
                             .addComponent(lbDataNascimento)
                             .addComponent(lbCpf)
                             .addComponent(lbSexo)
                             .addComponent(lbEscolaridade)
                             .addComponent(lbProfissão)
-                            .addComponent(lbTelefone)))
+                            .addComponent(lbTelefone)
+                            .addComponent(lbRg)))
                     .addGroup(panelDadosPessoaisLayout.createSequentialGroup()
                         .addGap(109, 109, 109)
                         .addComponent(lbNome, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -353,8 +352,8 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
                     .addComponent(cbEscolaridade, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfProfissao)
                     .addComponent(ftfTelefone)
-                    .addComponent(tfRg)
-                    .addComponent(tfEmail)))
+                    .addComponent(tfEmail)
+                    .addComponent(ftfRg)))
         );
         panelDadosPessoaisLayout.setVerticalGroup(
             panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,7 +371,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(panelDadosPessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbRg)
-                            .addComponent(tfRg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ftfRg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lbDataNascimento))
                     .addComponent(dtcDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -608,7 +607,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
     }//GEN-LAST:event_btConsultarActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        if (tfNome.getText().isEmpty() && tfRg.getText().isEmpty() && dtcDataNascimento.getDate() == null) {
+        if (tfNome.getText().isEmpty() && dtcDataNascimento.getDate() == null) {
             dispose();
         } else {
             this.limparCampos();
@@ -656,10 +655,6 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_ftfCpfKeyTyped
 
-    private void tfRgKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfRgKeyTyped
-        ftfCpfKeyTyped(evt);
-    }//GEN-LAST:event_tfRgKeyTyped
-
     private void ftfTelefoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfTelefoneKeyTyped
         ftfCpfKeyTyped(evt);
     }//GEN-LAST:event_ftfTelefoneKeyTyped
@@ -687,7 +682,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         this.tfNome.setText(aluno.getNome());
         this.cbSituacao.setSelectedItem(aluno.getSituacao());
         this.ftfCpf.setText(aluno.getCpf());
-        this.tfRg.setText(aluno.getRg());
+        this.ftfRg.setText(aluno.getRg());
         this.cbEscolaridade.setSelectedItem(aluno.getEscolaridade());
         tfProfissao.setText(aluno.getProfissao());
         dtcDataNascimento.setDate(aluno.getDataNascimento());
@@ -712,7 +707,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         if (!tfNome.getText().isEmpty()) {
             aluno.setNome(tfNome.getText());
             aluno.setCpf(ftfCpf.getText());
-            aluno.setRg(tfRg.getText());
+            aluno.setRg(ftfRg.getText());
             aluno.setTelefone(ftfTelefone.getText());
             aluno.setEmail(tfEmail.getText());
             aluno.setEscolaridade(cbEscolaridade.getSelectedItem().toString());
@@ -763,7 +758,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
     private void tratarCampos(boolean status) {
         this.tfNome.setEnabled(status);
         this.ftfCpf.setEnabled(status);
-        this.tfRg.setEnabled(status);
+        this.ftfRg.setEnabled(status);
         this.dtcDataNascimento.setEnabled(status);
         this.cbSexo.setEnabled(status);
         this.cbEscolaridade.setEnabled(status);
@@ -786,7 +781,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
     private void limparCampos() {
         this.tfNome.setText(null);
         this.ftfCpf.setText(null);
-        this.tfRg.setText(null);
+        this.ftfRg.setText(null);
         this.dtcDataNascimento.setDate(null);
         this.cbSexo.setSelectedIndex(-1);
         this.cbEscolaridade.setSelectedIndex(-1);
@@ -883,6 +878,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
     private javax.swing.JComboBox cbTurma;
     private com.toedter.calendar.JDateChooser dtcDataNascimento;
     private javax.swing.JFormattedTextField ftfCpf;
+    private javax.swing.JFormattedTextField ftfRg;
     private javax.swing.JFormattedTextField ftfTelefone;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
@@ -922,7 +918,6 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
     private javax.swing.JTextField tfNumero;
     private javax.swing.JTextField tfNumeroConta;
     private javax.swing.JTextField tfProfissao;
-    private javax.swing.JTextField tfRg;
     private javax.swing.JTextField tfRua;
     // End of variables declaration//GEN-END:variables
 
