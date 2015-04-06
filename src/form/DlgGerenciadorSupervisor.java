@@ -1,5 +1,6 @@
 package form;
 
+import com.mysql.jdbc.StringUtils;
 import dao.SupervisorDAO;
 import exceptions.SupervisorException;
 import java.sql.SQLException;
@@ -441,18 +442,24 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
+        if (verificarCamposVazios()) {
+            int resultado = JOptionPane.showConfirmDialog(this, "Há campos vazios. Deseja continuar?", "Aviso!", JOptionPane.YES_NO_OPTION);
+            if (resultado != JOptionPane.YES_OPTION) {
+                return;
+            }
+        }
         try {
             if (supervisor == null) {
                 supervisor = new Supervisor();
                 this.getDados();
                 if (supervisorDAO.cadastrar(supervisor)) {
-                    janelaConsulta.atualizarTabela("SELECT * FROM Supervisor o, Endereco e, ContaBancaria cb "
-                            + "WHERE o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+                    janelaConsulta.atualizarTabela("SELECT * FROM Supervisor s, Endereco e, ContaBancaria cb "
+                            + "WHERE s.idEndereco = e.idEndereco AND s.idContaBancaria = cb.idContaBancaria;");
                     JOptionPane.showMessageDialog(this, "Este supervisor foi inserido com sucesso!!");
                     this.limparCampos();
                 } else {
                     JOptionPane.showMessageDialog(this, "Já existe supervisor cadastrado!",
-                            "Cadastro de  Supervisor", JOptionPane.ERROR_MESSAGE);
+                            "Cadastro de Supervisor", JOptionPane.ERROR_MESSAGE);
                     supervisor = null;
                 }
             }
@@ -481,8 +488,8 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
             try {
                 this.getDados();
                 supervisorDAO.atualizar(supervisor);
-                janelaConsulta.atualizarTabela("SELECT * FROM Supervisor o, Endereco e, ContaBancaria cb "
-                        + "WHERE o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+                janelaConsulta.atualizarTabela("SELECT * FROM Supervisor s, Endereco e, ContaBancaria cb "
+                        + "WHERE s.idEndereco = e.idEndereco AND s.idContaBancaria = cb.idContaBancaria;");
                 JOptionPane.showMessageDialog(this, "Este supervisor foi atualizado com sucesso!!");
                 this.limparCampos();
                 this.tratarControles(false);
@@ -498,8 +505,8 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
         if (supervisor != null) {
             try {
                 supervisorDAO.remover(supervisor);
-                janelaConsulta.atualizarTabela("SELECT * FROM Supervisor o, Endereco e, ContaBancaria cb "
-                        + "WHERE o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+                janelaConsulta.atualizarTabela("SELECT * FROM Supervisor s, Endereco e, ContaBancaria cb "
+                        + "WHERE s.idEndereco = e.idEndereco AND s.idContaBancaria = cb.idContaBancaria;");
                 JOptionPane.showMessageDialog(this, "Este supervisor foi removido com sucesso!!");
                 this.limparCampos();
                 this.tratarControles(false);
@@ -519,37 +526,12 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void setDados() {
-        //MaskFormatter mf = null;
         this.tfNome.setText(supervisor.getNome());
         this.jChStatus.setSelected(supervisor.isStatus());
-        /*
-         try {
-         mf = new MaskFormatter("###.###.###-##");
-         } catch (ParseException ex) {
-         System.out.println("ERRO: " + ex.getMessage());
-         }
-         mf.setPlaceholder(supervisor.getCpf());
-         */
         this.ftfCpf.setText(supervisor.getCpf().toString());
-        /*
-         try {
-         mf = new MaskFormatter("#.###.###");
-         } catch (ParseException ex) {
-         System.out.println("ERRO: " + ex.getMessage());
-         }
-         mf.setPlaceholder(supervisor.getRg());
-         */
         this.ftfRg.setText(supervisor.getRg().toString());
         this.cbTitulacao.setSelectedItem(supervisor.getTitulacao());
         this.dtcDataEntrada.setDate(supervisor.getDataEntrada());
-        /*
-         try {
-         mf = new MaskFormatter("(##)####-####");
-         } catch (ParseException ex) {
-         System.out.println("ERRO: " + ex.getMessage());
-         }
-         mf.setPlaceholder(supervisor.getTelefone());
-         */
         this.ftfTelefone.setText(supervisor.getTelefone().toString());
         this.tfEmail.setText(supervisor.getEmail());
         this.cbEstado.setSelectedItem(supervisor.getEndereco().getEstado());
@@ -560,9 +542,7 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
         this.tfBanco.setText(supervisor.getContaBancaria().getNomeBanco());
         this.tfAgencia.setText(Integer.toString(supervisor.getContaBancaria().getAgencia()));
         this.tfConta.setText(Integer.toString(supervisor.getContaBancaria().getNumeroConta()));
-
     }
-    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
     private void getDados() throws ParseException, SupervisorException {
         if (!tfNome.getText().isEmpty()) {
@@ -577,7 +557,7 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
             supervisor.setEndereco(
                     new Endereco(
                             tfRua.getText(),
-                            Integer.parseInt(tfNumero.getText()),
+                            StringUtils.isNullOrEmpty(tfNumero.getText()) ? 0 : Integer.parseInt(tfNumero.getText()),
                             tfBairro.getText(),
                             cbEstado.getSelectedItem().toString(),
                             tfCidade.getText()
@@ -586,8 +566,8 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
             supervisor.setContaBancaria(
                     new ContaBancaria(
                             tfBanco.getText(),
-                            Integer.parseInt(tfAgencia.getText()),
-                            Integer.parseInt(tfConta.getText())
+                            StringUtils.isNullOrEmpty(tfAgencia.getText()) ? 0 : Integer.parseInt(tfAgencia.getText()),
+                            StringUtils.isNullOrEmpty(tfConta.getText()) ? 0 : Integer.parseInt(tfConta.getText())
                     )
             );
         }
@@ -742,4 +722,11 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
     private javax.swing.JTextField tfNumero;
     private javax.swing.JTextField tfRua;
     // End of variables declaration//GEN-END:variables
+
+    private boolean verificarCamposVazios() {
+        return tfNome.getText().isEmpty() || cbTitulacao.getSelectedIndex() < 0 || !ftfCpf.getText().contains("123456789")
+                || !ftfRg.getText().contains("123456789") || dtcDataEntrada.getDate() == null || !ftfTelefone.getText().contains("123456789")
+                || tfBanco.getText().isEmpty() || tfAgencia.getText().isEmpty() || tfConta.getText().isEmpty() 
+                || tfCidade.getText().isEmpty() || tfRua.getText().isEmpty() || tfBairro.getText().isEmpty() || tfNumero.getText().isEmpty();
+    }
 }

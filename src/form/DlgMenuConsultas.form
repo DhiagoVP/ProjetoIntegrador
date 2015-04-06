@@ -40,8 +40,8 @@
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
-              <Component id="lbLogo" min="-2" pref="403" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
+              <Component id="lbLogo" min="-2" pref="430" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -203,7 +203,7 @@
     <Component class="javax.swing.JLabel" name="lbLogo">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icon/Logotipo.png"/>
+          <Image iconType="3" name="/icon/LogoIfsc.png"/>
         </Property>
       </Properties>
     </Component>

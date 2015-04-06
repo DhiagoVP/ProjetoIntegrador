@@ -19,7 +19,7 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
         initComponents();
         if (listaAluno != null) {
             atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                    + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+                    + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria ORDER BY a.nome;");
         }
     }
     DlgGerenciadorAluno janelaAluno;
@@ -71,6 +71,7 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
         btBuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
         btBuscar.setText("Buscar");
+        btBuscar.setEnabled(false);
         btBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btBuscarActionPerformed(evt);
@@ -278,26 +279,26 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
     private void tfItemBuscaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfItemBuscaCaretUpdate
         if (tfItemBusca.getText().isEmpty()) {
             this.atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                    + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+                    + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria ORDER BY a.nome;");
             limparCampos();
         }
 
         if (cbTipoPesquisa.getSelectedItem().toString() == "Nome" && !tfItemBusca.getText().isEmpty()) {
                     atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
                             + "WHERE a.nome LIKE '%" + tfItemBusca.getText() + "%'" 
-                            + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+                            + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria ORDER BY a.nome;");
         }
 
         if (cbTipoPesquisa.getSelectedItem().toString() == "CPF" && !tfItemBusca.getText().isEmpty()) {
                     atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
                             + "WHERE a.cpf LIKE '%" + tfItemBusca.getText() + "%'"
-                            + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+                            + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria ORDER BY a.nome;");
         }
 
         if (cbTipoPesquisa.getSelectedItem().toString() == "RG" && !tfItemBusca.getText().isEmpty()) {
                     atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
                             + "WHERE a.rg LIKE '" + tfItemBusca.getText() + "%'"
-                            + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+                            + "AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria ORDER BY a.nome;");
         }
     }//GEN-LAST:event_tfItemBuscaCaretUpdate
 

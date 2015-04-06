@@ -1,5 +1,6 @@
 package form;
 
+import com.mysql.jdbc.StringUtils;
 import dao.AlunoDAO;
 import dao.RealizarMatriculaDAO;
 import dao.TurmaDAO;
@@ -33,7 +34,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         carregarComboBoxTurma();
     }
 
-    DlgConsultarAluno janelaConsulta = new DlgConsultarAluno(null, true);
+//    DlgConsultarAluno janelaConsulta = new DlgConsultarAluno(null, true);
     private final AlunoDAO alunoDAO = new AlunoDAO();
     private Aluno aluno;
 
@@ -109,9 +110,12 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         lbNomeBanco.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbNomeBanco.setText("Banco");
 
+        tfNomeBanco.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
         lbAgencia.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbAgencia.setText("Agência");
 
+        tfAgencia.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tfAgencia.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfAgenciaKeyTyped(evt);
@@ -121,6 +125,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         lbNumeroConta.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbNumeroConta.setText("Conta");
 
+        tfNumeroConta.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tfNumeroConta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfNumeroContaKeyTyped(evt);
@@ -322,6 +327,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        ftfRg.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout panelDadosPessoaisLayout = new javax.swing.GroupLayout(panelDadosPessoais);
         panelDadosPessoais.setLayout(panelDadosPessoaisLayout);
@@ -400,7 +406,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
 
         panelDadosPessoaisLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbCpf, lbDataNascimento, lbEmail, lbEscolaridade, lbNome, lbProfissão, lbRg, lbSexo, lbTelefone});
 
-        cbSituacao.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cbSituacao.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         cbSituacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Em curso", "Cancelado", "Apto", "Não apto" }));
         cbSituacao.setSelectedIndex(-1);
         cbSituacao.addItemListener(new java.awt.event.ItemListener() {
@@ -474,7 +480,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         labelTurma.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         labelTurma.setText("Turma");
 
-        cbTurma.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        cbTurma.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout panelGeralLayout = new javax.swing.GroupLayout(panelGeral);
         panelGeral.setLayout(panelGeralLayout);
@@ -525,13 +531,13 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
                         .addComponent(panelDadosBancarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(panelEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))
+                        .addGap(8, 8, 8))
                     .addGroup(panelGeralLayout.createSequentialGroup()
                         .addGroup(panelGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(panelDadosPessoais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelBotao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -580,17 +586,23 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
     }//GEN-LAST:event_cbSituacaoItemStateChanged
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
+        if (verificarCamposVazios()) {
+            int resultado = JOptionPane.showConfirmDialog(this, "Há campos vazios. Deseja continuar?", "Aviso!", JOptionPane.YES_NO_OPTION);
+            if (resultado != JOptionPane.YES_OPTION) {
+                return;
+            }
+        }
         try {
             if (aluno == null) {
                 aluno = new Aluno();
                 this.getDados();
                 if (alunoDAO.cadastrar(aluno)) {
-                    janelaConsulta.atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                            + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+//                    janelaConsulta.atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
+//                            + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
                     JOptionPane.showMessageDialog(this, "Cadastro efetuado!");
                     this.limparCampos();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Já existe aluno cadastrado!","Cadastro de  Aluno", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Já existe aluno cadastrado!", "Cadastro de  Aluno", JOptionPane.ERROR_MESSAGE);
                     aluno = null;
                 }
             }
@@ -620,8 +632,8 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
             try {
                 this.getDados();
                 alunoDAO.atualizar(aluno);
-                janelaConsulta.atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                        + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+//                janelaConsulta.atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
+//                        + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria GROUP BY a.nome;");
                 JOptionPane.showMessageDialog(this, "Aluno atualizado com sucesso!!");
                 this.limparCampos();
                 this.tratarControles(false);
@@ -637,8 +649,8 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         if (aluno != null) {
             try {
                 alunoDAO.remover(aluno);
-                janelaConsulta.atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                        + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
+//                janelaConsulta.atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
+//                        + "WHERE a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
                 JOptionPane.showMessageDialog(this, "Este aluno foi removido com sucesso!");
                 this.limparCampos();
                 this.tratarControles(false);
@@ -698,7 +710,6 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         this.tfAgencia.setText(Integer.toString(aluno.getContaBancaria().getAgencia()));
         this.tfNumeroConta.setText(Integer.toString(aluno.getContaBancaria().getNumeroConta()));
         this.taObservacao.setText(aluno.getObservacoes());
-
     }
 
     SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -717,15 +728,13 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
             if (!taObservacao.getText().isEmpty()) {
                 aluno.setObservacoes(taObservacao.getText());
             }
-            if (cbSituacao.getSelectedItem() == null) {
-                aluno.setSituacao("Sem matricula");
-            } else {
+            if (cbSituacao.getSelectedIndex() > -1){
                 aluno.setSituacao(cbSituacao.getSelectedItem().toString());
             }
             aluno.setEndereco(
                     new Endereco(
                             tfRua.getText(),
-                            Integer.parseInt(tfNumero.getText()),
+                            StringUtils.isNullOrEmpty(tfNumero.getText()) ? 0 : Integer.parseInt(tfNumero.getText()),
                             tfBairro.getText(),
                             cbEstado.getSelectedItem().toString(),
                             tfCidade.getText()
@@ -734,8 +743,8 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
             aluno.setContaBancaria(
                     new ContaBancaria(
                             tfNomeBanco.getText(),
-                            Integer.parseInt(tfAgencia.getText()),
-                            Integer.parseInt(tfNumeroConta.getText())
+                            StringUtils.isNullOrEmpty(tfAgencia.getText()) ? 0 : Integer.parseInt(tfAgencia.getText()),
+                            StringUtils.isNullOrEmpty(tfNumeroConta.getText()) ? 0 : Integer.parseInt(tfNumeroConta.getText())
                     )
             );
             aluno.setIdTurma(pegarIdTurma());
@@ -747,7 +756,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         if (aluno.getNome().isEmpty()) {
             throw new AlunoException("O campo 'Nome' é obrigatório");
         }
-        if (!aluno.getEmail().contains("@")) {
+        if (!tfEmail.getText().isEmpty() && !aluno.getEmail().contains("@")) {
             throw new AlunoException("Verifique se o email informado está correto!");
         }
         if (aluno.getTelefone().length() < 13) {
@@ -774,8 +783,8 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         this.tfCidade.setEnabled(status);
         this.cbEstado.setEnabled(status);
         this.taObservacao.setEnabled(status);
-        cbSituacao.setEnabled(status);
-
+        this.cbTurma.setEnabled(status);
+        //cbSituacao.setEnabled(status);
     }
 
     private void limparCampos() {
@@ -797,8 +806,8 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         this.tfCidade.setText(null);
         this.cbEstado.setSelectedIndex(-1);
         this.taObservacao.setText(null);
-        this.cbSituacao.setSelectedIndex(-1);
-        cbTurma.setSelectedIndex(-1);
+        this.cbSituacao.setSelectedIndex(0);
+        cbTurma.setSelectedIndex(0);
     }
 
     private void tratarControles(boolean status) {
@@ -816,7 +825,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
-    }    
+    }
 
     private void carregarComboBoxTurma() {
         List<Turma> listaTurma = new ArrayList();
@@ -924,6 +933,15 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
     private int pegarIdTurma() {
         Turma turma = ((Turma) cbTurma.getSelectedItem());
         return turma.getId();
+    }
+
+    private boolean verificarCamposVazios() {
+        return tfNome.getText().isEmpty() || !ftfCpf.getText().contains("1234567890") || !ftfRg.getText().contains("123456789")
+                || dtcDataNascimento.getDate() == null || cbSexo.getSelectedIndex() < 0 || cbEscolaridade.getSelectedIndex() < 0
+                || tfProfissao.getText().isEmpty() || !ftfTelefone.getText().contains("123456789") || tfEmail.getText().isEmpty()
+                || tfNomeBanco.getText().isEmpty() || tfAgencia.getText().isEmpty() || tfNumeroConta.getText().isEmpty()
+                || tfRua.getText().isEmpty() || tfBairro.getText().isEmpty() || tfNumero.getText().isEmpty()
+                || tfCidade.getText().isEmpty() || cbEstado.getSelectedIndex() < 0;
     }
 
 }

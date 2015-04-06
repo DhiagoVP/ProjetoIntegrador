@@ -1,12 +1,12 @@
 package form;
 
+import com.mysql.jdbc.StringUtils;
 import dao.OrientadorDAO;
 import exceptions.OrientadorException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
-import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import model.ContaBancaria;
 import model.Endereco;
@@ -477,6 +477,12 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
+        if (verificarCamposVazios()) {
+            int resultado = JOptionPane.showConfirmDialog(this, "Há campos vazios. Deseja continuar?", "Aviso!", JOptionPane.YES_NO_OPTION);
+            if (resultado != JOptionPane.YES_OPTION) {
+                return;
+            }
+        }
         try {
             if (orientador == null) {
                 orientador = new Orientador();
@@ -586,37 +592,12 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
     }//GEN-LAST:event_ftfRgKeyTyped
 
     private void setDados() {
-        MaskFormatter mf = null;
         this.tfNome.setText(orientador.getNome());
         this.jChStatus.setSelected(orientador.isStatus());
-        /*
-        try {
-            mf = new MaskFormatter("###.###.###-##");
-        } catch (ParseException ex) {
-            System.out.println("ERRO: " + ex.getMessage());
-        }
-        mf.setPlaceholder(orientador.getCpf());
-        */
         this.ftfCpf.setText(orientador.getCpf().toString());
-        /*
-        try {
-            mf = new MaskFormatter("#.###.###");
-        } catch (ParseException ex) {
-            System.out.println("ERRO: " + ex.getMessage());
-        }
-        mf.setPlaceholder(orientador.getRg());
-        */
         this.ftfRg.setText(orientador.getRg().toString());
         this.cbTitulacao.setSelectedItem(orientador.getTitulacao());
         this.dtcDataEntrada.setDate(orientador.getDataEntrada());
-        /*
-        try {
-            mf = new MaskFormatter("(##)####-####");
-        } catch (ParseException ex) {
-            System.out.println("ERRO: " + ex.getMessage());
-        }
-        mf.setPlaceholder(orientador.getTelefone());
-        */
         this.ftfTelefone.setText(orientador.getTelefone().toString());
         this.tfEmail.setText(orientador.getEmail());
         this.cbEstado.setSelectedItem(orientador.getEndereco().getEstado());
@@ -627,9 +608,7 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
         this.tfBanco.setText(orientador.getContaBancaria().getNomeBanco());
         this.tfAgencia.setText(Integer.toString(orientador.getContaBancaria().getAgencia()));
         this.tfConta.setText(Integer.toString(orientador.getContaBancaria().getNumeroConta()));
-
     }
-    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
     private void getDados() throws ParseException, OrientadorException {
         if (!tfNome.getText().isEmpty()) {
@@ -644,7 +623,7 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
             orientador.setEndereco(
                     new Endereco(
                             tfRua.getText(),
-                            Integer.parseInt(tfNumero.getText()),
+                            StringUtils.isNullOrEmpty(tfNumero.getText()) ? 0 : Integer.parseInt(tfNumero.getText()),
                             tfBairro.getText(),
                             cbEstado.getSelectedItem().toString(),
                             tfCidade.getText()
@@ -653,8 +632,8 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
             orientador.setContaBancaria(
                     new ContaBancaria(
                             tfBanco.getText(),
-                            Integer.parseInt(tfAgencia.getText()),
-                            Integer.parseInt(tfConta.getText())
+                            StringUtils.isNullOrEmpty(tfAgencia.getText()) ? 0 : Integer.parseInt(tfAgencia.getText()),
+                            StringUtils.isNullOrEmpty(tfConta.getText()) ? 0 : Integer.parseInt(tfConta.getText())
                     )
             );
         }
@@ -665,7 +644,7 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
         if (orientador.getNome().isEmpty()) {
             throw new OrientadorException("O campo 'Nome' é obrigatório");
         }
-        if (!orientador.getEmail().contains("@")) {
+        if (!tfEmail.getText().isEmpty() && !orientador.getEmail().contains("@")) {
             throw new OrientadorException("Verifique se o email informado está correto!");
         }
         if (orientador.getTelefone().length() < 13) {
@@ -809,4 +788,12 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
     private javax.swing.JTextField tfNumero;
     private javax.swing.JTextField tfRua;
     // End of variables declaration//GEN-END:variables
+
+    private boolean verificarCamposVazios() {
+        return tfNome.getText().isEmpty() || cbTitulacao.getSelectedIndex() < 0 || !ftfCpf.getText().contains("123456789")
+                || !ftfRg.getText().contains("123456789") || dtcDataEntrada.getDate() == null || !ftfTelefone.getText().contains("123456789")
+                || tfBanco.getText().isEmpty() || tfAgencia.getText().isEmpty() || tfConta.getText().isEmpty()
+                || tfCidade.getText().isEmpty() || tfRua.getText().isEmpty() || tfBairro.getText().isEmpty()
+                || tfNumero.getText().isEmpty();
+    }
 }

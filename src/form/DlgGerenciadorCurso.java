@@ -96,30 +96,25 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
             .addGroup(panelPrincipalLayout.createSequentialGroup()
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(lbCargaHoraria))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lbEixoTecnologico)
-                        .addGap(18, 18, 18)
-                        .addComponent(tfEixoTecnologico, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelPrincipalLayout.createSequentialGroup()
                         .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                    .addGap(94, 94, 94)
-                                    .addComponent(lbNome))
-                                .addComponent(lbDescricao, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addComponent(lbCargaHoraria)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(tfNome)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
-                                    .addComponent(tfCargaHoraria))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lbStatus)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chBStatus)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                            .addComponent(lbDescricao, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lbNome, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lbEixoTecnologico, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tfEixoTecnologico)
+                    .addComponent(tfNome)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                    .addComponent(tfCargaHoraria))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(lbStatus)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chBStatus)
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         panelPrincipalLayout.setVerticalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,8 +131,8 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
                     .addComponent(lbDescricao))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbEixoTecnologico)
-                    .addComponent(tfEixoTecnologico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfEixoTecnologico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbEixoTecnologico))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbCargaHoraria)
@@ -229,6 +224,12 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
+        if (verificarCamposVazios()) {
+            int resultado = JOptionPane.showConfirmDialog(this, "Há campos vazios. Deseja continuar?", "Aviso!", JOptionPane.YES_NO_OPTION);
+            if (resultado != JOptionPane.YES_OPTION) {
+                return;
+            }
+        }
         try {
             if (curso == null) {
                 curso = new Curso();
@@ -425,4 +426,9 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
     private javax.swing.JTextField tfEixoTecnologico;
     private javax.swing.JTextField tfNome;
     // End of variables declaration//GEN-END:variables
+
+    private boolean verificarCamposVazios() {
+        return tfNome.getText().isEmpty() || taDescricao.getText().isEmpty()
+                || tfEixoTecnologico.getText().isEmpty() || tfCargaHoraria.getText().isEmpty();
+    }
 }

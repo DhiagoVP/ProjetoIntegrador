@@ -49,7 +49,6 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         btGerenciadorProfessor = new javax.swing.JButton();
         btGerenciadorAluno = new javax.swing.JButton();
         btGerenciadorTurma = new javax.swing.JButton();
-        btRealizarMatricula = new javax.swing.JButton();
         btGerenciadorBeneficio = new javax.swing.JButton();
         btEfetuarPagamento = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -126,16 +125,6 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
             }
         });
 
-        btRealizarMatricula.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btRealizarMatricula.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Matricula.png"))); // NOI18N
-        btRealizarMatricula.setText("Realizar Matricula            ");
-        btRealizarMatricula.setEnabled(false);
-        btRealizarMatricula.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btRealizarMatriculaActionPerformed(evt);
-            }
-        });
-
         btGerenciadorBeneficio.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btGerenciadorBeneficio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cofrinho-Beneficio-Cifrao.png"))); // NOI18N
         btGerenciadorBeneficio.setText("Gerenciar Benefício             ");
@@ -168,7 +157,6 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
                     .addComponent(btGerenciadorProfessor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btGerenciadorAluno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btGerenciadorTurma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btRealizarMatricula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btGerenciadorBeneficio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -176,28 +164,26 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btGerenciadorCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btGerenciadorCurso, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btGerenciadoOrientador)
+                .addComponent(btGerenciadoOrientador, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btGerenciadorSupervisor)
+                .addComponent(btGerenciadorSupervisor, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btGerenciadorProfessor)
+                .addComponent(btGerenciadorProfessor, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btGerenciadorAluno)
+                .addComponent(btGerenciadorAluno, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                 .addGap(3, 3, 3)
-                .addComponent(btGerenciadorTurma)
+                .addComponent(btGerenciadorTurma, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btRealizarMatricula)
+                .addComponent(btGerenciadorBeneficio, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btGerenciadorBeneficio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btEfetuarPagamento)
+                .addComponent(btEfetuarPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Logo.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/IFSC.png"))); // NOI18N
 
         lbRelogio.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         lbRelogio.setText("Relógio");
@@ -304,31 +290,31 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(66, 66, 66)
-                        .addComponent(jLabel1)
-                        .addContainerGap(237, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 705, Short.MAX_VALUE)
                         .addComponent(lbRelogio)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btSair, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btSair, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(31, 31, 31))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(122, 122, 122)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btSair, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(lbRelogio)
-                                .addGap(15, 15, 15))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(14, 14, 14)))))
                 .addContainerGap())
         );
 
@@ -402,13 +388,6 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         gerenciadorTurma.setVisible(true);
     }//GEN-LAST:event_btGerenciadorTurmaActionPerformed
 
-    private void btRealizarMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRealizarMatriculaActionPerformed
-        if (this.btRealizarMatricula.isEnabled()) {
-            DlgRealizarMatricula realizarMatricula = new DlgRealizarMatricula(this, true);
-            realizarMatricula.setVisible(true);
-        }
-    }//GEN-LAST:event_btRealizarMatriculaActionPerformed
-
     private void lbRelogioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbRelogioMouseClicked
         JOptionPane.showMessageDialog(this, "Esperamos que tenha um ótimo dia!");
     }//GEN-LAST:event_lbRelogioMouseClicked
@@ -470,7 +449,6 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
     private javax.swing.JButton btGerenciadorProfessor;
     private javax.swing.JButton btGerenciadorSupervisor;
     private javax.swing.JButton btGerenciadorTurma;
-    private javax.swing.JButton btRealizarMatricula;
     private javax.swing.JButton btSair;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;

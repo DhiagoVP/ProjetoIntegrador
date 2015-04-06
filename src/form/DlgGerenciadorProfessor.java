@@ -1,5 +1,6 @@
 package form;
 
+import com.mysql.jdbc.StringUtils;
 import dao.ProfessorDAO;
 import exceptions.ProfessorException;
 import java.sql.SQLException;
@@ -15,6 +16,7 @@ import model.Professor;
 /**
  *
  * @author Giseli e Keyve
+ * @author Ana, Dhiago
  */
 public class DlgGerenciadorProfessor extends javax.swing.JDialog {
 
@@ -439,6 +441,12 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
+        if (verificarCamposVazios()) {
+            int resultado = JOptionPane.showConfirmDialog(this, "Há campos vazios. Deseja continuar?", "Aviso!", JOptionPane.YES_NO_OPTION);
+            if (resultado != JOptionPane.YES_OPTION) {
+                return;
+            }
+        }
         try {
             if (professor == null) {
                 professor = new Professor();
@@ -549,7 +557,7 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
             professor.setEndereco(
                     new Endereco(
                             tfRua.getText(),
-                            Integer.parseInt(tfNumero.getText()),
+                            StringUtils.isNullOrEmpty(tfNumero.getText()) ? 0 : Integer.parseInt(tfNumero.getText()),
                             tfBairro.getText(),
                             cbEstado.getSelectedItem().toString(),
                             tfCidade.getText()
@@ -558,8 +566,8 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
             professor.setContaBancaria(
                     new ContaBancaria(
                             tfBanco.getText(),
-                            Integer.parseInt(tfAgencia.getText()),
-                            Integer.parseInt(tfConta.getText())
+                            StringUtils.isNullOrEmpty(tfAgencia.getText()) ? 0 : Integer.parseInt(tfAgencia.getText()),
+                            StringUtils.isNullOrEmpty(tfConta.getText()) ? 0 : Integer.parseInt(tfConta.getText())
                     )
             );
         }
@@ -570,7 +578,7 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
         if (professor.getNome().isEmpty()) {
             throw new ProfessorException("O campo 'Nome' é obrigatório");
         }
-        if (!professor.getEmail().contains("@")) {
+        if (!tfEmail.getText().isEmpty() && !professor.getEmail().contains("@")) {
             throw new ProfessorException("Verifique se o email informado está correto!");
         }
         if (professor.getTelefone().length() < 13) {
@@ -714,4 +722,11 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
     private javax.swing.JTextField tfNumero;
     private javax.swing.JTextField tfRua;
     // End of variables declaration//GEN-END:variables
+
+    private boolean verificarCamposVazios() {
+        return tfNome.getText().isEmpty() || cbTitulacao.getSelectedIndex() < 0 || !ftfCpf.getText().contains("123456789")
+                || !ftfRg.getText().contains("123456789") || dtcDataEntrada.getDate() == null || !ftfTelefone.getText().contains("123456789")
+                || tfBanco.getText().isEmpty() || tfAgencia.getText().isEmpty() || tfConta.getText().isEmpty() 
+                || tfCidade.getText().isEmpty() || tfRua.getText().isEmpty() || tfBairro.getText().isEmpty() || tfNumero.getText().isEmpty();
+    }
 }
