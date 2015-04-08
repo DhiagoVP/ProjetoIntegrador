@@ -51,7 +51,6 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
         tableCurso = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         tfItemBusca = new javax.swing.JTextField();
-        btBuscar = new javax.swing.JButton();
         btVoltar = new javax.swing.JButton();
         btEnviar = new javax.swing.JButton();
 
@@ -91,17 +90,6 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
             }
         });
 
-        btBuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
-        btBuscar.setText("Buscar");
-        btBuscar.setToolTipText("");
-        btBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btBuscarActionPerformed(evt);
-            }
-        });
-
         btVoltar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Voltar.png"))); // NOI18N
         btVoltar.setText("Voltar");
@@ -137,9 +125,7 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(tfItemBusca))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
@@ -149,11 +135,10 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                .addGap(11, 11, 11)
+                    .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btEnviar)
                     .addComponent(btVoltar))
@@ -163,20 +148,6 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
-        try {
-            curso = cursoDAO.buscarPorNome(tfItemBusca.getText());
-            if (curso != null) {
-                atualizarTabela("SELECT * FROM Curso c WHERE c.nome LIKE '%" + curso.getNome() + "%' ORDER BY c.nome;");
-                this.limparCampos();
-            } else {
-                JOptionPane.showMessageDialog(this, "O curso não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "ERRO: "+ ex.getMessage());
-        }
-    }//GEN-LAST:event_btBuscarActionPerformed
     DlgGerenciadorCurso janelaCurso;
     private void tableCursoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCursoMouseClicked
         if (evt.getClickCount() == 2) {
@@ -262,7 +233,6 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btBuscar;
     private javax.swing.JButton btEnviar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JLabel jLabel1;

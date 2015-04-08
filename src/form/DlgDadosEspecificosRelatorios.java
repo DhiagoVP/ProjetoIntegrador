@@ -5,6 +5,7 @@
  */
 package form;
 
+import java.awt.event.KeyEvent;
 import model.DadosEspecificos;
 
 /**
@@ -35,10 +36,13 @@ public class DlgDadosEspecificosRelatorios extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         ftfPlanilha = new javax.swing.JFormattedTextField();
-        tfSistec = new javax.swing.JTextField();
         tfLc = new javax.swing.JTextField();
         btConfirmar = new javax.swing.JButton();
         btCancelar = new javax.swing.JButton();
+        labelCaminho = new javax.swing.JLabel();
+        tfCaminho = new javax.swing.JTextField();
+        btPesquisarCaminho = new javax.swing.JButton();
+        tfSistec = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -56,10 +60,32 @@ public class DlgDadosEspecificosRelatorios extends javax.swing.JDialog {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        ftfPlanilha.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                ftfPlanilhaCaretUpdate(evt);
+            }
+        });
+        ftfPlanilha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ftfPlanilhaKeyTyped(evt);
+            }
+        });
+
+        tfLc.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfLcCaretUpdate(evt);
+            }
+        });
+        tfLc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfLcKeyTyped(evt);
+            }
+        });
 
         btConfirmar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/MiniImpressora.png"))); // NOI18N
         btConfirmar.setText("Confirmar");
+        btConfirmar.setEnabled(false);
         btConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btConfirmarActionPerformed(evt);
@@ -69,60 +95,141 @@ public class DlgDadosEspecificosRelatorios extends javax.swing.JDialog {
         btCancelar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cancelar.png"))); // NOI18N
         btCancelar.setText("Cancelar");
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+        labelCaminho.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        labelCaminho.setText("Caminho");
+
+        tfCaminho.setText("C:\\");
+
+            btPesquisarCaminho.setText("...");
+            btPesquisarCaminho.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btPesquisarCaminhoActionPerformed(evt);
+                }
+            });
+
+            tfSistec.addCaretListener(new javax.swing.event.CaretListener() {
+                public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                    tfSistecCaretUpdate(evt);
+                }
+            });
+            tfSistec.addKeyListener(new java.awt.event.KeyAdapter() {
+                public void keyTyped(java.awt.event.KeyEvent evt) {
+                    tfSistecKeyTyped(evt);
+                }
+            });
+
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(6, 6, 6)
+                                            .addComponent(jLabel1)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(jLabel2)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(tfSistec)
+                                        .addComponent(ftfPlanilha, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel3)
+                                        .addComponent(labelCaminho))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(tfCaminho, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                                        .addComponent(tfLc))))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btPesquisarCaminho, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, Short.MAX_VALUE)))
+                    .addContainerGap())
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(ftfPlanilha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(tfSistec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(7, 7, 7)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfLc, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ftfPlanilha, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                            .addComponent(tfSistec)))
-                    .addComponent(btCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(ftfPlanilha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfSistec, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(7, 7, 7)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(tfLc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btConfirmar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btCancelar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                        .addComponent(tfLc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelCaminho)
+                        .addComponent(tfCaminho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btPesquisarCaminho))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btConfirmar)
+                        .addComponent(btCancelar))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
 
-        pack();
-        setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
+            pack();
+            setLocationRelativeTo(null);
+        }// </editor-fold>//GEN-END:initComponents
 
     private void btConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConfirmarActionPerformed
-        dados = new DadosEspecificos(ftfPlanilha.getText(), tfSistec.getText(), tfLc.getText());
+        dados = new DadosEspecificos(ftfPlanilha.getText(), tfSistec.getText(), tfLc.getText(), tfCaminho.getText());
         this.dispose();
     }//GEN-LAST:event_btConfirmarActionPerformed
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+        dados = null;
+        this.dispose();
+    }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void ftfPlanilhaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_ftfPlanilhaCaretUpdate
+        verificarCamposVazios();
+    }//GEN-LAST:event_ftfPlanilhaCaretUpdate
+
+    private void tfLcCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfLcCaretUpdate
+        verificarCamposVazios();
+    }//GEN-LAST:event_tfLcCaretUpdate
+
+    private void ftfPlanilhaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfPlanilhaKeyTyped
+        verificarDigitos(evt);
+    }//GEN-LAST:event_ftfPlanilhaKeyTyped
+
+    private void tfLcKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfLcKeyTyped
+        verificarDigitos(evt);
+    }//GEN-LAST:event_tfLcKeyTyped
+
+    private void btPesquisarCaminhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarCaminhoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btPesquisarCaminhoActionPerformed
+
+    private void tfSistecCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfSistecCaretUpdate
+        verificarCamposVazios();
+    }//GEN-LAST:event_tfSistecCaretUpdate
+
+    private void tfSistecKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfSistecKeyTyped
+        verificarDigitos(evt);
+    }//GEN-LAST:event_tfSistecKeyTyped
 
     /**
      * @param args the command line arguments
@@ -169,14 +276,32 @@ public class DlgDadosEspecificosRelatorios extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btConfirmar;
+    private javax.swing.JButton btPesquisarCaminho;
     private javax.swing.JFormattedTextField ftfPlanilha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel labelCaminho;
+    private javax.swing.JTextField tfCaminho;
     private javax.swing.JTextField tfLc;
     private javax.swing.JTextField tfSistec;
     // End of variables declaration//GEN-END:variables
     public DadosEspecificos pegarDadosEspecificos() {
         return dados;
+    }
+    
+    private void verificarCamposVazios() {
+        if (!tfLc.getText().isEmpty() && !tfSistec.getText().isEmpty() && ftfPlanilha.getText().contains("123456789")){
+        btConfirmar.setEnabled(true);
+    } else {
+            btConfirmar.setEnabled(false);
+        }
+    }
+    
+    private void verificarDigitos(KeyEvent evt) {
+        String caracteres = "0987654321";
+            if (!caracteres.contains(evt.getKeyChar() + "")) {
+                evt.consume();
+            }
     }
 }

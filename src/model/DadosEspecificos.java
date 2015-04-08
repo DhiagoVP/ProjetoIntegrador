@@ -13,11 +13,13 @@ public class DadosEspecificos {
     private String nroPanilha;
     private String sistec;
     private String lc;
+    private String caminho;
 
-    public DadosEspecificos(String nroPanilha, String sistec, String lc) {
+    public DadosEspecificos(String nroPanilha, String sistec, String lc, String caminho) {
         this.nroPanilha = nroPanilha;
         this.sistec = sistec;
         this.lc = lc;
+        this.caminho = caminho;
     }
 
     public DadosEspecificos() {
@@ -46,4 +48,14 @@ public class DadosEspecificos {
     public void setSistec(String sistec) {
         this.sistec = sistec;
     }
+
+    public String getCaminho() {
+        return caminho;
+    }
+
+    public void setCaminho(String caminho) {
+        this.caminho = caminho;
+    }
+    
+    
 }

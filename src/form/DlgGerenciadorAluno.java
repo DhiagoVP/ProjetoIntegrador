@@ -712,8 +712,6 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         this.taObservacao.setText(aluno.getObservacoes());
     }
 
-    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-
     private void getDados() throws ParseException, AlunoException {
         if (!tfNome.getText().isEmpty()) {
             aluno.setNome(tfNome.getText());

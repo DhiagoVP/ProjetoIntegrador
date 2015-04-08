@@ -43,7 +43,6 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
 
         lbNome = new javax.swing.JLabel();
         tfItemBusca = new javax.swing.JTextField();
-        btBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableOrientador = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
@@ -67,15 +66,6 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
         tfItemBusca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfItemBuscaKeyTyped(evt);
-            }
-        });
-
-        btBuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
-        btBuscar.setText("Buscar");
-        btBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btBuscarActionPerformed(evt);
             }
         });
 
@@ -151,20 +141,19 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbNome)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfItemBusca)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lbNome)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -174,7 +163,6 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbNome)
                     .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btBuscar)
                     .addComponent(cbTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -222,58 +210,6 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_tableOrientadorMouseClicked
-
-    private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
-        switch (cbTipoPesquisa.getSelectedItem().toString()) {
-            case ("Nome"):
-                try {
-                    Orientador orientador = new OrientadorDAO().buscarPorNome(tfItemBusca.getText());
-                    this.limparCampos();
-                    if (orientador != null) {
-                        atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
-                                + "WHERE o.nome LIKE '%" + orientador.getNome() + "%'"
-                                + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "O orientador não foi encontrado!", "Informação",
-                                JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                }
-                break;
-            case ("CPF"):
-                try {
-                    Orientador orientador = new OrientadorDAO().buscarPorCpf(tfItemBusca.getText());
-                    this.limparCampos();
-                    if (orientador != null) {
-                        atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
-                                + "WHERE o.cpf = '" + orientador.getCpf() + "'"
-                                + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "O orientador não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                }
-                break;
-
-            case ("RG"):
-                try {
-                    Orientador orientador = new OrientadorDAO().buscarPorRg(tfItemBusca.getText());
-                    this.limparCampos();
-                    if (orientador != null) {
-                        atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
-                                + "WHERE o.rg = '" + orientador.getRg() + "'"
-                                + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "O orientador não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                }
-                break;
-        }
-    }//GEN-LAST:event_btBuscarActionPerformed
 
     private void tfItemBuscaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfItemBuscaKeyTyped
         if (cbTipoPesquisa.getSelectedItem().toString() == "Nome") {
@@ -367,7 +303,6 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btBuscar;
     private javax.swing.JButton btEnviar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JComboBox cbTipoPesquisa;

@@ -43,7 +43,6 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
     private void initComponents() {
 
         tfItemBusca = new javax.swing.JTextField();
-        btBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableAluno = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
@@ -65,16 +64,6 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
         tfItemBusca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfItemBuscaKeyTyped(evt);
-            }
-        });
-
-        btBuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
-        btBuscar.setText("Buscar");
-        btBuscar.setEnabled(false);
-        btBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btBuscarActionPerformed(evt);
             }
         });
 
@@ -149,24 +138,20 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cbTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbTipoPesquisa, 0, 111, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -175,7 +160,6 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btBuscar)
                     .addComponent(cbTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -227,54 +211,6 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
             janelaAluno.setVisible(true);
         }
     }//GEN-LAST:event_tableAlunoMouseClicked
-
-    private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
-        switch (cbTipoPesquisa.getSelectedItem().toString()) {
-            case ("Nome"):
-                try {
-                    Aluno aluno = new AlunoDAO().buscarPorNome(tfItemBusca.getText());
-                    this.limparCampos();
-                    if (aluno != null) {
-                        atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb "
-                                + "WHERE a.nome LIKE '%" + aluno.getNome() + "%' AND "
-                                + "a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
-
-                    } else {
-                        JOptionPane.showMessageDialog(this, "O aluno não foi encontrado!", "Informação",
-                                JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                }
-                break;
-            case ("CPF"):
-                try {
-                    Aluno aluno = new AlunoDAO().buscarPorCpf(tfItemBusca.getText());
-                    this.limparCampos();
-                    if (aluno != null) {
-                        atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb WHERE a.cpf = '" + aluno.getCpf() + "' AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "O aluno não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                }
-                break;
-            case ("RG"):
-                try {
-                    Aluno aluno = new AlunoDAO().buscarPorRg(tfItemBusca.getText());
-                    this.limparCampos();
-                    if (aluno != null) {
-                        atualizarTabela("SELECT * FROM Aluno a, Endereco e, ContaBancaria cb WHERE a.rg = '" + aluno.getRg() + "' AND a.idEndereco = e.idEndereco AND a.idContaBancaria = cb.idContaBancaria;");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "O aluno não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                }
-                break;
-        }
-    }//GEN-LAST:event_btBuscarActionPerformed
 
     private void tfItemBuscaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfItemBuscaCaretUpdate
         if (tfItemBusca.getText().isEmpty()) {
@@ -371,7 +307,6 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btBuscar;
     private javax.swing.JButton btEnviar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JComboBox cbTipoPesquisa;

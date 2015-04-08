@@ -67,7 +67,6 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Software Gerenciador de Curso Profissionalizantes");
-        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 204), 2));
 

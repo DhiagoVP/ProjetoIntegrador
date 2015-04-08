@@ -40,7 +40,6 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
 
         lbNome = new javax.swing.JLabel();
         tfItemBusca = new javax.swing.JTextField();
-        btBuscarPorNome = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableProfessor = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
@@ -64,15 +63,6 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
         tfItemBusca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfItemBuscaKeyTyped(evt);
-            }
-        });
-
-        btBuscarPorNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btBuscarPorNome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/consultar.png"))); // NOI18N
-        btBuscarPorNome.setText("Buscar");
-        btBuscarPorNome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btBuscarPorNomeActionPerformed(evt);
             }
         });
 
@@ -152,15 +142,13 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lbNome)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbTipoPesquisa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btBuscarPorNome, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -172,7 +160,6 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbNome)
                     .addComponent(tfItemBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btBuscarPorNome)
                     .addComponent(cbTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -220,58 +207,6 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_tableProfessorMouseClicked
-
-    private void btBuscarPorNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarPorNomeActionPerformed
-        switch (cbTipoPesquisa.getSelectedItem().toString()) {
-            case ("Nome"):
-                try {
-            Professor professor = new ProfessorDAO().buscarPorNome(tfItemBusca.getText());
-            this.limparCampos();
-            if (professor != null) {
-                atualizarTabela("SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
-                        + "WHERE p.nome LIKE '%" + professor.getNome() + "%'"
-                        + "AND p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;");
-            } else {
-                JOptionPane.showMessageDialog(this, "O professor não foi encontrado!", "Informação",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
-                break;
-            case ("CPF"):
-                try {
-            Professor professor = new ProfessorDAO().buscarPorCpf(tfItemBusca.getText());
-            this.limparCampos();
-            if (professor != null) {
-                atualizarTabela("SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
-                        + "WHERE p.cpf LIKE '%" + professor.getCpf() + "%'"
-                        + "AND p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;");
-            } else {
-                JOptionPane.showMessageDialog(this, "O professor não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
-            break;
-            case ("RG"):
-                try {
-            Professor professor = new ProfessorDAO().buscarPorRg(tfItemBusca.getText());
-            this.limparCampos();
-            if (professor != null) {
-                atualizarTabela("SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
-                        + "WHERE p.rg LIKE '" + professor.getRg() + "%'"
-                        + "AND p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;");
-            } else {
-                JOptionPane.showMessageDialog(this, "O professor não foi encontrado!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
-            break;
-        }
-        
-    }//GEN-LAST:event_btBuscarPorNomeActionPerformed
 
     private void tfItemBuscaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfItemBuscaKeyTyped
         if (cbTipoPesquisa.getSelectedItem().toString() == "Nome") {
@@ -365,7 +300,6 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btBuscarPorNome;
     private javax.swing.JButton btEnviar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JComboBox cbTipoPesquisa;
