@@ -256,9 +256,6 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
             }
             else{
                 cbTurma.setSelectedIndex(0);
-                cbMes.setSelectedIndex(0);
-                listBeneficiosCadastrados.setSelectedIndex(0);  
-                spinnerDiasLetivos.setValue(1);
             }
         }
     }//GEN-LAST:event_btAvançarActionPerformed

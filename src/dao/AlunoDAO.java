@@ -198,10 +198,9 @@ public class AlunoDAO {
     }
     
     public List<Aluno> buscarPorTurma(int idTurma) throws SQLException{
-        String sql = "SELECT a.idAluno, a.cpf, a.nome, a.situacao, cb.nomeBanco, cb.agencia, cb.numero"
-                + " FROM aluno a, contabancaria cb, "
-                + "turma t, aluno_turma al_t WHERE al_t.idTurma = ? AND a.idAluno = al_t.idAluno "
-                + "AND t.idTurma = al_t.idTurma AND cb.idContaBancaria = a.idContaBancaria";
+        String sql = "SELECT DISTINCT a.idAluno, a.cpf, a.nome, a.situacao, cb.nomeBanco, cb.agencia, cb.numero"
+                + " FROM aluno a, contabancaria cb, turma t WHERE a.idTurma = ? "
+                + "AND cb.idContaBancaria = a.idContaBancaria";
         List<Aluno> listaAlunos = new ArrayList<>();
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
         ps.setInt(1, idTurma);

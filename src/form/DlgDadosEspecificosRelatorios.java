@@ -6,6 +6,13 @@
 package form;
 
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import model.DadosEspecificos;
 
 /**
@@ -220,7 +227,35 @@ public class DlgDadosEspecificosRelatorios extends javax.swing.JDialog {
     }//GEN-LAST:event_tfLcKeyTyped
 
     private void btPesquisarCaminhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarCaminhoActionPerformed
-        // TODO add your handling code here:
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(DlgDadosEspecificosRelatorios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String filename = File.separator + "tmp";
+        JFileChooser chooser = new JFileChooser(new File(filename));
+        chooser.updateUI(); //Create UI objects
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); //Now set look and feel
+            //refreshUI(chooser, false);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(FrmTelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("PDF Files", "pdf");
+        chooser.setAcceptAllFileFilterUsed(false);
+        chooser.setFileFilter(fileFilter);
+        chooser.showSaveDialog(this);
+        File selFile = chooser.getSelectedFile();
+        String nome = selFile.getName();
+        nome = nome.substring(nome.lastIndexOf('.') + 1);
+        String caminho;
+        if(!nome.equalsIgnoreCase("pdf")){
+            String[] array = fileFilter.getExtensions();
+            caminho = selFile.getAbsolutePath()+ "." + array[0];
+        }
+        else
+            caminho = selFile.getAbsolutePath();
+        tfCaminho.setText(caminho);
     }//GEN-LAST:event_btPesquisarCaminhoActionPerformed
 
     private void tfSistecCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfSistecCaretUpdate

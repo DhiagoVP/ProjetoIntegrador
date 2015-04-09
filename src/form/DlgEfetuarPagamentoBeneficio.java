@@ -8,16 +8,20 @@ package form;
 import com.itextpdf.text.DocumentException;
 import dao.AlunoDAO;
 import dao.PagamentoDAO;
+import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Aluno;
 import model.Beneficio;
 import model.DadosEspecificos;
@@ -31,6 +35,7 @@ import table.PagamentoTableModel;
  * @author Acerpc
  */
 public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
+
     private List<Aluno> listaAlunos;
     private PagamentoTableModel pagamentoTable;
     private Pagamento pagamentoFinal;
@@ -45,14 +50,16 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     public DlgEfetuarPagamentoBeneficio(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         tbPagamentoBeneficio.addKeyListener(new KeyListener() {
 
             @Override
-            public void keyTyped(KeyEvent e) {}
+            public void keyTyped(KeyEvent e) {
+            }
 
             @Override
-            public void keyPressed(KeyEvent e) {}
+            public void keyPressed(KeyEvent e) {
+            }
 
             @Override
             public void keyReleased(KeyEvent e) {
@@ -235,12 +242,16 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         DlgDadosEspecificosRelatorios dados = new DlgDadosEspecificosRelatorios(null, rootPaneCheckingEnabled);
         dados.setVisible(true);
         DadosEspecificos dadosEspecificos = dados.pegarDadosEspecificos();
+        if(dadosEspecificos == null)
+            return;
         try {
-            new GeradorPDF().createPdf("C:/teste/first_table.pdf", pagamentoFinal, dadosEspecificos);
+            new GeradorPDF().createPdf(dadosEspecificos.getCaminho(), pagamentoFinal, dadosEspecificos);
         } catch (IOException | DocumentException ex) {
             Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
+        JOptionPane.showMessageDialog(this,"Relatório gerado com sucesso");
+        this.dispose();
     }//GEN-LAST:event_btGerarRelatorioActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
@@ -255,14 +266,16 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                     Double.parseDouble(tbPagamentoBeneficio.getValueAt(linha, 7).toString()));
             listaAlunos.get(linha).setValorDescontado(listaBeneficio);
         }
-        pagamentoFinal = new Pagamento(listaAlunos,listaBeneficio,
-                Double.parseDouble(tfTotalAPagar.getText().replace("RS","")),pagamento.getDiasLetivos(), 
+        pagamentoFinal = new Pagamento(listaAlunos, listaBeneficio,
+                Double.parseDouble(tfTotalAPagar.getText().replace("RS", "")), pagamento.getDiasLetivos(),
                 pagamento.getMes(), turma);
         btGerarRelatorio.setEnabled(true);
         try {
             new PagamentoDAO().inserir(pagamentoFinal);
+
         } catch (SQLException ex) {
-            Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DlgEfetuarPagamentoBeneficio.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         btSalvar.setEnabled(false);
     }//GEN-LAST:event_btSalvarActionPerformed
@@ -281,16 +294,21 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgEfetuarPagamentoBeneficio.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgEfetuarPagamentoBeneficio.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgEfetuarPagamentoBeneficio.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgEfetuarPagamentoBeneficio.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -312,7 +330,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     public JTable getTbPagamentoBeneficio() {
         return tbPagamentoBeneficio;
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btGerarRelatorio;
@@ -337,13 +355,12 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         listaBeneficio = beneficios;
         pagamento = pgmeto;
         carregarLabel(turma);
-        if(buscarTodosOsAlunos(turma)){
+        if (buscarTodosOsAlunos(turma)) {
             atualizarTabela();
             calcularTotalPorAluno(pagamento.getDiasLetivos());
             calcularTotal();
-        }
-        else{
-            JOptionPane.showMessageDialog(DlgEfetuarPagamentoBeneficio.this, "Nenhum aluno encontrado na turma " + turma.getNome(), 
+        } else {
+            JOptionPane.showMessageDialog(DlgEfetuarPagamentoBeneficio.this, "Nenhum aluno encontrado na turma " + turma.getNome(),
                     "Erro!", JOptionPane.WARNING_MESSAGE);
             return false;
         }
@@ -352,30 +369,34 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
 
     private void calcularTotalPorAluno(int diasLetivos) {
         for (int linha = 0; linha < listaAlunos.size(); linha++) {
-            if ((Boolean)tbPagamentoBeneficio.getValueAt(linha, 8))
+            if ((Boolean) tbPagamentoBeneficio.getValueAt(linha, 8)) {
                 tbPagamentoBeneficio.setValueAt(calcularValorBeneficio(diasLetivos), linha, 7);
+            }
         }
     }
-    
+
     private void atualizarTabela() {
-       pagamentoTable = new PagamentoTableModel((ArrayList<Aluno>) listaAlunos);
-       tbPagamentoBeneficio.setModel(pagamentoTable);
+        pagamentoTable = new PagamentoTableModel((ArrayList<Aluno>) listaAlunos);
+        tbPagamentoBeneficio.setModel(pagamentoTable);
     }
 
     private boolean buscarTodosOsAlunos(Turma turma) {
         try {
             listaAlunos = new AlunoDAO().buscarPorTurma(turma.getId());
+
         } catch (SQLException ex) {
-            Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DlgEfetuarPagamentoBeneficio.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
-        if (listaAlunos.isEmpty()) 
+        if (listaAlunos.isEmpty()) {
             return false;
+        }
         return true;
     }
 
     private double calcularValorBeneficio(int diasLetivos) {
         double valorPorAluno = 0;
-        for(Beneficio beneficio : listaBeneficio){
+        for (Beneficio beneficio : listaBeneficio) {
             valorPorAluno += (beneficio.getValor() * diasLetivos);
         }
         return valorPorAluno;
@@ -384,8 +405,8 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
     private void calcularTotal() {
         double totalAPagar = 0.0;
         for (int linha = 0; linha < listaAlunos.size(); linha++) {
-                totalAPagar += Double.parseDouble(tbPagamentoBeneficio.getValueAt(linha, 7).toString());
+            totalAPagar += Double.parseDouble(tbPagamentoBeneficio.getValueAt(linha, 7).toString());
         }
-        tfTotalAPagar.setText("RS" +totalAPagar);
+        tfTotalAPagar.setText("RS" + totalAPagar);
     }
 }
