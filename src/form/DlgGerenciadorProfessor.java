@@ -24,6 +24,7 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
     DlgConsultarProfessor janelaConsulta = new DlgConsultarProfessor(null, true);
     private final ProfessorDAO professorDAO = new ProfessorDAO();
     private Professor professor;
+    private ValidadorDeTeclas validar;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -82,13 +83,17 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
         lbNome.setText("Nome");
 
         tfNome.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfNomeKeyTyped(evt);
+            }
+        });
 
         lbTitulacao.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbTitulacao.setText("Titulação");
 
         cbTitulacao.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         cbTitulacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Técnico", "Graduação", "Especialização", "MBA", "Mestrado", "Doutorado" }));
-        cbTitulacao.setSelectedIndex(-1);
 
         lbCpf.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbCpf.setText("CPF");
@@ -521,6 +526,10 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btCancelarActionPerformed
 
+    private void tfNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNomeKeyTyped
+        validar.validarSomenteLetras(evt);
+    }//GEN-LAST:event_tfNomeKeyTyped
+
     private void setDados() {
         this.tfNome.setText(professor.getNome());
         this.jChStatus.setSelected(professor.isStatus());
@@ -609,7 +618,7 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
 
     private void limparCampos() {
         this.tfNome.setText(null);
-        this.cbTitulacao.setSelectedIndex(-1);
+        this.cbTitulacao.setSelectedIndex(0);
         this.ftfCpf.setText(null);
         this.ftfRg.setText(null);
         this.dtcDataEntrada.setDate(null);

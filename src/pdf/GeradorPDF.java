@@ -30,9 +30,9 @@ public class GeradorPDF {
             throws IOException, DocumentException {
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(filename));
-        document.open();
         document.setPageSize(PageSize.A4.rotate());
         document.setMargins(0, 0, 50, 50);
+        document.open();
         document.add(createTable(pagamento, dados));
         document.close();
     }

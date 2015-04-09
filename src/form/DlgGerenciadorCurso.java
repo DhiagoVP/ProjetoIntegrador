@@ -19,6 +19,7 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         this.taDescricao.setLineWrap(true);
         this.tratarControles(false);
     }
+    private ValidadorDeTeclas validar;
     DlgConsultarCurso telaConsulta = new DlgConsultarCurso(null, true);
     private final CursoDAO cursoDAO = new CursoDAO();
     private Curso curso;
@@ -64,6 +65,11 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         lbCargaHoraria.setText("Carga Horária");
 
         tfNome.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfNomeKeyTyped(evt);
+            }
+        });
 
         taDescricao.setColumns(20);
         taDescricao.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -71,8 +77,18 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         jScrollPane1.setViewportView(taDescricao);
 
         tfEixoTecnologico.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfEixoTecnologico.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfEixoTecnologicoKeyTyped(evt);
+            }
+        });
 
         tfCargaHoraria.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfCargaHoraria.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfCargaHorariaKeyTyped(evt);
+            }
+        });
 
         lbNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbNome.setText("Nome");
@@ -301,6 +317,18 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
             tratarCampos(true);
         }
     }//GEN-LAST:event_chBStatusStateChanged
+
+    private void tfNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNomeKeyTyped
+        validar.validarSomenteLetras(evt);
+    }//GEN-LAST:event_tfNomeKeyTyped
+
+    private void tfCargaHorariaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfCargaHorariaKeyTyped
+        validar.validarSomenteLetrasENumeros(evt);
+    }//GEN-LAST:event_tfCargaHorariaKeyTyped
+
+    private void tfEixoTecnologicoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEixoTecnologicoKeyTyped
+        validar.validarSomenteLetras(evt);
+    }//GEN-LAST:event_tfEixoTecnologicoKeyTyped
 
     private void getDados() throws CursoException {
         curso.setNome(tfNome.getText());

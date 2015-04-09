@@ -23,6 +23,7 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
     DlgConsultarOrientador janelaConsulta = new DlgConsultarOrientador(null, true);
     private final OrientadorDAO orientadorDAO = new OrientadorDAO();
     private Orientador orientador;
+    private ValidadorDeTeclas validar;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -81,13 +82,17 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
         lbNome.setText("Nome");
 
         tfNome.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfNomeKeyTyped(evt);
+            }
+        });
 
         lbTitulacao.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbTitulacao.setText("Titulação");
 
         cbTitulacao.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         cbTitulacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Técnico", "Graduação", "Especialização", "MBA", "Mestrado", "Doutorado" }));
-        cbTitulacao.setSelectedIndex(-1);
 
         lbCpf.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbCpf.setText("CPF");
@@ -559,44 +564,45 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void ftfCpfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfCpfKeyTyped
-        String caracteres = "0987654321";
-        if (!caracteres.contains(evt.getKeyChar() + "")) {
-            evt.consume();
-        }
+        validar.validarSomenteNumeros(evt);
     }//GEN-LAST:event_ftfCpfKeyTyped
 
     private void ftfTelefoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfTelefoneKeyTyped
-        ftfCpfKeyTyped(evt);
+        validar.validarSomenteNumeros(evt);
     }//GEN-LAST:event_ftfTelefoneKeyTyped
 
     private void dtcDataEntradaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtcDataEntradaKeyTyped
-        ftfCpfKeyTyped(evt);
+        validar.validarSomenteNumeros(evt);
     }//GEN-LAST:event_dtcDataEntradaKeyTyped
 
     private void tfAgenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAgenciaKeyTyped
-        ftfCpfKeyTyped(evt);
+        validar.validarSomenteNumeros(evt);
     }//GEN-LAST:event_tfAgenciaKeyTyped
 
     private void tfContaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfContaKeyTyped
-        ftfCpfKeyTyped(evt);
+        validar.validarSomenteNumeros(evt);
     }//GEN-LAST:event_tfContaKeyTyped
 
     private void tfNumeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNumeroKeyTyped
-        ftfCpfKeyTyped(evt);
+        validar.validarSomenteNumeros(evt);
     }//GEN-LAST:event_tfNumeroKeyTyped
 
     private void ftfRgKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfRgKeyTyped
-        ftfCpfKeyTyped(evt);
+        validar.validarSomenteNumeros(evt);
     }//GEN-LAST:event_ftfRgKeyTyped
+
+    private void tfNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNomeKeyTyped
+        validar.validarSomenteLetras(evt);
+    }//GEN-LAST:event_tfNomeKeyTyped
 
     private void setDados() {
         this.tfNome.setText(orientador.getNome());
         this.jChStatus.setSelected(orientador.isStatus());
-        this.ftfCpf.setText(orientador.getCpf().toString());
-        this.ftfRg.setText(orientador.getRg().toString());
+        this.ftfCpf.setText(orientador.getCpf());
+        this.ftfRg.setText(orientador.getRg());
         this.cbTitulacao.setSelectedItem(orientador.getTitulacao());
         this.dtcDataEntrada.setDate(orientador.getDataEntrada());
-        this.ftfTelefone.setText(orientador.getTelefone().toString());
+        this.ftfTelefone.setText(orientador.getTelefone());
         this.tfEmail.setText(orientador.getEmail());
         this.cbEstado.setSelectedItem(orientador.getEndereco().getEstado());
         this.tfCidade.setText(orientador.getEndereco().getCidade());
@@ -676,7 +682,7 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
 
     private void limparCampos() {
         this.tfNome.setText(null);
-        this.cbTitulacao.setSelectedIndex(-1);
+        this.cbTitulacao.setSelectedIndex(0);
         this.ftfCpf.setText(null);
         this.ftfRg.setText(null);
         this.dtcDataEntrada.setDate(null);

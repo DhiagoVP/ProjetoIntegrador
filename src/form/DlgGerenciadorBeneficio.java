@@ -28,7 +28,7 @@ public class DlgGerenciadorBeneficio extends javax.swing.JDialog {
 
     private Beneficio beneficio;
     private BeneficioDAO beneficioDAO = new BeneficioDAO();
-
+    private ValidadorDeTeclas validar;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,6 +66,11 @@ public class DlgGerenciadorBeneficio extends javax.swing.JDialog {
         labelDescricao.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         labelDescricao.setText("Descrição");
 
+        tfValor.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfValorCaretUpdate(evt);
+            }
+        });
         tfValor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfValorKeyTyped(evt);
@@ -76,6 +81,11 @@ public class DlgGerenciadorBeneficio extends javax.swing.JDialog {
         taDescricao.setRows(5);
         jScrollPane1.setViewportView(taDescricao);
 
+        tfTipo.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfTipoCaretUpdate(evt);
+            }
+        });
         tfTipo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfTipoKeyTyped(evt);
@@ -125,6 +135,7 @@ public class DlgGerenciadorBeneficio extends javax.swing.JDialog {
         buttonCadastrar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         buttonCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cadastrar.png"))); // NOI18N
         buttonCadastrar.setText("Cadastrar");
+        buttonCadastrar.setEnabled(false);
         buttonCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonCadastrarActionPerformed(evt);
@@ -223,9 +234,7 @@ public class DlgGerenciadorBeneficio extends javax.swing.JDialog {
         if (tfTipo.getText().isEmpty() && tfValor.getText().isEmpty() && taDescricao.getText().isEmpty()) {
             this.dispose();
         } else {
-            tfTipo.setText(null);
-            tfValor.setText(null);
-            taDescricao.setText(null);
+            limparCampos();
         }
     }//GEN-LAST:event_buttonCancelarActionPerformed
 
@@ -260,18 +269,20 @@ public class DlgGerenciadorBeneficio extends javax.swing.JDialog {
     }//GEN-LAST:event_buttonExcluirActionPerformed
 
     private void tfValorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfValorKeyTyped
-        String caracteres = "0987654321.";
-        if (!caracteres.contains(evt.getKeyChar() + "")) {
-            evt.consume();
-        }
+        validar.validarNumerosComPonto(evt);
     }//GEN-LAST:event_tfValorKeyTyped
 
     private void tfTipoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfTipoKeyTyped
-        String caracteres = "0987654321!@#$%¨&*()'<>;:][}{=-_+§ªº¬¹/?°²³~´`^";
-        if (caracteres.contains(evt.getKeyChar() + "")) {
-            evt.consume();
-        }
+        validar.validarSomenteLetras(evt);
     }//GEN-LAST:event_tfTipoKeyTyped
+
+    private void tfTipoCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfTipoCaretUpdate
+        ativarBotaoCadastrar();
+    }//GEN-LAST:event_tfTipoCaretUpdate
+
+    private void tfValorCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfValorCaretUpdate
+        ativarBotaoCadastrar();
+    }//GEN-LAST:event_tfValorCaretUpdate
 
     public void carregarDadosAdicionar() {
         beneficio.setTipo(tfTipo.getText());
@@ -295,11 +306,12 @@ public class DlgGerenciadorBeneficio extends javax.swing.JDialog {
         tfTipo.setText(null);
         tfValor.setText(null);
         taDescricao.setText(null);
+        buttonCadastrar.setEnabled(false);
     }
 
     public void estadoInicial() {
         buttonAlterar.setEnabled(false);
-        buttonCadastrar.setEnabled(true);
+        buttonCadastrar.setEnabled(false);
         buttonCancelar.setEnabled(true);
         buttonConsultar.setEnabled(true);
         buttonExcluir.setEnabled(false);
@@ -372,4 +384,12 @@ public class DlgGerenciadorBeneficio extends javax.swing.JDialog {
     private javax.swing.JTextField tfTipo;
     private javax.swing.JTextField tfValor;
     // End of variables declaration//GEN-END:variables
+
+    private void ativarBotaoCadastrar() {
+        if(!tfTipo.getText().isEmpty() && tfValor.getText().isEmpty()) {
+            buttonCadastrar.setEnabled(true);
+        } else {
+            buttonCadastrar.setEnabled(false);
+        }
+    }
 }

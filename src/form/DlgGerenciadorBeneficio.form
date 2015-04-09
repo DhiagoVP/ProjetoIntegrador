@@ -130,6 +130,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="tfValor">
           <Events>
+            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="tfValorCaretUpdate"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfValorKeyTyped"/>
           </Events>
         </Component>
@@ -150,6 +151,7 @@
         </Container>
         <Component class="javax.swing.JTextField" name="tfTipo">
           <Events>
+            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="tfTipoCaretUpdate"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfTipoKeyTyped"/>
           </Events>
         </Component>
@@ -171,6 +173,7 @@
               <Image iconType="3" name="/icon/Cadastrar.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Cadastrar"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonCadastrarActionPerformed"/>

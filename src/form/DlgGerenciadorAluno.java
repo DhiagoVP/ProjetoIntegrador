@@ -37,6 +37,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
 //    DlgConsultarAluno janelaConsulta = new DlgConsultarAluno(null, true);
     private final AlunoDAO alunoDAO = new AlunoDAO();
     private Aluno aluno;
+private ValidadorDeTeclas validar;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -253,6 +254,11 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         lbNome.setText("Nome");
 
         tfNome.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfNome.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tfNomeCaretUpdate(evt);
+            }
+        });
         tfNome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfNomeKeyTyped(evt);
@@ -268,6 +274,11 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
             ex.printStackTrace();
         }
         ftfCpf.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        ftfCpf.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                ftfCpfCaretUpdate(evt);
+            }
+        });
         ftfCpf.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 ftfCpfKeyTyped(evt);
@@ -281,21 +292,33 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         lbDataNascimento.setText("Data de Nascimento");
 
         dtcDataNascimento.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        dtcDataNascimento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                dtcDataNascimentoKeyTyped(evt);
+            }
+        });
 
         lbSexo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbSexo.setText("Sexo");
 
         cbSexo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         cbSexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Masculino", "Feminino" }));
-        cbSexo.setSelectedIndex(-1);
+        cbSexo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbSexoItemStateChanged(evt);
+            }
+        });
 
         lbEscolaridade.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbEscolaridade.setText("Escolaridade");
 
         cbEscolaridade.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         cbEscolaridade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Analfabeto", "Ensino fundamental incompleto", "Ensino fundamental completo", "Ensino médio incompleto", "Ensino médio completo", "Ensino superior incompleto", "Ensino superior completo", "Pós-graduação" }));
-        cbEscolaridade.setSelectedIndex(-1);
-        cbEscolaridade.setSelectedItem(-1);
+        cbEscolaridade.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbEscolaridadeItemStateChanged(evt);
+            }
+        });
 
         lbProfissão.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbProfissão.setText("Profissão");
@@ -311,6 +334,11 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
             ex.printStackTrace();
         }
         ftfTelefone.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        ftfTelefone.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                ftfTelefoneCaretUpdate(evt);
+            }
+        });
         ftfTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 ftfTelefoneKeyTyped(evt);
@@ -328,6 +356,11 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
             ex.printStackTrace();
         }
         ftfRg.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        ftfRg.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                ftfRgCaretUpdate(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelDadosPessoaisLayout = new javax.swing.GroupLayout(panelDadosPessoais);
         panelDadosPessoais.setLayout(panelDadosPessoaisLayout);
@@ -408,7 +441,6 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
 
         cbSituacao.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         cbSituacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Em curso", "Cancelado", "Apto", "Não apto" }));
-        cbSituacao.setSelectedIndex(-1);
         cbSituacao.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbSituacaoItemStateChanged(evt);
@@ -422,6 +454,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         btCadastrar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/cadastrar.png"))); // NOI18N
         btCadastrar.setText("Cadastrar");
+        btCadastrar.setEnabled(false);
         btCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btCadastrarActionPerformed(evt);
@@ -661,34 +694,56 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void ftfCpfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfCpfKeyTyped
-        String caracteres = "0987654321";
-        if (!caracteres.contains(evt.getKeyChar() + "")) {
-            evt.consume();
-        }
+        validar.validarSomenteNumeros(evt);
     }//GEN-LAST:event_ftfCpfKeyTyped
 
     private void ftfTelefoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfTelefoneKeyTyped
-        ftfCpfKeyTyped(evt);
+        validar.validarSomenteNumeros(evt);
     }//GEN-LAST:event_ftfTelefoneKeyTyped
 
     private void tfAgenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAgenciaKeyTyped
-        ftfCpfKeyTyped(evt);
+        validar.validarSomenteNumeros(evt);
     }//GEN-LAST:event_tfAgenciaKeyTyped
 
     private void tfNumeroContaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNumeroContaKeyTyped
-        ftfCpfKeyTyped(evt);
+        validar.validarSomenteNumeros(evt);
     }//GEN-LAST:event_tfNumeroContaKeyTyped
 
     private void tfNumeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNumeroKeyTyped
-        ftfCpfKeyTyped(evt);
+        validar.validarSomenteNumeros(evt);
     }//GEN-LAST:event_tfNumeroKeyTyped
 
     private void tfNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNomeKeyTyped
-        String caracteres = "0987654321";
-        if (caracteres.contains(evt.getKeyChar() + "")) {
-            evt.consume();
-        }
+        validar.validarSomenteLetras(evt);
     }//GEN-LAST:event_tfNomeKeyTyped
+
+    private void tfNomeCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfNomeCaretUpdate
+        ativarBotaoConfirmar();
+    }//GEN-LAST:event_tfNomeCaretUpdate
+
+    private void ftfCpfCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_ftfCpfCaretUpdate
+        ativarBotaoConfirmar();
+    }//GEN-LAST:event_ftfCpfCaretUpdate
+
+    private void ftfRgCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_ftfRgCaretUpdate
+        ativarBotaoConfirmar();
+    }//GEN-LAST:event_ftfRgCaretUpdate
+
+    private void ftfTelefoneCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_ftfTelefoneCaretUpdate
+        ativarBotaoConfirmar();
+    }//GEN-LAST:event_ftfTelefoneCaretUpdate
+
+    private void cbSexoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbSexoItemStateChanged
+        ativarBotaoConfirmar();
+    }//GEN-LAST:event_cbSexoItemStateChanged
+
+    private void cbEscolaridadeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbEscolaridadeItemStateChanged
+        ativarBotaoConfirmar();
+    }//GEN-LAST:event_cbEscolaridadeItemStateChanged
+
+    private void dtcDataNascimentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtcDataNascimentoKeyTyped
+        validar.validarSomenteNumeros(evt);
+    }//GEN-LAST:event_dtcDataNascimentoKeyTyped
 
     private void setDados() {
         this.tfNome.setText(aluno.getNome());
@@ -790,8 +845,8 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         this.ftfCpf.setText(null);
         this.ftfRg.setText(null);
         this.dtcDataNascimento.setDate(null);
-        this.cbSexo.setSelectedIndex(-1);
-        this.cbEscolaridade.setSelectedIndex(-1);
+        this.cbSexo.setSelectedIndex(0);
+        this.cbEscolaridade.setSelectedIndex(0);
         this.tfProfissao.setText(null);
         this.ftfTelefone.setText(null);
         this.tfEmail.setText(null);
@@ -802,14 +857,14 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
         this.tfNumero.setText(null);
         this.tfBairro.setText(null);
         this.tfCidade.setText(null);
-        this.cbEstado.setSelectedIndex(-1);
+        this.cbEstado.setSelectedIndex(0);
         this.taObservacao.setText(null);
         this.cbSituacao.setSelectedIndex(0);
         cbTurma.setSelectedIndex(0);
     }
 
     private void tratarControles(boolean status) {
-        this.btCadastrar.setEnabled(!status);
+        this.btCadastrar.setEnabled(status);
         this.btAlterar.setEnabled(status);
         this.btExcluir.setEnabled(status);
         cbSituacao.setEnabled(status);
@@ -934,12 +989,21 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
     }
 
     private boolean verificarCamposVazios() {
-        return tfNome.getText().isEmpty() || !ftfCpf.getText().contains("1234567890") || !ftfRg.getText().contains("123456789")
+        return tfNome.getText().isEmpty() || !ftfCpf.getText().contains("1234567890") || !ftfRg.getText().contains("1234567890")
                 || dtcDataNascimento.getDate() == null || cbSexo.getSelectedIndex() < 0 || cbEscolaridade.getSelectedIndex() < 0
-                || tfProfissao.getText().isEmpty() || !ftfTelefone.getText().contains("123456789") || tfEmail.getText().isEmpty()
+                || tfProfissao.getText().isEmpty() || !ftfTelefone.getText().contains("1234567890") || tfEmail.getText().isEmpty()
                 || tfNomeBanco.getText().isEmpty() || tfAgencia.getText().isEmpty() || tfNumeroConta.getText().isEmpty()
                 || tfRua.getText().isEmpty() || tfBairro.getText().isEmpty() || tfNumero.getText().isEmpty()
                 || tfCidade.getText().isEmpty() || cbEstado.getSelectedIndex() < 0;
     }
 
+    private void ativarBotaoConfirmar() {
+        if (!tfNome.getText().isEmpty() && !ftfRg.getText().contains("1234567890") && !ftfCpf.getText().contains("1234567890")
+                && dtcDataNascimento.getDate() != null && cbSexo.getSelectedIndex() > -1 && cbEscolaridade.getSelectedIndex()>-1
+                && !ftfTelefone.getText().contains("1234567890")){
+            btCadastrar.setEnabled(true);
+        } else {
+            btCadastrar.setEnabled(false);
+        }
+    }
 }

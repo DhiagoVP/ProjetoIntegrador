@@ -326,7 +326,7 @@ public class DlgDadosEspecificosRelatorios extends javax.swing.JDialog {
     }
     
     private void verificarCamposVazios() {
-        if (!tfLc.getText().isEmpty() && !tfSistec.getText().isEmpty() && ftfPlanilha.getText().contains("123456789")){
+        if (!tfLc.getText().isEmpty() && !tfSistec.getText().isEmpty() && !ftfPlanilha.getText().contains("1234567890")){
         btConfirmar.setEnabled(true);
     } else {
             btConfirmar.setEnabled(false);

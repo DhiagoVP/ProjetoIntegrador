@@ -179,6 +179,9 @@
               <Font name="Arial" size="14" style="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfNomeKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lbTitulacao">
           <Properties>
@@ -203,7 +206,6 @@
                 <StringItem index="5" value="Doutorado"/>
               </StringArray>
             </Property>
-            <Property name="selectedIndex" type="int" value="-1"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lbCpf">
