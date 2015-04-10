@@ -10,6 +10,8 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import static javax.swing.JFileChooser.SAVE_DIALOG;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -232,30 +234,49 @@ public class DlgDadosEspecificosRelatorios extends javax.swing.JDialog {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(DlgDadosEspecificosRelatorios.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String filename = File.separator + "tmp";
-        JFileChooser chooser = new JFileChooser(new File(filename));
-        chooser.updateUI(); //Create UI objects
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); //Now set look and feel
-            //refreshUI(chooser, false);
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(FrmTelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("PDF Files", "pdf");
-        chooser.setAcceptAllFileFilterUsed(false);
-        chooser.setFileFilter(fileFilter);
-        chooser.showSaveDialog(this);
-        File selFile = chooser.getSelectedFile();
-        String nome = selFile.getName();
-        nome = nome.substring(nome.lastIndexOf('.') + 1);
-        String caminho;
-        if(!nome.equalsIgnoreCase("pdf")){
-            String[] array = fileFilter.getExtensions();
-            caminho = selFile.getAbsolutePath()+ "." + array[0];
-        }
-        else
-            caminho = selFile.getAbsolutePath();
-        tfCaminho.setText(caminho);
+        JFileChooser fc = new JFileChooser() {
+                @Override
+                public void approveSelection() {
+                    File f = getSelectedFile();
+                    if (f.exists() && getDialogType() == SAVE_DIALOG) {
+                        int result = JOptionPane.showConfirmDialog(this, "O arquivo já existe, sobrescrever?", "Arquivo existente", JOptionPane.YES_NO_CANCEL_OPTION);
+                        switch (result) {
+                            case JOptionPane.YES_OPTION:
+                                super.approveSelection();
+                                return;
+                            case JOptionPane.NO_OPTION:
+                                return;
+                            case JOptionPane.CLOSED_OPTION:
+                                return;
+                            case JOptionPane.CANCEL_OPTION:
+                                cancelSelection();
+                                return;
+                        }
+                    }
+                    super.approveSelection();
+                }
+            };
+            File fileName = new File("", ".pdf");
+            fc.updateUI(); //Create UI objects
+            fc.setAcceptAllFileFilterUsed(false);
+            fc.setDialogType(JFileChooser.SAVE_DIALOG);
+            fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+             FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf");
+            fc.setFileFilter(filter);
+            fc.setDialogTitle("Salvar arquivo PDF");
+            fc.setFileHidingEnabled(false);
+            int returnVal = fc.showSaveDialog(null);
+            if (returnVal == JFileChooser.APPROVE_OPTION) 
+                fileName = fc.getSelectedFile();
+            if(!fileName.getAbsolutePath().contains(".pdf"))
+                tfCaminho.setText(fileName.getAbsolutePath()+".pdf");
+            else
+                tfCaminho.setText(fileName.getAbsolutePath());
     }//GEN-LAST:event_btPesquisarCaminhoActionPerformed
 
     private void tfSistecCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfSistecCaretUpdate

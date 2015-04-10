@@ -30,7 +30,7 @@ import table.TurmaTableModel;
  */
 public class DlgConsultarTurma extends javax.swing.JDialog {
 
-    List<Turma> turmasEncontradas;
+    List<Turma> totalTurmasEncontradas;
     TurmaTableModel turmaTable;
     DlgGerenciadorTurma dlgTurma = new DlgGerenciadorTurma(null, true);
 
@@ -176,100 +176,113 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btBuscarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarTurmaActionPerformed
-        //TODO: Criar classe abstrata ItemDePesquisaTurma e fazer com que os itens herdem dessa classe
-        //fazer herança e polimorfismo
-        String busca = cbItensDeBusca.getSelectedItem().toString();
-        String nome = tfItemDeBusca.getText();
-        Curso curso;
-        Orientador orientador;
-        Professor professor;
-        Supervisor supervisor;
-        switch (busca) {
-            case "Curso":
-                try {
-                    curso = new CursoDAO().buscarPorNome(nome);
-                    if (curso == null) {
-                        objetoNaoEncontrado(nome, busca);
-                        return;
-                    } 
-                    turmasEncontradas.clear();
-                    turmasEncontradas = new TurmaDAO().buscarPorCurso(curso);
-                    
-                    if (turmasEncontradas.isEmpty()) {
-                        semTurma(nome, busca);
-                        return;
+        if (tfItemDeBusca.getText().isEmpty()) {
+            iniciarTabela();
+        } else {
+            String busca = cbItensDeBusca.getSelectedItem().toString();
+            String nome = tfItemDeBusca.getText();
+            List<Curso> cursos;
+            List<Turma> turmasEncontradas;
+            List<Orientador> orientadores;
+            List<Professor> professores;
+            List<Supervisor> supervisores;
+            switch (busca) {
+                case "Curso":
+                    try {
+                        cursos = new CursoDAO().buscarPorNome(nome);
+                        if (cursos.isEmpty()) {
+                            return;
+                        }
+                        totalTurmasEncontradas.clear();
+                        for(Curso curso : cursos){
+                            turmasEncontradas = new TurmaDAO().buscarPorCurso(curso);
+                            for(Turma turma : turmasEncontradas){
+                                totalTurmasEncontradas.add(turma);
+                            }
+                        }
+                        if (totalTurmasEncontradas.isEmpty()) {
+                            semTurma(nome, busca);
+                            return;
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (SQLException ex) {
-                    Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
+                    break;
+                case "Nome":
+                    try {
+                        totalTurmasEncontradas.clear();
+                        totalTurmasEncontradas = new TurmaDAO().buscarPorNome(nome);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
+                case "Orientador": {
+                    try {
+                        orientadores = new OrientadorDAO().buscarPorNomeRetornandoAtributosSimples(nome);
+                        if (orientadores.isEmpty()) {
+                            return;
+                        }
+                        totalTurmasEncontradas.clear();
+                        for(Orientador orientador : orientadores){
+                            turmasEncontradas = new TurmaDAO().buscarPorOrientador(orientador);
+                            for(Turma turma : turmasEncontradas){
+                                totalTurmasEncontradas.add(turma);
+                            }
+                        }
+                        if (totalTurmasEncontradas.isEmpty()) {
+                            semTurma(nome, busca);
+                            return;
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 break;
-            case "Nome":
-                try {
-                    turmasEncontradas = new TurmaDAO().buscarPorNome(nome);
-                } catch (SQLException ex) {
-                    Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                break;
-            case "Orientador": { 
-                try {
-                    orientador = new OrientadorDAO().buscarPorNomeRetornandoAtributosSimples(nome);
-                    if (orientador == null) {
-                        objetoNaoEncontrado(nome, busca);
-                        return;
-                    } 
-                    turmasEncontradas.clear();
-                    turmasEncontradas = new TurmaDAO().buscarPorOrientador(orientador);
-                    
-                    if (turmasEncontradas.isEmpty()) {
-                        semTurma(nome, busca);
-                        return;
+                case "Professor":
+                    try {
+                        professores = new ProfessorDAO().buscarPorNomeRetornandoAtributosSimples(nome);
+                        if (professores.isEmpty()) {
+                            return;
+                        }
+                        totalTurmasEncontradas.clear();
+                       for(Professor professor : professores){
+                            turmasEncontradas = new TurmaDAO().buscarPorProfessor(professor);
+                            for(Turma turma : turmasEncontradas){
+                                totalTurmasEncontradas.add(turma);
+                            }
+                        }
+                        if (totalTurmasEncontradas.isEmpty()) {
+                            semTurma(nome, busca);
+                            return;
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
-                } catch (SQLException ex) {
-                    Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                    break;
+                case "Supervisor":
+                    try {
+                        supervisores = new SupervisorDAO().buscarPorNomeRetornandoAtributosSimples(nome);
+                        if (supervisores.isEmpty()) {
+                            return;
+                        }
+                        totalTurmasEncontradas.clear();
+                        for(Supervisor supervisor : supervisores){
+                            turmasEncontradas = new TurmaDAO().buscarPorSupervisor(supervisor);
+                            for(Turma turma : turmasEncontradas){
+                                totalTurmasEncontradas.add(turma);
+                            }
+                        }
+                        if (totalTurmasEncontradas.isEmpty()) {
+                            semTurma(nome, busca);
+                            return;
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
             }
-            break;
-            case "Professor":
-                try {
-                    professor = new ProfessorDAO().buscarPorNomeRetornandoAtributosSimples(nome);
-                    if (professor == null) {
-                        objetoNaoEncontrado(nome, busca);
-                        return;
-                        
-                    }
-                    turmasEncontradas.clear();
-                    turmasEncontradas = new TurmaDAO().buscarPorProfessor(professor);
-                    
-                    if (turmasEncontradas.isEmpty()) {
-                        semTurma(nome, busca);
-                        return;
-                    }
-                }catch (SQLException ex) {
-                    Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                break;
-            case "Supervisor":
-                try {
-                    supervisor = new SupervisorDAO().buscarPorNomeRetornandoAtributosSimples(nome);
-                    if (supervisor == null) {
-                        objetoNaoEncontrado(nome, busca);
-                        return;
-                    } 
-                    turmasEncontradas.clear();
-                    turmasEncontradas = new TurmaDAO().buscarPorSupervisor(supervisor);
-                    
-                    if (turmasEncontradas.isEmpty()) {
-                        semTurma(nome, busca);
-                        return;
-                    }
-                    
-                } catch (SQLException ex) {
-                    Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                break;
+            atualizarTabela();
         }
-        atualizarTabela();
     }//GEN-LAST:event_btBuscarTurmaActionPerformed
 
     private void objetoNaoEncontrado(String nome, String tipoDeBusca) throws HeadlessException {
@@ -280,7 +293,7 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
 
     private void btEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarActionPerformed
         int indice = tbTurmasEncontradas.getSelectedRow();
-        int id = turmasEncontradas.get(indice).getId();
+        int id = totalTurmasEncontradas.get(indice).getId();
         if (indice >= 0) {
             try {
                 dlgTurma.recuperarDadosDeTurmaParaEdicao(id);
@@ -364,13 +377,13 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void atualizarTabela() {
-        turmaTable = new TurmaTableModel((ArrayList<Turma>) turmasEncontradas);
+        turmaTable = new TurmaTableModel((ArrayList<Turma>) totalTurmasEncontradas);
         tbTurmasEncontradas.setModel(turmaTable);
     }
 
     private void iniciarTabela() {
         try {
-            turmasEncontradas = new TurmaDAO().listarTodos();
+            totalTurmasEncontradas = new TurmaDAO().listarTodos();
             atualizarTabela();
         } catch (SQLException ex) {
             Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);

@@ -1392,7 +1392,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
                 new SupervisorDAO().buscarPorNome(cbSupervisor.getSelectedItem().toString()),
                 listaProfessoresTabela,
                 tfResponsavel.getText(),
-                new CursoDAO().buscarPorNome(cbCurso.getSelectedItem().toString()),
+                new CursoDAO().buscarPorNomeCompleto(cbCurso.getSelectedItem().toString()),
                 listaDeDisciplinas);
     }
 
@@ -1416,7 +1416,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
                 new SupervisorDAO().buscarPorNome(cbSupervisor.getSelectedItem().toString()),
                 listaProfessoresTabela,
                 tfResponsavel.getText(),
-                new CursoDAO().buscarPorNome(cbCurso.getSelectedItem().toString()),
+                new CursoDAO().buscarPorNomeCompleto(cbCurso.getSelectedItem().toString()),
                 listaDeDisciplinas);
     }
 

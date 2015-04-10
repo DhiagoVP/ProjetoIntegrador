@@ -144,20 +144,20 @@ public class SupervisorDAO {
         return null;
     }
     
-    public Supervisor buscarPorNomeRetornandoAtributosSimples(String nome) throws SQLException {
+    public List<Supervisor> buscarPorNomeRetornandoAtributosSimples(String nome) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorNome = "SELECT * FROM Supervisor s WHERE s.Nome LIKE \"" + nome + "%\" ";
+        String sqlPesquisarPorNome = "SELECT * FROM Supervisor s WHERE s.Nome LIKE %" + nome + "%'";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorNome);
         rs = pstm.executeQuery();
-        Supervisor supervisor;
+        List<Supervisor> supervisores = null;
         while (rs.next()) {
-            supervisor = new Supervisor(
+            Supervisor supervisor = new Supervisor(
                     rs.getInt("s.idSupervisor"),
                     rs.getString("s.nome"));
-            return supervisor;
+            supervisores.add(supervisor);
         }
-        return null;
+        return supervisores;
     }
 
     public Supervisor buscarPorCpf(String cpf) throws SQLException {

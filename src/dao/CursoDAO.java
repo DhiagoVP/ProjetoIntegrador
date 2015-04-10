@@ -57,21 +57,36 @@ public class CursoDAO {
         DBConnection.close();
     }
 
-    public Curso buscarPorNome(String nome) throws SQLException {
+    public List<Curso> buscarPorNome(String nome) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
         String sqlBuscar = "SELECT * FROM Curso c WHERE c.nome LIKE '%" + nome + "%'";
         pstm = DBConnection.getConnection().prepareStatement(sqlBuscar);
-        //pstm.setString(1, nome);
         rs = pstm.executeQuery();
-        Curso curso;
+        List<Curso> cursos = new ArrayList<>();
+        while (rs.next()) {
+            Curso curso = new Curso(
+                    rs.getInt("c.idCurso"), 
+                    rs.getString("c.nome"));
+            cursos.add(curso);
+        }
+        return cursos;
+    }
+    
+    public Curso buscarPorNomeCompleto(String nome) throws SQLException {
+        PreparedStatement pstm;
+        ResultSet rs;
+        String sqlBuscar = "SELECT * FROM Curso c WHERE c.nome = ?";
+        pstm = DBConnection.getConnection().prepareStatement(sqlBuscar);
+        pstm.setString(1, nome);
+        rs = pstm.executeQuery();
+        Curso curso = null;
         while (rs.next()) {
             curso = new Curso(
                     rs.getInt("c.idCurso"), 
                     rs.getString("c.nome"));
-            return curso;
         }
-        return null;
+        return curso;
     }
 
     public Curso buscarPorId(int idCurso) throws SQLException {

@@ -144,22 +144,22 @@ public class OrientadorDAO {
         return null;
     }
 
-    public Orientador buscarPorNomeRetornandoAtributosSimples(String nome) throws SQLException {
+    public List<Orientador> buscarPorNomeRetornandoAtributosSimples(String nome) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorNome = "SELECT * FROM Orientador o WHERE o.Nome = ? ";
+        String sqlPesquisarPorNome = "SELECT * FROM Orientador o WHERE o.nome LIKE '%" + nome + "%'";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorNome);
         pstm.setString(1, nome);
         rs = pstm.executeQuery();
-        Orientador orientador;
+        List<Orientador> orientadores = null;
         while (rs.next()) {
-            orientador = new Orientador(
+            Orientador orientador = new Orientador(
                     rs.getInt("o.idOrientador"),
                     rs.getString("o.nome")
             );
-            return orientador;
+            orientadores.add(orientador);
         }
-        return null;
+        return orientadores;
     }
 
     public Orientador buscarPorCpf(String cpf) throws SQLException {

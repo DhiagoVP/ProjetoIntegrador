@@ -142,22 +142,24 @@ public class ProfessorDAO {
         return null;
     }
     
-    public Professor buscarPorNomeRetornandoAtributosSimples(String nome) throws SQLException{
+    public List<Professor> buscarPorNomeRetornandoAtributosSimples(String nome) throws SQLException{
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorNome = "SELECT * FROM Professor p WHERE p.Nome = ?";
+        String sqlPesquisarPorNome = "SELECT * FROM Professor p, Endereco e, ContaBancaria cb WHERE p.Nome "
+                + "LIKE '%" + nome + "%' AND p.idEndereco = e.idEndereco AND p.idContaBancaria = "
+                + "cb.idContaBancaria;";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorNome);        
         pstm.setString(1, nome);
         rs = pstm.executeQuery();
-        Professor professor;
+        List<Professor> professores =null;
         while (rs.next()) {
-            professor = new Professor(
+            Professor professor = new Professor(
                     rs.getInt("p.idProfessor"),
                     rs.getString("nome")
             );
-            return professor;
+            professores.add(professor);
         }
-        return null;
+        return professores;
     }
 
     public Professor buscarPorCpf(String cpf) throws SQLException {

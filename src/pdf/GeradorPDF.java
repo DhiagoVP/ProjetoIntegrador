@@ -37,7 +37,7 @@ public class GeradorPDF {
         document.close();
     }
 
-    private PdfPTable createTable(Pagamento pagamento, DadosEspecificos dados) {
+    private PdfPTable createTable(Pagamento pagamento, DadosEspecificos dados) throws DocumentException {
         PdfPTable table = new PdfPTable(9);
         PdfPCell cell;
         cell = new PdfPCell(new Phrase("Câmpus: "+ pagamento.getTurma().getCampusOfertante() 
@@ -68,6 +68,8 @@ public class GeradorPDF {
         table.addCell("Vale Alimentação R$");
         table.addCell("Faltas R$");
         table.addCell("Valor Total R$");
+        double totalTransporte = 0.0, totalAlimentacao = 0.0, totalFaltas = 0.0,
+                 valorBeneficio = 0.0;
         for(Aluno aluno : pagamento.getAlunos()){
             table.addCell(aluno.getNome());
             table.addCell(aluno.getCpf());
@@ -75,11 +77,29 @@ public class GeradorPDF {
             table.addCell(aluno.getContaBancaria().getAgencia()+"");
             table.addCell(aluno.getContaBancaria().getNumeroConta()+"");
             for(Beneficio beneficio : pagamento.getBenefios()){
-                table.addCell("R$"+ (pagamento.getDiasLetivos() - aluno.getFaltas()) * beneficio.getValor());
+                valorBeneficio = (pagamento.getDiasLetivos() - aluno.getFaltas()) * beneficio.getValor();
+                table.addCell("R$"+ valorBeneficio);
+                if(beneficio.getTipo().equals("Vale Alimentação"))
+                    totalAlimentacao += valorBeneficio;
+                else
+                    totalTransporte += valorBeneficio;
             }
             table.addCell("R$" + aluno.getValorDescontado());
+            totalFaltas += aluno.getValorDescontado();
             table.addCell("R$" + aluno.getValorRecebido());
         }
+        table.addCell("Total");
+        table.addCell("");
+        table.addCell("");
+        table.addCell("");
+        table.addCell("");
+        table.addCell("R$ " + totalTransporte);
+        table.addCell("R$ " + totalAlimentacao);
+        table.addCell("R$ " + totalFaltas);
+        table.addCell("R$ " + pagamento.getValorAPagarPorTurma());
+        
+        float[] columnWidths = new float[] {27f, 18f, 6f, 9f, 13f, 15f, 15f, 13f, 15f};
+        table.setWidths(columnWidths);
         return table;
     }
 }
