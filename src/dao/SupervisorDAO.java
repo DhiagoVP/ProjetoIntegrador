@@ -147,7 +147,7 @@ public class SupervisorDAO {
     public List<Supervisor> buscarPorNomeRetornandoAtributosSimples(String nome) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorNome = "SELECT * FROM Supervisor s WHERE s.Nome LIKE %" + nome + "%'";
+        String sqlPesquisarPorNome = "SELECT * FROM Supervisor s WHERE s.Nome LIKE '%" + nome + "%'";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorNome);
         rs = pstm.executeQuery();
         List<Supervisor> supervisores = null;

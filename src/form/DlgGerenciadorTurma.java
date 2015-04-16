@@ -72,9 +72,7 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         btNovoCurso = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
         tfNomeTurma = new javax.swing.JTextField();
-        tfEixoTecnologico = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         tfCidadeDemandante = new javax.swing.JTextField();
@@ -192,12 +190,7 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Curso");
 
-        jLabel13.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel13.setText("Eixo Técnológico");
-
         tfNomeTurma.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-
-        tfEixoTecnologico.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel3.setText("Cidade Demandante");
@@ -310,59 +303,55 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfCidadeDemandante, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btRemoverProfessor)
-                            .addComponent(btAdicionarProfessor)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(cbOrientador, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btNovoOrientador, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btRemoverProfessor)
+                                    .addComponent(btAdicionarProfessor)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(cbSupervisor, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btNovoSupervisor))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(cbProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btNovoProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(cbCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btNovoCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(tfEixoTecnologico, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfNomeTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfCampusOfertante, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel7))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(cbOrientador, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btNovoOrientador, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(cbSupervisor, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btNovoSupervisor))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(cbProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btNovoProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(cbCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btNovoCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(tfNomeTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tfCampusOfertante, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tfResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(btNovoCurso)
                     .addComponent(cbCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(tfEixoTecnologico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(tfNomeTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -393,14 +382,14 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
                     .addComponent(jLabel6)
                     .addComponent(cbProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btNovoProfessor))
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btAdicionarProfessor)
                         .addGap(46, 46, 46)
                         .addComponent(btRemoverProfessor))
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel7, jLabel8});
@@ -513,9 +502,9 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
                     .addComponent(jLabel18))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbEstado, 0, 84, Short.MAX_VALUE)
+                    .addComponent(cbEstado, 0, 92, Short.MAX_VALUE)
                     .addComponent(tfNumero))
-                .addGap(72, 72, 72))
+                .addGap(50, 50, 50))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -546,7 +535,6 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
 
         cbTurno.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         cbTurno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Matutino", "Vespertino", "Noturno", "Integral" }));
-        cbTurno.setSelectedIndex(-1);
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel9.setText("Dias De Aula:");
@@ -604,7 +592,7 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -702,7 +690,7 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
                         .addComponent(btAdicionarDisciplina)
                         .addGap(190, 190, 190)
                         .addComponent(btRemoverDisciplina)))
-                .addGap(69, 81, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -750,19 +738,13 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(btCadastrarTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btConsultarTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btAlterarTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(96, 96, 96)
+                        .addGap(108, 108, 108)
                         .addComponent(btExcluirTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btCancelarTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btCancelarTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -771,13 +753,19 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(dateInicioTurma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(dateTerminoTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btCadastrarTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btConsultarTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btAlterarTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(25, 25, 25)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dateInicioTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
@@ -785,19 +773,18 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dateTerminoTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel23))
-                .addGap(41, 41, 41)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(41, 41, 41)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCadastrarTurma)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btConsultarTurma)
-                        .addComponent(btAlterarTurma)))
+                    .addComponent(btConsultarTurma)
+                    .addComponent(btAlterarTurma))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelarTurma)
                     .addComponent(btExcluirTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(38, 38, 38))
         );
 
         jTabbedPane1.getAccessibleContext().setAccessibleName("Endereço");
@@ -809,18 +796,18 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 622, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -828,16 +815,16 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -988,11 +975,6 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
         limparTodosCampos();
     }//GEN-LAST:event_btCadastrarTurmaActionPerformed
 
-    private void btCancelarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarTurmaActionPerformed
-        limparTodosCampos();
-        estadoInicial();
-    }//GEN-LAST:event_btCancelarTurmaActionPerformed
-
     private void btRemoverProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoverProfessorActionPerformed
         if (tbProfessor.getSelectedRow() < 0) {
             JOptionPane.showMessageDialog(this, "Selecione um professor da tabela antes de remover!");
@@ -1022,22 +1004,22 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
 
     private void btNovoCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoCursoActionPerformed
         new DlgGerenciadorCurso(null, true).setVisible(true);
-        initComboBox();
+        initComboBoxCurso();
     }//GEN-LAST:event_btNovoCursoActionPerformed
 
     private void btNovoProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoProfessorActionPerformed
         new DlgGerenciadorProfessor(null, true).setVisible(true);
-        initComboBox();
+        initComboBoxProfessor();
     }//GEN-LAST:event_btNovoProfessorActionPerformed
 
     private void btNovoSupervisorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoSupervisorActionPerformed
         new DlgGerenciadorSupervisor(null, true).setVisible(true);
-        initComboBox();
+        initComboBoxSupervisor();
     }//GEN-LAST:event_btNovoSupervisorActionPerformed
 
     private void btNovoOrientadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoOrientadorActionPerformed
         new DlgGerenciadorOrientador(null, true).setVisible(true);
-        initComboBox();
+        initComboBoxOrientador();
     }//GEN-LAST:event_btNovoOrientadorActionPerformed
 
     private void tfNumeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNumeroKeyTyped
@@ -1046,6 +1028,16 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
             evt.consume();
         }
     }//GEN-LAST:event_tfNumeroKeyTyped
+
+    private void btCancelarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarTurmaActionPerformed
+        if(tfNomeTurma.getText().isEmpty() && tfCampusOfertante.getText().isEmpty() 
+                && tfCidadeDemandante.getText().isEmpty())
+            this.dispose();
+        else{
+            limparTodosCampos();
+            estadoInicial();
+        }
+    }//GEN-LAST:event_btCancelarTurmaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1140,7 +1132,6 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel18;
@@ -1182,7 +1173,6 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
     private javax.swing.JTextField tfCampusOfertante;
     private javax.swing.JTextField tfCidade;
     private javax.swing.JTextField tfCidadeDemandante;
-    private javax.swing.JTextField tfEixoTecnologico;
     private javax.swing.JTextField tfNomeDisciplina;
     private javax.swing.JTextField tfNomeTurma;
     private javax.swing.JTextField tfNumero;
@@ -1195,7 +1185,6 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         tfCampusOfertante.setText(null);
         tfCidade.setText(null);
         tfCidadeDemandante.setText(null);
-        tfEixoTecnologico.setText(null);
         tfNomeDisciplina.setText(null);
         tfNomeTurma.setText(null);
         tfNumero.setText(null);
@@ -1209,12 +1198,6 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         listDiasDeAulaDaTurma.clearSelection();
         tbDisciplinas.clearSelection();
         tbProfessor.clearSelection();
-        cbCurso.setSelectedIndex(-1);
-        cbEstado.setSelectedIndex(-1);
-        cbOrientador.setSelectedIndex(-1);
-        cbProfessor.setSelectedIndex(-1);
-        cbSupervisor.setSelectedIndex(-1);
-        cbTurno.setSelectedIndex(-1);
 
         disciplinaTableModel = new DisciplinaTurmaTableModel();
         tbDisciplinas.setModel(disciplinaTableModel);
@@ -1230,67 +1213,21 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
     }
 
     private void initComboBox() {
-        cbCurso.removeAllItems();
-        cbOrientador.removeAllItems();
+        initComboBoxCurso();
+        initComboBoxOrientador();
+        initComboBoxSupervisor();
+        initComboBoxProfessor();
+    }
+
+    private void initComboBoxProfessor() {
         cbProfessor.removeAllItems();
-        cbSupervisor.removeAllItems();
-        listaDeCursos = new ArrayList();
-        listaDeOrientadores = new ArrayList();
         listaProfessoresCombo = new ArrayList();
-        listaDeSupervisores = new ArrayList();
-        try {
-            listaDeCursos = new CursoDAO().listarTodos();
-        
-
-} catch (SQLException ex) {
-            Logger.getLogger(DlgGerenciadorTurma.class  
-
-.getName()).log(Level.SEVERE, null, ex);
-        }
-        for (Curso curso : listaDeCursos) {
-            cbCurso.addItem(curso);
-        }
-
-        try {
-            listaDeOrientadores = new OrientadorDAO().listarTodos();
-        
-
-} catch (SQLException ex) {
-            Logger.getLogger(DlgGerenciadorTurma.class  
-
-.getName()).log(Level.SEVERE, null, ex);
-        }
-        for (Orientador orientador : listaDeOrientadores) {
-            cbOrientador.addItem(orientador);
-        }
-
-        try {
-            listaDeSupervisores = new SupervisorDAO().listarTodos();
-        
-
-} catch (SQLException ex) {
-            Logger.getLogger(DlgGerenciadorTurma.class  
-
-.getName()).log(Level.SEVERE, null, ex);
-        }
-        for (Supervisor supervisor : listaDeSupervisores) {
-            cbSupervisor.addItem(supervisor);
-        }
-
-        cbCurso.setSelectedIndex(-1);
-        cbOrientador.setSelectedIndex(-1);
-        cbSupervisor.setSelectedIndex(-1);
-        cbEstado.setSelectedIndex(-1);
-        cbTurno.setSelectedIndex(-1);
-
         try {
             listaProfessoresCombo = new ProfessorDAO().listarTodos();
-        
 
-} catch (SQLException ex) {
-            Logger.getLogger(DlgGerenciadorTurma.class  
-
-.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgGerenciadorTurma.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         if (tbProfessor.getRowCount() == 0) {
             for (Professor professor : listaProfessoresCombo) {
@@ -1312,7 +1249,52 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
                 }
             }
         }
-        cbProfessor.setSelectedIndex(-1);
+        cbProfessor.setSelectedIndex(0);
+    }
+
+    private void initComboBoxSupervisor() {
+        listaDeSupervisores = new ArrayList();
+        cbSupervisor.removeAllItems();
+        try {
+            listaDeSupervisores = new SupervisorDAO().listarTodos();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgGerenciadorTurma.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        for (Supervisor supervisor : listaDeSupervisores) {
+            cbSupervisor.addItem(supervisor);
+        }
+    }
+
+    private void initComboBoxOrientador() {
+        listaDeOrientadores = new ArrayList();
+        cbOrientador.removeAllItems();
+        try {
+            listaDeOrientadores = new OrientadorDAO().listarTodos();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgGerenciadorTurma.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        for (Orientador orientador : listaDeOrientadores) {
+            cbOrientador.addItem(orientador);
+        }
+    }
+
+    private void initComboBoxCurso() {
+        cbCurso.removeAllItems();
+        listaDeCursos = new ArrayList();
+        try {
+            listaDeCursos = new CursoDAO().listarTodos();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgGerenciadorTurma.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        for (Curso curso : listaDeCursos) {
+            cbCurso.addItem(curso);
+        }
     }
 
     private void atualizarListaDeAulasDaTurma() {
@@ -1439,7 +1421,6 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         tfNomeTurma.setText(velhaTurma.getNome());
         tfCampusOfertante.setText(velhaTurma.getCampusOfertante());
         tfCidadeDemandante.setText(velhaTurma.getCidadeDemandande());
-        tfEixoTecnologico.setText(velhaTurma.getCurso().getEixoTecnologico());
         tfCidade.setText(velhaTurma.getEndereco().getCidade());
         tfBairro.setText(velhaTurma.getEndereco().getBairro());
         tfNumero.setText(Integer.toString(velhaTurma.getEndereco().getNumero()));
@@ -1598,7 +1579,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         return cbCurso.getSelectedIndex() < 0 || cbEstado.getSelectedIndex() < 0
                 || cbOrientador.getSelectedIndex() < 0 || cbTurno.getSelectedIndex() < 0
                 || tfNomeTurma.getText().isEmpty() || tfCampusOfertante.getText().isEmpty()
-                || tfCidadeDemandante.getText().isEmpty() || tfEixoTecnologico.getText().isEmpty()
+                || tfCidadeDemandante.getText().isEmpty()
                 || tfResponsavel.getText().isEmpty() || tfRua.getText().isEmpty()
                 || tfBairro.getText().isEmpty() || tfCidade.getText().isEmpty() || tfNumero.getText().isEmpty()
                 || tbDisciplinas.getRowCount() < 0 || tbProfessor.getRowCount() < 0

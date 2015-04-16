@@ -145,18 +145,16 @@ public class ProfessorDAO {
     public List<Professor> buscarPorNomeRetornandoAtributosSimples(String nome) throws SQLException{
         PreparedStatement pstm;
         ResultSet rs;
-        String sqlPesquisarPorNome = "SELECT * FROM Professor p, Endereco e, ContaBancaria cb WHERE p.Nome "
-                + "LIKE '%" + nome + "%' AND p.idEndereco = e.idEndereco AND p.idContaBancaria = "
-                + "cb.idContaBancaria;";
+        String sqlPesquisarPorNome = "SELECT * FROM Professor p, Endereco e, ContaBancaria cb WHERE p.Nome " +
+                "LIKE '%" + nome+ "%' AND p.idEndereco = e.idEndereco AND p.idContaBancaria = " +
+                "cb.idContaBancaria";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorNome);        
-        pstm.setString(1, nome);
         rs = pstm.executeQuery();
-        List<Professor> professores =null;
+        List<Professor> professores = new ArrayList<>();
         while (rs.next()) {
             Professor professor = new Professor(
                     rs.getInt("p.idProfessor"),
-                    rs.getString("nome")
-            );
+                    rs.getString("nome"));
             professores.add(professor);
         }
         return professores;

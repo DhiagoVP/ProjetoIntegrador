@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.table.TableModel;
 import model.Aluno;
 import model.Beneficio;
 import model.DadosEspecificos;
@@ -61,14 +60,17 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (tbPagamentoBeneficio.getRowCount() > 0) {
-                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                        int linha = tbPagamentoBeneficio.getSelectedRow();
-                        int faltas = Integer.parseInt(tbPagamentoBeneficio.getValueAt(linha, 6).toString());
-                        int dias = pagamento.getDiasLetivos() - faltas;
+                    int linha = tbPagamentoBeneficio.getSelectedRow();
+                    int faltas = Integer.parseInt(tbPagamentoBeneficio.getValueAt(linha, 6).toString());
+                    int dias = pagamento.getDiasLetivos() - faltas;
+                    if (dias < 0) {
+                        tbPagamentoBeneficio.setValueAt(0.0, linha, 7);
+                        tbPagamentoBeneficio.setValueAt(pagamento.getDiasLetivos(), linha, 6);
+                    } else {
                         tbPagamentoBeneficio.setValueAt(calcularValorBeneficio(dias), linha, 7);
-                        tbPagamentoBeneficio.updateUI();
-                        calcularTotal();
                     }
+                    tbPagamentoBeneficio.updateUI();
+                    calcularTotal();
                 }
             }
         });
@@ -252,6 +254,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         } catch (IOException | DocumentException ex) {
             Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         JOptionPane.showMessageDialog(this, "Relatório gerado com sucesso");
         this.dispose();
@@ -269,21 +272,22 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                 listaAlunos.get(linha).setValorRecebido(
                         Double.parseDouble(tbPagamentoBeneficio.getValueAt(linha, 7).toString()));
                 listaAlunos.get(linha).setValorDescontado(listaBeneficio);
-            }
-            pagamentoFinal = new Pagamento(listaAlunos, listaBeneficio,
-                    Double.parseDouble(tfTotalAPagar.getText().replace("RS", "")), pagamento.getDiasLetivos(),
-                    pagamento.getMes(), turma);
-            btGerarRelatorio.setEnabled(true);
-            try {
-                new PagamentoDAO().inserir(pagamentoFinal);
 
-            } catch (SQLException ex) {
-                Logger.getLogger(DlgEfetuarPagamentoBeneficio.class
-                        .getName()).log(Level.SEVERE, null, ex);
+                pagamentoFinal = new Pagamento(listaAlunos, listaBeneficio,
+                        Double.parseDouble(tfTotalAPagar.getText().replace("RS", "")), pagamento.getDiasLetivos(),
+                        pagamento.getMes(), turma);
+                btGerarRelatorio.setEnabled(true);
+                try {
+                    new PagamentoDAO().inserir(pagamentoFinal);
+                } catch (SQLException ex) {
+                    Logger.getLogger(DlgEfetuarPagamentoBeneficio.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                    return;
+                }
             }
-            btSalvar.setEnabled(false);
-            JOptionPane.showMessageDialog(this, "Informações salvas com sucesso!");
         }
+        btSalvar.setEnabled(false);
+        JOptionPane.showMessageDialog(this, "Informações salvas com sucesso!");
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void tbPagamentoBeneficioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbPagamentoBeneficioMouseClicked
@@ -295,7 +299,8 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                 tbPagamentoBeneficio.setValueAt(0, row, 6);
                 tbPagamentoBeneficio.setValueAt(0.0, row, 7);
             } else {
-                calcularTotalPorAluno(pagamento.getDiasLetivos());
+                tbPagamentoBeneficio.setValueAt(calcularValorBeneficio(
+                        pagamento.getDiasLetivos() - Integer.parseInt(tbPagamentoBeneficio.getValueAt(row, 6).toString())), row, 7);
             }
             calcularTotal();
             tbPagamentoBeneficio.updateUI();

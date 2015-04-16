@@ -36,8 +36,6 @@
                       <Component id="cbItensDeBusca" min="-2" pref="142" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="tfItemDeBusca" max="32767" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btBuscarTurma" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btEnviar" min="-2" pref="160" max="-2" attributes="0"/>
@@ -56,7 +54,6 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="tfItemDeBusca" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="btBuscarTurma" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cbItensDeBusca" alignment="3" max="32767" attributes="0"/>
                   <Component id="lbPesquisar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -88,6 +85,9 @@
           </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbItensDeBuscaActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -164,23 +164,6 @@
       </Properties>
       <Events>
         <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="tfItemDeBuscaCaretUpdate"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btBuscarTurma">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Arial" size="14" style="1"/>
-        </Property>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icon/Consultar.png"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Buscar"/>
-        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[125, 41]"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btBuscarTurmaActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btEnviar">

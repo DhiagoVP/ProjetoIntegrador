@@ -10,7 +10,6 @@ import dao.OrientadorDAO;
 import dao.ProfessorDAO;
 import dao.SupervisorDAO;
 import dao.TurmaDAO;
-import java.awt.HeadlessException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +55,6 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbTurmasEncontradas = new javax.swing.JTable();
         tfItemDeBusca = new javax.swing.JTextField();
-        btBuscarTurma = new javax.swing.JButton();
         btEnviar = new javax.swing.JButton();
         btVoltar = new javax.swing.JButton();
         lbPesquisar = new javax.swing.JLabel();
@@ -67,6 +65,11 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
 
         cbItensDeBusca.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         cbItensDeBusca.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Curso", "Nome", "Orientador", "Professor", "Supervisor" }));
+        cbItensDeBusca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbItensDeBuscaActionPerformed(evt);
+            }
+        });
 
         tbTurmasEncontradas.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tbTurmasEncontradas.setModel(new javax.swing.table.DefaultTableModel(
@@ -97,16 +100,6 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
         tfItemDeBusca.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 tfItemDeBuscaCaretUpdate(evt);
-            }
-        });
-
-        btBuscarTurma.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btBuscarTurma.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Consultar.png"))); // NOI18N
-        btBuscarTurma.setText("Buscar");
-        btBuscarTurma.setMaximumSize(new java.awt.Dimension(125, 41));
-        btBuscarTurma.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btBuscarTurmaActionPerformed(evt);
             }
         });
 
@@ -143,9 +136,7 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbItensDeBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfItemDeBusca)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btBuscarTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(tfItemDeBusca))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -159,7 +150,6 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfItemDeBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btBuscarTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbItensDeBusca)
                     .addComponent(lbPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -175,7 +165,23 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btBuscarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarTurmaActionPerformed
+    private void btEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarActionPerformed
+        int indice = tbTurmasEncontradas.getSelectedRow();
+        int id = totalTurmasEncontradas.get(indice).getId();
+        if (indice >= 0) {
+            try {
+                dlgTurma.recuperarDadosDeTurmaParaEdicao(id);
+            } catch (SQLException ex) {
+                Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.dispose();
+            dlgTurma.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Nenhuma turma selecionada!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btEnviarActionPerformed
+
+    private void tfItemDeBuscaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfItemDeBuscaCaretUpdate
         if (tfItemDeBusca.getText().isEmpty()) {
             iniciarTabela();
         } else {
@@ -190,19 +196,14 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
                 case "Curso":
                     try {
                         cursos = new CursoDAO().buscarPorNome(nome);
-                        if (cursos.isEmpty()) {
-                            return;
-                        }
                         totalTurmasEncontradas.clear();
-                        for(Curso curso : cursos){
-                            turmasEncontradas = new TurmaDAO().buscarPorCurso(curso);
-                            for(Turma turma : turmasEncontradas){
-                                totalTurmasEncontradas.add(turma);
+                        if (cursos != null) {
+                            for (Curso curso : cursos) {
+                                turmasEncontradas = new TurmaDAO().buscarPorCurso(curso);
+                                for (Turma turma : turmasEncontradas) {
+                                    totalTurmasEncontradas.add(turma);
+                                }
                             }
-                        }
-                        if (totalTurmasEncontradas.isEmpty()) {
-                            semTurma(nome, busca);
-                            return;
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
@@ -219,41 +220,31 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
                 case "Orientador": {
                     try {
                         orientadores = new OrientadorDAO().buscarPorNomeRetornandoAtributosSimples(nome);
-                        if (orientadores.isEmpty()) {
-                            return;
-                        }
                         totalTurmasEncontradas.clear();
-                        for(Orientador orientador : orientadores){
-                            turmasEncontradas = new TurmaDAO().buscarPorOrientador(orientador);
-                            for(Turma turma : turmasEncontradas){
-                                totalTurmasEncontradas.add(turma);
+                        if (orientadores != null) {
+                            for (Orientador orientador : orientadores) {
+                                turmasEncontradas = new TurmaDAO().buscarPorOrientador(orientador);
+                                for (Turma turma : turmasEncontradas) {
+                                    totalTurmasEncontradas.add(turma);
+                                }
                             }
-                        }
-                        if (totalTurmasEncontradas.isEmpty()) {
-                            semTurma(nome, busca);
-                            return;
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    break;
                 }
-                break;
                 case "Professor":
                     try {
                         professores = new ProfessorDAO().buscarPorNomeRetornandoAtributosSimples(nome);
-                        if (professores.isEmpty()) {
-                            return;
-                        }
                         totalTurmasEncontradas.clear();
-                       for(Professor professor : professores){
-                            turmasEncontradas = new TurmaDAO().buscarPorProfessor(professor);
-                            for(Turma turma : turmasEncontradas){
-                                totalTurmasEncontradas.add(turma);
+                        if (professores != null) {
+                            for (Professor professor : professores) {
+                                turmasEncontradas = new TurmaDAO().buscarPorProfessor(professor);
+                                for (Turma turma : turmasEncontradas) {
+                                    totalTurmasEncontradas.add(turma);
+                                }
                             }
-                        }
-                        if (totalTurmasEncontradas.isEmpty()) {
-                            semTurma(nome, busca);
-                            return;
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
@@ -262,19 +253,14 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
                 case "Supervisor":
                     try {
                         supervisores = new SupervisorDAO().buscarPorNomeRetornandoAtributosSimples(nome);
-                        if (supervisores.isEmpty()) {
-                            return;
-                        }
                         totalTurmasEncontradas.clear();
-                        for(Supervisor supervisor : supervisores){
-                            turmasEncontradas = new TurmaDAO().buscarPorSupervisor(supervisor);
-                            for(Turma turma : turmasEncontradas){
-                                totalTurmasEncontradas.add(turma);
+                        if (supervisores != null) {
+                            for (Supervisor supervisor : supervisores) {
+                                turmasEncontradas = new TurmaDAO().buscarPorSupervisor(supervisor);
+                                for (Turma turma : turmasEncontradas) {
+                                    totalTurmasEncontradas.add(turma);
+                                }
                             }
-                        }
-                        if (totalTurmasEncontradas.isEmpty()) {
-                            semTurma(nome, busca);
-                            return;
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
@@ -282,33 +268,6 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
                     break;
             }
             atualizarTabela();
-        }
-    }//GEN-LAST:event_btBuscarTurmaActionPerformed
-
-    private void objetoNaoEncontrado(String nome, String tipoDeBusca) throws HeadlessException {
-        JOptionPane.showMessageDialog(this, "Desculpe, " + tipoDeBusca.toLowerCase() + " '" + nome + "' não encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);
-        tfItemDeBusca.setText(null);
-        cbItensDeBusca.setSelectedIndex(0);
-    }
-
-    private void btEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarActionPerformed
-        int indice = tbTurmasEncontradas.getSelectedRow();
-        int id = totalTurmasEncontradas.get(indice).getId();
-        if (indice >= 0) {
-            try {
-                dlgTurma.recuperarDadosDeTurmaParaEdicao(id);
-            } catch (SQLException ex) {
-                Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            this.dispose();
-            dlgTurma.setVisible(true);
-        }
-        else JOptionPane.showMessageDialog(this, "Nenhuma turma selecionada!","Aviso", JOptionPane.WARNING_MESSAGE);
-    }//GEN-LAST:event_btEnviarActionPerformed
-
-    private void tfItemDeBuscaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfItemDeBuscaCaretUpdate
-        if (tfItemDeBusca.getText().isEmpty()) {
-            iniciarTabela();
         }
     }//GEN-LAST:event_tfItemDeBuscaCaretUpdate
 
@@ -318,9 +277,14 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
     }//GEN-LAST:event_btVoltarActionPerformed
 
     private void tbTurmasEncontradasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTurmasEncontradasMouseClicked
-        if (evt.getClickCount() == 2) 
-                btEnviarActionPerformed(null);
+        if (evt.getClickCount() == 2) {
+            btEnviarActionPerformed(null);
+        }
     }//GEN-LAST:event_tbTurmasEncontradasMouseClicked
+
+    private void cbItensDeBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbItensDeBuscaActionPerformed
+        tfItemDeBusca.setText(null);
+    }//GEN-LAST:event_cbItensDeBuscaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -349,6 +313,8 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -366,7 +332,6 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btBuscarTurma;
     private javax.swing.JButton btEnviar;
     private javax.swing.JButton btVoltar;
     private javax.swing.JComboBox cbItensDeBusca;
@@ -388,11 +353,5 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    private void semTurma(String nome, String tipoDeBusca) {
-        JOptionPane.showMessageDialog(this, "Desculpe, " + tipoDeBusca.toLowerCase() + " '" + nome + "' não está vinculado a turmas!", "Erro", JOptionPane.ERROR_MESSAGE);
-        tfItemDeBusca.setText(null);
-        cbItensDeBusca.setSelectedIndex(0);
     }
 }
