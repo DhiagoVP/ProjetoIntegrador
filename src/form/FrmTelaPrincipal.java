@@ -1,5 +1,7 @@
 package form;
 
+import form.login.DlgGerenciadorUsuario;
+import form.login.FrmLogin;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -10,13 +12,14 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
+import model.Login;
 
 /**
  *
  * @author Giseli e Keyve
  */
 public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListener {
-
+    
     public FrmTelaPrincipal() {
         timer = new Timer(500, this);
         timer.setRepeats(true);
@@ -28,7 +31,7 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy   "
             + "HH:mm");
     Timer timer;
-
+    
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource().equals(timer)) {
@@ -37,7 +40,7 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
             this.lbRelogio.setForeground(Color.BLACK);
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -56,14 +59,16 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         btSair = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuGerenciadores = new javax.swing.JMenu();
+        menuItemGerenciadorAluno = new javax.swing.JMenuItem();
         menuItemGerenciadorCurso = new javax.swing.JMenuItem();
         menuItemGerenciadorOrientador = new javax.swing.JMenuItem();
         menuItemGerenciadorSupervisor = new javax.swing.JMenuItem();
         menuItemGerenciadorProfessor = new javax.swing.JMenuItem();
         menuItemGerenciadorBeneficio = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        menuItemEfetuarPagamento = new javax.swing.JMenuItem();
+        menuGerenciadorUsuario = new javax.swing.JMenu();
         menuConsultas = new javax.swing.JMenu();
-        menuSair = new javax.swing.JMenu();
+        menuLogout = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Software Gerenciador de Curso Profissionalizantes");
@@ -204,8 +209,17 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         menuGerenciadores.setText("Gerenciadores");
         menuGerenciadores.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
+        menuItemGerenciadorAluno.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        menuItemGerenciadorAluno.setText("Gerenciador de Aluno");
+        menuItemGerenciadorAluno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemGerenciadorAlunoActionPerformed(evt);
+            }
+        });
+        menuGerenciadores.add(menuItemGerenciadorAluno);
+
         menuItemGerenciadorCurso.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        menuItemGerenciadorCurso.setText("Gerenciador De Curso");
+        menuItemGerenciadorCurso.setText("Gerenciador de Curso");
         menuItemGerenciadorCurso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemGerenciadorCursoActionPerformed(evt);
@@ -214,7 +228,7 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         menuGerenciadores.add(menuItemGerenciadorCurso);
 
         menuItemGerenciadorOrientador.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        menuItemGerenciadorOrientador.setText("Gerenciador De Orientador");
+        menuItemGerenciadorOrientador.setText("Gerenciador de Orientador");
         menuItemGerenciadorOrientador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemGerenciadorOrientadorActionPerformed(evt);
@@ -223,7 +237,7 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         menuGerenciadores.add(menuItemGerenciadorOrientador);
 
         menuItemGerenciadorSupervisor.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        menuItemGerenciadorSupervisor.setText("Gerenciador De Supervisor");
+        menuItemGerenciadorSupervisor.setText("Gerenciador de Supervisor");
         menuItemGerenciadorSupervisor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemGerenciadorSupervisorActionPerformed(evt);
@@ -232,7 +246,7 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         menuGerenciadores.add(menuItemGerenciadorSupervisor);
 
         menuItemGerenciadorProfessor.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        menuItemGerenciadorProfessor.setText("Gerenciador De Professor");
+        menuItemGerenciadorProfessor.setText("Gerenciador de Professor");
         menuItemGerenciadorProfessor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemGerenciadorProfessorActionPerformed(evt);
@@ -241,7 +255,7 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         menuGerenciadores.add(menuItemGerenciadorProfessor);
 
         menuItemGerenciadorBeneficio.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        menuItemGerenciadorBeneficio.setText("Gerenciador De Benefício");
+        menuItemGerenciadorBeneficio.setText("Gerenciador de Benefício");
         menuItemGerenciadorBeneficio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemGerenciadorBeneficioActionPerformed(evt);
@@ -249,16 +263,25 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         });
         menuGerenciadores.add(menuItemGerenciadorBeneficio);
 
-        jMenuItem1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jMenuItem1.setText("Efetuar Pagamento");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        menuItemEfetuarPagamento.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        menuItemEfetuarPagamento.setText("Efetuar Pagamento");
+        menuItemEfetuarPagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                menuItemEfetuarPagamentoActionPerformed(evt);
             }
         });
-        menuGerenciadores.add(jMenuItem1);
+        menuGerenciadores.add(menuItemEfetuarPagamento);
 
         jMenuBar1.add(menuGerenciadores);
+
+        menuGerenciadorUsuario.setText("Gerenciador de Usuários");
+        menuGerenciadorUsuario.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        menuGerenciadorUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuGerenciadorUsuarioMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(menuGerenciadorUsuario);
 
         menuConsultas.setText("Consultas");
         menuConsultas.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -269,14 +292,14 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         });
         jMenuBar1.add(menuConsultas);
 
-        menuSair.setText("Sair");
-        menuSair.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        menuSair.addMouseListener(new java.awt.event.MouseAdapter() {
+        menuLogout.setText("Logout");
+        menuLogout.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        menuLogout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuSairMouseClicked(evt);
+                menuLogoutMouseClicked(evt);
             }
         });
-        jMenuBar1.add(menuSair);
+        jMenuBar1.add(menuLogout);
 
         setJMenuBar(jMenuBar1);
 
@@ -368,10 +391,6 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         }
     }//GEN-LAST:event_btSairActionPerformed
 
-    private void menuSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuSairMouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_menuSairMouseClicked
-
     private void menuConsultasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuConsultasMouseClicked
         DlgMenuConsultas telaConsultas = new DlgMenuConsultas(this, true);
         telaConsultas.setVisible(true);
@@ -403,10 +422,23 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
         new DlgGerarPagamento(this, rootPaneCheckingEnabled).setVisible(true);
     }//GEN-LAST:event_btEfetuarPagamentoActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void menuItemEfetuarPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemEfetuarPagamentoActionPerformed
         btEfetuarPagamentoActionPerformed(evt);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_menuItemEfetuarPagamentoActionPerformed
 
+    private void menuItemGerenciadorAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemGerenciadorAlunoActionPerformed
+        btGerenciadorAlunoActionPerformed(evt);
+    }//GEN-LAST:event_menuItemGerenciadorAlunoActionPerformed
+
+    private void menuGerenciadorUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuGerenciadorUsuarioMouseClicked
+        new DlgGerenciadorUsuario(this, rootPaneCheckingEnabled).setVisible(true);
+    }//GEN-LAST:event_menuGerenciadorUsuarioMouseClicked
+
+    private void menuLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuLogoutMouseClicked
+        new FrmLogin().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuLogoutMouseClicked
+    
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -451,17 +483,26 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
     private javax.swing.JButton btSair;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbRelogio;
     private javax.swing.JMenu menuConsultas;
+    private javax.swing.JMenu menuGerenciadorUsuario;
     private javax.swing.JMenu menuGerenciadores;
+    private javax.swing.JMenuItem menuItemEfetuarPagamento;
+    private javax.swing.JMenuItem menuItemGerenciadorAluno;
     private javax.swing.JMenuItem menuItemGerenciadorBeneficio;
     private javax.swing.JMenuItem menuItemGerenciadorCurso;
     private javax.swing.JMenuItem menuItemGerenciadorOrientador;
     private javax.swing.JMenuItem menuItemGerenciadorProfessor;
     private javax.swing.JMenuItem menuItemGerenciadorSupervisor;
-    private javax.swing.JMenu menuSair;
+    private javax.swing.JMenu menuLogout;
     // End of variables declaration//GEN-END:variables
-
+public void verificarNivel(int nivel) {
+        if (nivel == 1) {
+            menuGerenciadorUsuario.setVisible(true);
+        }
+        if (nivel == 2) {
+            menuGerenciadorUsuario.setVisible(false);
+        }
+    }
 }

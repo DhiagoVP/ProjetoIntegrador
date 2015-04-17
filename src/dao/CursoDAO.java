@@ -56,6 +56,7 @@ public class CursoDAO {
         pstm.close();
         DBConnection.close();
     }
+
     public List<Curso> buscarPorNome(String nome) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
@@ -66,13 +67,13 @@ public class CursoDAO {
         List<Curso> cursos = new ArrayList<>();
         while (rs.next()) {
             Curso curso = new Curso(
-                    rs.getInt("c.idCurso"), 
+                    rs.getInt("c.idCurso"),
                     rs.getString("c.nome"));
             cursos.add(curso);
         }
         return cursos;
     }
-    
+
     public Curso buscarPorNomeCompleto(String nome) throws SQLException {
         PreparedStatement pstm;
         ResultSet rs;
@@ -83,7 +84,7 @@ public class CursoDAO {
         Curso curso = null;
         while (rs.next()) {
             curso = new Curso(
-                    rs.getInt("c.idCurso"), 
+                    rs.getInt("c.idCurso"),
                     rs.getString("c.nome"));
             return curso;
         }

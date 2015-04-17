@@ -251,8 +251,8 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
             pagamento.setDiasLetivos(Integer.parseInt(spinnerDiasLetivos.getValue().toString()));
             pagamento.setMes(cbMes.getSelectedItem().toString());
             if(beneficio.carregarDados(turma, buscarBeneficio(), pagamento)){
-                beneficio.setVisible(true);
                 this.dispose();
+                beneficio.setVisible(true);
             }
             else{
                 cbTurma.setSelectedIndex(0);

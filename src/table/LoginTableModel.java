@@ -7,23 +7,22 @@ package table;
 
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import model.Beneficio;
+import model.Login;
 
 /**
  *
  * @author Acerpc
  */
-public class BeneficioTableModel extends AbstractTableModel{
-    
-    private List<Beneficio> valores;
+public class LoginTableModel extends AbstractTableModel{
+    List <Login> login;
 
-    public BeneficioTableModel(List<Beneficio> valores) {
-        this.valores = valores;
+    public LoginTableModel(List<Login> login) {
+        this.login = login;
     }
-
+    
     @Override
     public int getRowCount() {
-        return valores.size();
+        return login.size();
     }
 
     @Override
@@ -33,16 +32,12 @@ public class BeneficioTableModel extends AbstractTableModel{
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Beneficio beneficio = valores.get(rowIndex);
+        Login log = login.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return beneficio.getId();
+                return log.getUsuario();
             case 1:
-                return beneficio.getTipo();
-            case 2:
-                return beneficio.getValor();
-            case 3:
-                return beneficio.getDescricao();
+                return log.getNivel();
         }
         return null;
     }
@@ -52,13 +47,9 @@ public class BeneficioTableModel extends AbstractTableModel{
         String coluna = "";
         switch (column) {
             case 0:
-                return coluna = "Id";
+                return coluna = "Usuário";
             case 1:
-                return coluna = "Tipo";
-            case 2:
-                return coluna = "Valor";
-            case 3:
-                return coluna = "Descrição";
+                return coluna = "Nível";
         }
         return null;
     }
@@ -69,17 +60,17 @@ public class BeneficioTableModel extends AbstractTableModel{
             case 0:
                 return String.class;
             case 1:
-                return String.class;
-            case 2:
-                return String.class;
-            case 3:
-                return String.class;
+                return Integer.class;
         }
         return null;
     }
 
-    public Beneficio get(int row) {
-        return valores.get(row);
+    public List<Login> getLogin() {
+        return login;
+    }
+
+    public void setLogin(List<Login> login) {
+        this.login = login;
     }
     
 }
