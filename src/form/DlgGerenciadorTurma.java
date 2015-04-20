@@ -1,5 +1,6 @@
 package form;
 
+import com.mysql.jdbc.StringUtils;
 import dao.CursoDAO;
 import dao.DiasAulaDAO;
 import dao.DisciplinaDAO;
@@ -1363,7 +1364,7 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
                 dateInicioTurma.getDate(),
                 dateTerminoTurma.getDate(),
                 new Endereco(tfRua.getText(),
-                        Integer.parseInt(tfNumero.getText()),
+                        StringUtils.isNullOrEmpty(tfNumero.getText()) ? 0 : Integer.parseInt(tfNumero.getText()),
                         tfBairro.getText(),
                         cbEstado.getSelectedItem().toString(),
                         tfCidade.getText()),
