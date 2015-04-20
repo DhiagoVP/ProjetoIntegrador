@@ -15,6 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.security.auth.login.LoginException;
 import javax.swing.JOptionPane;
 import model.Login;
 
@@ -33,6 +34,7 @@ public class FrmLogin extends javax.swing.JFrame {
     LoginDAO loginDAO = new LoginDAO();
     Login login = new Login();
     FrmTelaPrincipal telaPrincipal = new FrmTelaPrincipal();
+    DlgMenuConsultas menu = new DlgMenuConsultas(this, rootPaneCheckingEnabled);
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,6 +64,8 @@ public class FrmLogin extends javax.swing.JFrame {
         loginSenha.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         loginSenha.setText("Senha");
 
+        tfLogin.setToolTipText("");
+
         btEntrar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btEntrar.setText("Entrar");
         btEntrar.addActionListener(new java.awt.event.ActionListener() {
@@ -72,6 +76,13 @@ public class FrmLogin extends javax.swing.JFrame {
 
         btFechar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btFechar.setText("Fechar");
+        btFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btFecharActionPerformed(evt);
+            }
+        });
+
+        pfSenha.setToolTipText("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -117,7 +128,7 @@ public class FrmLogin extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,32 +141,49 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void btEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEntrarActionPerformed
         try {
-            if (new LoginDAO().pesquisarPorId(1) == null) {
+            if (new LoginDAO().pesquisarPorNivel(1) == null) {
+                try {
+                    validar();
                     getDados();
                     loginDAO.cadastrar(login);
+                    telaPrincipal.verificarNivel(1);
+                    this.dispose();
+                    telaPrincipal.setVisible(true);
+                } catch (LoginException ex) {
+                    JOptionPane.showMessageDialog(this, "ERRO: " + ex.getMessage());
+                }
             } else {
+                try {
+                    validar();
                     if (verificarLogin(pegarDadosVerificar())) {
                         if (verificar(login).getNivel() == 1) {
                             telaPrincipal.verificarNivel(1);
-                            telaPrincipal.setVisible(true);
                             this.dispose();
-                        } else if (verificar(login).getNivel() == 2){
+                            telaPrincipal.setVisible(true);
+                        } else if (verificar(login).getNivel() == 2) {
                             telaPrincipal.verificarNivel(2);
+                            this.dispose();
                             telaPrincipal.setVisible(true);
-                            this.dispose();
                         } else {
-                            new DlgMenuConsultas(this, rootPaneCheckingEnabled).setVisible(true);
+                            menu.verificarNivel(3);
                             this.dispose();
+                            menu.setVisible(true);
                         }
                     } else {
                         JOptionPane.showMessageDialog(this, "Login/senha incorreto/inexistente");
                     }
-                
+                } catch (LoginException ex) {
+                    JOptionPane.showMessageDialog(this, "ERRO: " + ex.getMessage());
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btEntrarActionPerformed
+
+    private void btFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFecharActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btFecharActionPerformed
 
     /**
      * @param args the command line arguments
@@ -173,15 +201,11 @@ public class FrmLogin extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
@@ -227,21 +251,21 @@ public static String criptografar(String valor) throws NoSuchAlgorithmException,
         return hash;
     }
 
-    private void getDados(){
+    private void getDados() {
         try {
             login.setNivel(1);
-        login.setUsuario(tfLogin.getText());
-            login.setSenha(criptografar(new String (pfSenha.getPassword())));
+            login.setUsuario(tfLogin.getText());
+            login.setSenha(criptografar(new String(pfSenha.getPassword())));
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private Login pegarDadosVerificar(){
+    private Login pegarDadosVerificar() {
         try {
             login = new Login(
                     tfLogin.getText(),
-                    criptografar(new String (pfSenha.getPassword())));
+                    criptografar(new String(pfSenha.getPassword())));
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -255,9 +279,42 @@ public static String criptografar(String valor) throws NoSuchAlgorithmException,
         }
         return false;
     }
-    
+
     private Login verificar(Login login) throws SQLException {
         Login verificar = loginDAO.pesquisarPorNome(login.getUsuario());
-            return verificar;
+        return verificar;
+    }
+
+    private void validar() throws LoginException {
+        if (new String(pfSenha.getPassword()).isEmpty()) {
+            throw new LoginException("Senha obrigatória!");
+        }
+
+        if (tfLogin.getText().isEmpty()) {
+            throw new LoginException("Login obrigatório!");
+        }
+
+        if (tfLogin.getText().length() < 6) {
+            throw new LoginException("O login deve conter no mínimo 6 caracteres.");
+        }
+
+        if (new String(pfSenha.getPassword()).length() < 8) {
+            throw new LoginException("A senha deve conter no mínimo 8 caracteres.");
+        }
+//        if (!new String(pfSenha.getPassword()).contains("ABCDEFGHIJKLMNOPQRSTUVXWYZ")) {
+//            throw new LoginException("A senha deve conter no mínimo 1 letra maiúscula.");
+//        }
+//        
+//        if (!new String(pfSenha.getPassword()).contains("abcdefghijklmnopqrstuvxwyz")) {
+//            throw new LoginException("A senha deve conter no mínimo 1 letra minuscula.");
+//        }
+//        
+//        if (!new String(pfSenha.getPassword()).contains("1234567890")) {
+//            throw new LoginException("A senha deve conter no mínimo 1 número.");
+//        }
+//        
+//        if (!new String(pfSenha.getPassword()).contains("'!@#$%¨&*()_+{}^`<>:|,.;~]´[ç=-¹²³£¢¬ºª§")) {
+//            throw new LoginException("A senha deve conter no mínimo 1 caractere especial. Ex.: ?, !, %, @.");
+//        }
     }
 }

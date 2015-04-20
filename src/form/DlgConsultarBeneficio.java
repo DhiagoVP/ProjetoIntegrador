@@ -27,7 +27,6 @@ public class DlgConsultarBeneficio extends javax.swing.JDialog {
     /**
      * Creates new form DlgConsultarBeneficio
      */
-    
     public DlgConsultarBeneficio(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -35,9 +34,10 @@ public class DlgConsultarBeneficio extends javax.swing.JDialog {
             atualizarTabela();
         }
     }
-    
-    BeneficioDAO beneficioDAO = new BeneficioDAO();
-    List<Beneficio> listaBeneficios = new ArrayList<>();
+    private final BeneficioDAO beneficioDAO = new BeneficioDAO();
+    private List<Beneficio> listaBeneficios = new ArrayList<>();
+    private int nivelUsuario;
+    private DlgGerenciadorBeneficio dlgGerenciadorBeneficio = new DlgGerenciadorBeneficio(null, true);
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -134,8 +134,16 @@ public class DlgConsultarBeneficio extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVoltarActionPerformed
-        this.dispose();
-        new DlgGerenciadorBeneficio(null, rootPaneCheckingEnabled).setVisible(true);
+        if (nivelUsuario == 3) {
+            DlgMenuConsultas menu = new DlgMenuConsultas(null, true);
+            menu.verificarNivel(nivelUsuario);
+            this.dispose();
+            menu.setVisible(true);
+        } else {
+            this.dispose();
+            new DlgGerenciadorBeneficio(null, rootPaneCheckingEnabled).setVisible(true);
+        }
+
     }//GEN-LAST:event_buttonVoltarActionPerformed
 
     private void buttonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEnviarActionPerformed
@@ -144,21 +152,21 @@ public class DlgConsultarBeneficio extends javax.swing.JDialog {
         } else {
             int linhaSelecionada = this.tableBeneficio.getSelectedRow();
             int id = Integer.parseInt(this.tableBeneficio.getValueAt(linhaSelecionada, 0).toString());
-            DlgGerenciadorBeneficio jb = new DlgGerenciadorBeneficio(null, true);
-            jb.recuperarDados(id);
+            dlgGerenciadorBeneficio.recuperarDados(id);
+            dlgGerenciadorBeneficio.verificarNivel(nivelUsuario);
             this.dispose();
-            jb.setVisible(true);
+            dlgGerenciadorBeneficio.setVisible(true);
         }
     }//GEN-LAST:event_buttonEnviarActionPerformed
 
     private void tableBeneficioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableBeneficioMouseClicked
         if (evt.getClickCount() == 2) {
-                int linhaSelecionada = this.tableBeneficio.getSelectedRow();
-                int idBeneficio = (int) this.tableBeneficio.getValueAt(linhaSelecionada, 0);
-                DlgGerenciadorBeneficio bene = new DlgGerenciadorBeneficio(null, true);
-                bene.recuperarDados(idBeneficio);
-                this.dispose();
-                bene.setVisible(true);
+            int linhaSelecionada = this.tableBeneficio.getSelectedRow();
+            int idBeneficio = (int) this.tableBeneficio.getValueAt(linhaSelecionada, 0);
+            dlgGerenciadorBeneficio.recuperarDados(idBeneficio);
+            dlgGerenciadorBeneficio.verificarNivel(nivelUsuario);
+            this.dispose();
+            dlgGerenciadorBeneficio.setVisible(true);
         }
     }//GEN-LAST:event_tableBeneficioMouseClicked
 
@@ -174,13 +182,7 @@ public class DlgConsultarBeneficio extends javax.swing.JDialog {
             Logger.getLogger(DlgConsultarBeneficio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void desativarBotaoETabela (boolean status) {
-        buttonVoltar.setEnabled(status);
-        buttonEnviar.setEnabled(status);
-        tableBeneficio.setEnabled(status);
-    }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -222,11 +224,14 @@ public class DlgConsultarBeneficio extends javax.swing.JDialog {
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonEnviar;
     private javax.swing.JButton buttonVoltar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableBeneficio;
     // End of variables declaration//GEN-END:variables
+
+    public void verificarNivel(int nivel) {
+        this.nivelUsuario = nivel;
+    }
 }

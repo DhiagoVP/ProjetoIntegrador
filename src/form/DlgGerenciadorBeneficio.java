@@ -29,6 +29,7 @@ public class DlgGerenciadorBeneficio extends javax.swing.JDialog {
     private Beneficio beneficio;
     private BeneficioDAO beneficioDAO = new BeneficioDAO();
     private ValidadorDeTeclas validar;
+    int nivel;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -209,6 +210,12 @@ public class DlgGerenciadorBeneficio extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConsultarActionPerformed
+        if (nivel == 3) {
+        DlgConsultarBeneficio bene = new DlgConsultarBeneficio(null, true);
+        bene.verificarNivel(nivel);
+        this.dispose();
+        bene.setVisible(true);
+        }
         this.setVisible(false);
         new DlgConsultarBeneficio(null, true).setVisible(true);
     }//GEN-LAST:event_buttonConsultarActionPerformed
@@ -231,10 +238,15 @@ public class DlgGerenciadorBeneficio extends javax.swing.JDialog {
     }//GEN-LAST:event_buttonCadastrarActionPerformed
 
     private void buttonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelarActionPerformed
-        if (tfTipo.getText().isEmpty() && tfValor.getText().isEmpty() && taDescricao.getText().isEmpty()) {
-            this.dispose();
-        } else {
+       if (!tfTipo.getText().isEmpty() && !tfValor.getText().isEmpty() && !taDescricao.getText().isEmpty()) {
             limparCampos();
+        } else if(nivel == 3) {
+            DlgMenuConsultas dlgMenu = new DlgMenuConsultas(null, true);
+            dlgMenu.verificarNivel(nivel);
+            this.dispose();
+            dlgMenu.setVisible(true);
+        }else {
+            this.dispose();
         }
     }//GEN-LAST:event_buttonCancelarActionPerformed
 
@@ -390,6 +402,18 @@ public class DlgGerenciadorBeneficio extends javax.swing.JDialog {
             buttonCadastrar.setEnabled(true);
         } else {
             buttonCadastrar.setEnabled(false);
+        }
+    }
+    
+    public void verificarNivel(int nivel) {
+        if (nivel == 3) {
+            this.nivel = nivel;
+            tfTipo.setEnabled(false);
+            tfValor.setEnabled(false);
+            taDescricao.setEnabled(false);
+            buttonAlterar.setEnabled(false);
+            buttonCadastrar.setEnabled(false);
+            buttonExcluir.setEnabled(false);
         }
     }
 }

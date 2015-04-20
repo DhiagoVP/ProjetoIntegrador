@@ -24,6 +24,7 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
     private final OrientadorDAO orientadorDAO = new OrientadorDAO();
     private Orientador orientador;
     private ValidadorDeTeclas validar;
+    private int nivelUsuario;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -119,11 +120,6 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
             ex.printStackTrace();
         }
         ftfTelefone.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        ftfTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                ftfTelefoneKeyTyped(evt);
-            }
-        });
 
         lbEmail.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbEmail.setText("E-mail");
@@ -293,11 +289,6 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
             ex.printStackTrace();
         }
         ftfCpf.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        ftfCpf.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                ftfCpfKeyTyped(evt);
-            }
-        });
 
         try {
             ftfRg.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#.###.###")));
@@ -305,11 +296,6 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
             ex.printStackTrace();
         }
         ftfRg.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        ftfRg.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                ftfRgKeyTyped(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -509,16 +495,24 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
     }//GEN-LAST:event_btCadastrarActionPerformed
 
     private void jChStatusStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jChStatusStateChanged
-        if (this.jChStatus.isSelected()) {
-            tratarCampos(false);
-        } else {
-            tratarCampos(true);
+        if (nivelUsuario != 3) {
+            if (this.jChStatus.isSelected()) {
+                tratarCampos(false);
+            } else {
+                tratarCampos(true);
+            }
         }
     }//GEN-LAST:event_jChStatusStateChanged
 
     private void btConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarActionPerformed
-        this.setVisible(false);
-        janelaConsulta.setVisible(true);
+        if (nivelUsuario == 3) {
+            janelaConsulta.verificarNivel(nivelUsuario);
+            this.dispose();
+            janelaConsulta.setVisible(true);
+        } else {
+            this.dispose();
+            janelaConsulta.setVisible(true);
+        }
     }//GEN-LAST:event_btConsultarActionPerformed
 
     private void btAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAlterarActionPerformed
@@ -555,21 +549,18 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        if (tfNome.getText().isEmpty()){
+        if (nivelUsuario == 3) {
+            DlgMenuConsultas menu = new DlgMenuConsultas(null, rootPaneCheckingEnabled);
             this.dispose();
-        } else {
+            menu.verificarNivel(nivelUsuario);
+            menu.setVisible(true);
+        } else if (!tfNome.getText().isEmpty()) {
             this.limparCampos();
             this.tratarControles(false);
-        }    
+        } else {
+            this.dispose();
+        }
     }//GEN-LAST:event_btCancelarActionPerformed
-
-    private void ftfCpfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfCpfKeyTyped
-        validar.validarSomenteNumeros(evt);
-    }//GEN-LAST:event_ftfCpfKeyTyped
-
-    private void ftfTelefoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfTelefoneKeyTyped
-        validar.validarSomenteNumeros(evt);
-    }//GEN-LAST:event_ftfTelefoneKeyTyped
 
     private void dtcDataEntradaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtcDataEntradaKeyTyped
         validar.validarSomenteNumeros(evt);
@@ -586,10 +577,6 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
     private void tfNumeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNumeroKeyTyped
         validar.validarSomenteNumeros(evt);
     }//GEN-LAST:event_tfNumeroKeyTyped
-
-    private void ftfRgKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfRgKeyTyped
-        validar.validarSomenteNumeros(evt);
-    }//GEN-LAST:event_ftfRgKeyTyped
 
     private void tfNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNomeKeyTyped
         validar.validarSomenteLetras(evt);
@@ -747,7 +734,6 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAlterar;
     private javax.swing.JButton btCadastrar;
@@ -797,7 +783,17 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
         return tfNome.getText().isEmpty() || cbTitulacao.getSelectedIndex() < 0 || !ftfCpf.getText().contains("123456789")
                 || !ftfRg.getText().contains("123456789") || dtcDataEntrada.getDate() == null || !ftfTelefone.getText().contains("123456789")
                 || tfBanco.getText().isEmpty() || tfAgencia.getText().isEmpty() || tfConta.getText().isEmpty()
-                || tfCidade.getText().isEmpty() || tfRua.getText().isEmpty() || tfBairro.getText().isEmpty()
-                || tfNumero.getText().isEmpty();
+                || tfCidade.getText().isEmpty() || tfRua.getText().isEmpty() || tfBairro.getText().isEmpty() || tfNumero.getText().isEmpty();
+    }
+
+    public void verificarNivel(int nivel) {
+        if (nivel == 3) {
+            this.nivelUsuario = nivel;
+            tratarCampos(false);
+            jChStatus.setEnabled(false);
+            btAlterar.setEnabled(false);
+            btCadastrar.setEnabled(false);
+            btExcluir.setEnabled(false);
+        }
     }
 }

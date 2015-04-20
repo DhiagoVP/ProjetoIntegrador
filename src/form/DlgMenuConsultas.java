@@ -6,6 +6,8 @@
 
 package form;
 
+import form.login.FrmLogin;
+
 /**
  *
  * @author Aluno
@@ -22,6 +24,7 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
         initComponents();
     }
 
+    int nivelUsuario;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,15 +39,17 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
         btConsultarOrientador = new javax.swing.JButton();
         btConsultarSupervisor = new javax.swing.JButton();
         btConsultarProfessor = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btConsultarAluno = new javax.swing.JButton();
+        btConsultarTurma = new javax.swing.JButton();
+        btConsultarBeneficio = new javax.swing.JButton();
+        btLogout = new javax.swing.JButton();
         lbLogo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Menu De Consultas");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 204), 2));
+        jPanel1.setLayout(new java.awt.GridLayout(8, 0));
 
         btConsultarCurso.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btConsultarCurso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Curso.png"))); // NOI18N
@@ -54,6 +59,7 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
                 btConsultarCursoActionPerformed(evt);
             }
         });
+        jPanel1.add(btConsultarCurso);
 
         btConsultarOrientador.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btConsultarOrientador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Orientador.png"))); // NOI18N
@@ -63,6 +69,7 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
                 btConsultarOrientadorActionPerformed(evt);
             }
         });
+        jPanel1.add(btConsultarOrientador);
 
         btConsultarSupervisor.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btConsultarSupervisor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Supervisor.png"))); // NOI18N
@@ -72,6 +79,7 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
                 btConsultarSupervisorActionPerformed(evt);
             }
         });
+        jPanel1.add(btConsultarSupervisor);
 
         btConsultarProfessor.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btConsultarProfessor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Professor.png"))); // NOI18N
@@ -81,68 +89,47 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
                 btConsultarProfessorActionPerformed(evt);
             }
         });
+        jPanel1.add(btConsultarProfessor);
 
-        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/aluno.png"))); // NOI18N
-        jButton1.setText("Consultar Aluno");
-
-        jButton2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Turma.png"))); // NOI18N
-        jButton2.setText("Consultar Turma");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btConsultarAluno.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btConsultarAluno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/aluno.png"))); // NOI18N
+        btConsultarAluno.setText("Consultar Aluno");
+        btConsultarAluno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btConsultarAlunoActionPerformed(evt);
             }
         });
+        jPanel1.add(btConsultarAluno);
 
-        jButton3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cofrinho-Beneficio-Cifrao.png"))); // NOI18N
-        jButton3.setText("Consultar Benefício    ");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btConsultarTurma.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btConsultarTurma.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Turma.png"))); // NOI18N
+        btConsultarTurma.setText(" Consultar Turma ");
+        btConsultarTurma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btConsultarTurmaActionPerformed(evt);
             }
         });
+        jPanel1.add(btConsultarTurma);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btConsultarCurso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btConsultarOrientador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btConsultarSupervisor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btConsultarProfessor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btConsultarCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btConsultarOrientador)
-                .addGap(18, 18, 18)
-                .addComponent(btConsultarSupervisor)
-                .addGap(18, 18, 18)
-                .addComponent(btConsultarProfessor)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        btConsultarBeneficio.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btConsultarBeneficio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cofrinho-Beneficio-Cifrao.png"))); // NOI18N
+        btConsultarBeneficio.setText("Consultar Benefício    ");
+        btConsultarBeneficio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btConsultarBeneficioActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btConsultarBeneficio);
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btConsultarCurso, btConsultarOrientador, btConsultarProfessor, btConsultarSupervisor, jButton1});
+        btLogout.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Sair.png"))); // NOI18N
+        btLogout.setText("Logout");
+        btLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLogoutActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btLogout);
 
         lbLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/LogoIfsc.png"))); // NOI18N
 
@@ -154,8 +141,8 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(lbLogo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,39 +160,58 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btConsultarCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarCursoActionPerformed
-        this.setVisible(false);
-        DlgConsultarCurso telaConsulta = new DlgConsultarCurso(null, true);
-        telaConsulta.setVisible(true);
+        this.dispose();
+        DlgConsultarCurso consulta = new DlgConsultarCurso(null, true);
+        consulta.verificarNivel(nivelUsuario);
+        consulta.setVisible(true);
     }//GEN-LAST:event_btConsultarCursoActionPerformed
 
     private void btConsultarOrientadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarOrientadorActionPerformed
-        this.setVisible(false);
+        this.dispose();
         DlgConsultarOrientador telaConsulta = new DlgConsultarOrientador(null, true);
+        telaConsulta.verificarNivel(nivelUsuario);
         telaConsulta.setVisible(true);
     }//GEN-LAST:event_btConsultarOrientadorActionPerformed
 
     private void btConsultarSupervisorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarSupervisorActionPerformed
         this.setVisible(false);
         DlgConsultarSupervisor telaConsulta = new DlgConsultarSupervisor(null, true);
+        telaConsulta.verificarNivel(nivelUsuario);
         telaConsulta.setVisible(true);
     }//GEN-LAST:event_btConsultarSupervisorActionPerformed
 
     private void btConsultarProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarProfessorActionPerformed
-        this.setVisible(false);
+        this.dispose();
         DlgConsultarProfessor telaConsulta = new DlgConsultarProfessor(null, true);
+        telaConsulta.verificarNivel(nivelUsuario);
         telaConsulta.setVisible(true);
     }//GEN-LAST:event_btConsultarProfessorActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        this.setVisible(false);
-        DlgConsultarBeneficio beneficio = new DlgConsultarBeneficio(null, rootPaneCheckingEnabled);
-        beneficio.desativarBotaoETabela(false);
+    private void btConsultarBeneficioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarBeneficioActionPerformed
+        this.dispose();
+        DlgConsultarBeneficio beneficio = new DlgConsultarBeneficio(null, true);
+        beneficio.verificarNivel(nivelUsuario);
         beneficio.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btConsultarBeneficioActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        new DlgGerenciadorTurma(null, rootPaneCheckingEnabled).setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btConsultarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarTurmaActionPerformed
+        this.dispose();
+        DlgConsultarTurma consultarTurma = new DlgConsultarTurma(null, true);
+        consultarTurma.verificarNivel(nivelUsuario);
+        consultarTurma.setVisible(true);
+    }//GEN-LAST:event_btConsultarTurmaActionPerformed
+
+    private void btConsultarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarAlunoActionPerformed
+        this.dispose();
+        DlgConsultarAluno consultarAluno = new DlgConsultarAluno(null, rootPaneCheckingEnabled);
+        consultarAluno.verificarNivel(nivelUsuario);
+        consultarAluno.setVisible(true);
+    }//GEN-LAST:event_btConsultarAlunoActionPerformed
+
+    private void btLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogoutActionPerformed
+        this.dispose();
+        new FrmLogin().setVisible(true);
+    }//GEN-LAST:event_btLogoutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -246,14 +252,22 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btConsultarAluno;
+    private javax.swing.JButton btConsultarBeneficio;
     private javax.swing.JButton btConsultarCurso;
     private javax.swing.JButton btConsultarOrientador;
     private javax.swing.JButton btConsultarProfessor;
     private javax.swing.JButton btConsultarSupervisor;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btConsultarTurma;
+    private javax.swing.JButton btLogout;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbLogo;
     // End of variables declaration//GEN-END:variables
+
+    public void verificarNivel (int nivel) {
+        this.nivelUsuario = nivel;
+        if(nivel != 3) {
+            btLogout.setEnabled(false);
+        }
+    }
 }

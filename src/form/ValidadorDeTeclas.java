@@ -25,6 +25,13 @@ public class ValidadorDeTeclas {
         }
     }
     
+    public void validarDatas(KeyEvent evt) {
+        String caracteres = "0987654321/";
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
+    }
+    
     public void validarNumerosComPonto(KeyEvent evt) {
         String caracteres = "0987654321.";
         if (!caracteres.contains(evt.getKeyChar() + "")) {

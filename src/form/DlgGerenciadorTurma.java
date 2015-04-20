@@ -33,7 +33,7 @@ import table.ProfessorTurmaTableModel;
  * @author Ana e Dhiago
  */
 public class DlgGerenciadorTurma extends javax.swing.JDialog {
-
+    
     List<String> listaDeDiasDeAulaDaTurma = new ArrayList<>();
     List<Disciplina> listaDeDisciplinas = new ArrayList<>();
     List<Professor> listaProfessoresTabela = new ArrayList<>();
@@ -50,14 +50,15 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
     private List<String> listaDeDiasDeAulaDaTurmaVelha;
     private List<Professor> listaProfessoresTabelaVelha;
     private List<Disciplina> listaDeDisciplinasVelha;
-
+    private int nivelUsuario;
+    
     public DlgGerenciadorTurma(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         initComboBox();
         estadoInicial();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -862,13 +863,13 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         try {
             manipularDisciplinas();
         } catch (SQLException ex) {
             Logger.getLogger(DlgGerenciadorTurma.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         try {
             manipularProfessores();
         } catch (SQLException ex) {
@@ -904,7 +905,7 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
         } else if (dateTerminoDisciplina.getDate().compareTo(dateInicioDisciplina.getDate()) < 0) {
             JOptionPane.showMessageDialog(this, "A data de término não pode ser menor que a data de início!");
             dateTerminoDisciplina.setDate(null);
-
+            
         } else {
             Disciplina novaDisciplina = new Disciplina(nomeDisciplina, dataInicio, dataTermino);
             listaDeDisciplinas.add(novaDisciplina);
@@ -939,20 +940,22 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Turma excluída com sucesso!");
                     estadoInicial();
                     limparTodosCampos();
-                
-
-}
+                    
+                }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DlgGerenciadorTurma.class  
-
-.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DlgGerenciadorTurma.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btExcluirTurmaActionPerformed
 
     private void btConsultarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarTurmaActionPerformed
-        this.setVisible(false);
-        new DlgConsultarTurma(null, true).setVisible(true);
+        DlgConsultarTurma dlgConsultarTurma = new DlgConsultarTurma(null, true);
+        if (nivelUsuario == 3) {
+            dlgConsultarTurma.verificarNivel(nivelUsuario);
+        }
+        this.dispose();
+        dlgConsultarTurma.setVisible(true);
     }//GEN-LAST:event_btConsultarTurmaActionPerformed
 
     private void btCadastrarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarTurmaActionPerformed
@@ -1030,10 +1033,15 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
     }//GEN-LAST:event_tfNumeroKeyTyped
 
     private void btCancelarTurmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarTurmaActionPerformed
-        if(tfNomeTurma.getText().isEmpty() && tfCampusOfertante.getText().isEmpty() 
-                && tfCidadeDemandante.getText().isEmpty())
+        if (nivelUsuario == 3) {
+            DlgMenuConsultas menu = new DlgMenuConsultas(null, true);
+            menu.verificarNivel(nivelUsuario);
             this.dispose();
-        else{
+            menu.setVisible(true);
+        } else if (tfNomeTurma.getText().isEmpty() && tfCampusOfertante.getText().isEmpty()
+                && tfCidadeDemandante.getText().isEmpty()) {
+            this.dispose();
+        } else {
             limparTodosCampos();
             estadoInicial();
         }
@@ -1053,32 +1061,21 @@ public class DlgGerenciadorTurma extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                
-
-}
+                    
+                }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } 
-
-catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } 
-
-catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } 
-
-catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(DlgGerenciadorTurma.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -1087,13 +1084,13 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-
+            
             @Override
-        public void run() {
+            public void run() {
                 DlgGerenciadorTurma dialog = new DlgGerenciadorTurma(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
-        public void windowClosing(java.awt.event.WindowEvent e) {
+                    public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
                 });
@@ -1198,7 +1195,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         listDiasDeAulaDaTurma.clearSelection();
         tbDisciplinas.clearSelection();
         tbProfessor.clearSelection();
-
+        
         disciplinaTableModel = new DisciplinaTurmaTableModel();
         tbDisciplinas.setModel(disciplinaTableModel);
         professorTableModel = new ProfessorTurmaTableModel();
@@ -1211,20 +1208,20 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         listDiasDeAulaDaTurma.setModel(lmDiasDeAula);
         initComboBox();
     }
-
+    
     private void initComboBox() {
         initComboBoxCurso();
         initComboBoxOrientador();
         initComboBoxSupervisor();
         initComboBoxProfessor();
     }
-
+    
     private void initComboBoxProfessor() {
         cbProfessor.removeAllItems();
         listaProfessoresCombo = new ArrayList();
         try {
             listaProfessoresCombo = new ProfessorDAO().listarTodos();
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(DlgGerenciadorTurma.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -1233,7 +1230,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
             for (Professor professor : listaProfessoresCombo) {
                 cbProfessor.addItem(professor);
             }
-
+            
         } else {
             for (Professor professor : listaProfessoresCombo) {
                 int cont = 0;
@@ -1251,7 +1248,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         }
         cbProfessor.setSelectedIndex(0);
     }
-
+    
     private void initComboBoxSupervisor() {
         listaDeSupervisores = new ArrayList();
         cbSupervisor.removeAllItems();
@@ -1266,7 +1263,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
             cbSupervisor.addItem(supervisor);
         }
     }
-
+    
     private void initComboBoxOrientador() {
         listaDeOrientadores = new ArrayList();
         cbOrientador.removeAllItems();
@@ -1281,7 +1278,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
             cbOrientador.addItem(orientador);
         }
     }
-
+    
     private void initComboBoxCurso() {
         cbCurso.removeAllItems();
         listaDeCursos = new ArrayList();
@@ -1296,16 +1293,16 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
             cbCurso.addItem(curso);
         }
     }
-
+    
     private void atualizarListaDeAulasDaTurma() {
         DefaultListModel lmDiasDeAula = new DefaultListModel();
-
+        
         for (String d : listaDeDiasDeAulaDaTurma) {
             lmDiasDeAula.addElement(d);
         }
         listDiasDeAulaDaTurma.setModel(lmDiasDeAula);
     }
-
+    
     private void verificarDiaRepetido(Object dia) {
         if (!listaDeDiasDeAulaDaTurma.isEmpty()) {
             for (String diaAdicionado : listaDeDiasDeAulaDaTurma) {
@@ -1318,37 +1315,37 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         listaDeDiasDeAulaDaTurma.add(dia.toString());
         atualizarListaDeAulasDaTurma();
     }
-
+    
     private void limparCamposDisciplina() {
         tfNomeDisciplina.setText(null);
         dateInicioDisciplina.setDate(null);
         dateTerminoDisciplina.setDate(null);
         tfNomeDisciplina.requestFocus();
     }
-
+    
     private void atualizarTabelaDisciplinas(DisciplinaTurmaTableModel disciplinaTable) {
         disciplinaTable = new DisciplinaTurmaTableModel((ArrayList<Disciplina>) listaDeDisciplinas);
         tbDisciplinas.setModel(disciplinaTable);
     }
-
+    
     private boolean campoVazio() {
         return tfNomeDisciplina.getText().isEmpty()
                 || tfNomeDisciplina.getText().isEmpty()
                 || dateInicioDisciplina.getDate() == null
                 || dateTerminoDisciplina.getDate() == null;
     }
-
+    
     private void atualizarTabelaProfessor(ProfessorTurmaTableModel professorTable) {
         professorTable = new ProfessorTurmaTableModel((ArrayList<Professor>) listaProfessoresTabela);
         tbProfessor.setModel(professorTable);
     }
-
+    
     private void removerProfessorDoCombo(Professor professor) {
         // o professor que for adicionado na tabela será removido da lista do combo de professores
         cbProfessor.removeItem(professor);
-
+        
     }
-
+    
     private void atualizarComboProfessor() {
         // o professor que for adicionado na tabela será adicionado novamente à lista do combo de professores
         cbProfessor.removeAllItems();
@@ -1356,6 +1353,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
             cbProfessor.addItem(professor);
         }
     }
+    
     private void getDados() throws SQLException {
         turma = new Turma(tfCidadeDemandante.getText(),
                 tfCampusOfertante.getText(),
@@ -1377,7 +1375,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
                 new CursoDAO().buscarPorNomeCompleto(cbCurso.getSelectedItem().toString()),
                 listaDeDisciplinas);
     }
-
+    
     private void getDadosEditados() throws SQLException {
         turma = new Turma(velhaTurma.getId(),
                 tfCidadeDemandante.getText(),
@@ -1401,14 +1399,14 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
                 new CursoDAO().buscarPorNomeCompleto(cbCurso.getSelectedItem().toString()),
                 listaDeDisciplinas);
     }
-
+    
     void recuperarDadosDeTurmaParaEdicao(int idTurma) throws SQLException {
         velhaTurma = new Turma();
         velhaTurma = new TurmaDAO().buscarPorId(idTurma);
         setDados();
         estadoEditarExcluir();
     }
-
+    
     private void estadoEditarExcluir() {
         btExcluirTurma.setEnabled(true);
         btAlterarTurma.setEnabled(true);
@@ -1416,7 +1414,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         btConsultarTurma.setEnabled(false);
         btCancelarTurma.setEnabled(true);
     }
-
+    
     private void setDados() {
         tfNomeTurma.setText(velhaTurma.getNome());
         tfCampusOfertante.setText(velhaTurma.getCampusOfertante());
@@ -1452,14 +1450,14 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
             }
             atualizarTabelaProfessor(professorTableModel);
         }
-
+        
         listaDeDisciplinasVelha = velhaTurma.getDisciplinas();
         for (Disciplina disciplina : listaDeDisciplinasVelha) {
             listaDeDisciplinas.add(disciplina);
         }
         atualizarTabelaDisciplinas(disciplinaTableModel);
     }
-
+    
     private void estadoInicial() {
         btCadastrarTurma.setEnabled(true);
         btCancelarTurma.setEnabled(true);
@@ -1467,12 +1465,12 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         btAlterarTurma.setEnabled(false);
         btExcluirTurma.setEnabled(false);
     }
-
+    
     private void ordenarListaDeProfessorComboETabela() {
         Collections.sort(listaProfessoresCombo, new Comparador());
         Collections.sort(listaProfessoresTabela, new Comparador());
     }
-
+    
     private boolean compararDadosGeraisTurmas(Turma turma, Turma novaTurma) {
         return !turma.getNome().equals(novaTurma.getNome())
                 || !turma.getCampusOfertante().equals(novaTurma.getCampusOfertante())
@@ -1485,7 +1483,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
                 || turma.getOrientador().getId() != novaTurma.getOrientador().getId()
                 || turma.getSupervisor().getId() != novaTurma.getSupervisor().getId();
     }
-
+    
     private boolean compararEnderecoTurma(Turma turma, Turma novaTurma) {
         return !turma.getEndereco().getRua().equals(novaTurma.getEndereco().getRua())
                 || !turma.getEndereco().getBairro().equals(novaTurma.getEndereco().getBairro())
@@ -1493,22 +1491,22 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
                 || !turma.getEndereco().getEstado().equals(novaTurma.getEndereco().getEstado())
                 || turma.getEndereco().getNumero() != novaTurma.getEndereco().getNumero();
     }
-
+    
     private void manipularDiasDeAula() throws SQLException {
         new DiasAulaDAO().remover(diasRemovidosDaLista(), velhaTurma.getId());
         new DiasAulaDAO().inserir(diasAcrescentadosNaLista(), velhaTurma.getId());
     }
-
+    
     private void manipularDisciplinas() throws SQLException {
         new DisciplinaDAO().remover(disiciplinasRemovidasDaLista(), velhaTurma.getId());
         new DisciplinaDAO().inserir(disciplinasAcrescentadasNaLista(), velhaTurma.getId());
     }
-
+    
     private void manipularProfessores() throws SQLException {
         new ProfessorDAO().assossiarATurma(professoresAcresentadosNaLista(), velhaTurma.getId());
         new ProfessorDAO().desassossiarATurma(professoresRemovidosDaLista(), velhaTurma.getId());
     }
-
+    
     private List<String> diasRemovidosDaLista() {
         List<String> diasRemovidos = new ArrayList<>();
         for (String dia : velhaTurma.getAulasSemana()) {
@@ -1519,7 +1517,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         }
         return diasRemovidos;
     }
-
+    
     private List<String> diasAcrescentadosNaLista() {
         List<String> diasAcresentados = new ArrayList<>();
         for (String dia : turma.getAulasSemana()) {
@@ -1530,7 +1528,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         }
         return diasAcresentados;
     }
-
+    
     private List<Disciplina> disiciplinasRemovidasDaLista() {
         List<Disciplina> disciplinasRemovidas = new ArrayList<>();
         for (Disciplina disciplina : velhaTurma.getDisciplinas()) {
@@ -1541,7 +1539,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         }
         return disciplinasRemovidas;
     }
-
+    
     private List<Disciplina> disciplinasAcrescentadasNaLista() {
         List<Disciplina> disciplinasAcresentadas = new ArrayList<>();
         for (Disciplina disciplina : turma.getDisciplinas()) {
@@ -1552,7 +1550,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         }
         return disciplinasAcresentadas;
     }
-
+    
     private List<Professor> professoresAcresentadosNaLista() {
         List<Professor> professoresAcresentados = new ArrayList<>();
         for (Professor professor : turma.getProfessores()) {
@@ -1563,7 +1561,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         }
         return professoresAcresentados;
     }
-
+    
     private List<Professor> professoresRemovidosDaLista() {
         List<Professor> professoresRemovidos = new ArrayList<>();
         for (Professor professor : velhaTurma.getProfessores()) {
@@ -1574,7 +1572,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
         }
         return professoresRemovidos;
     }
-
+    
     private boolean algumCampoVazio() {
         return cbCurso.getSelectedIndex() < 0 || cbEstado.getSelectedIndex() < 0
                 || cbOrientador.getSelectedIndex() < 0 || cbTurno.getSelectedIndex() < 0
@@ -1584,5 +1582,53 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
                 || tfBairro.getText().isEmpty() || tfCidade.getText().isEmpty() || tfNumero.getText().isEmpty()
                 || tbDisciplinas.getRowCount() < 0 || tbProfessor.getRowCount() < 0
                 || dateInicioTurma.getDate() == null || dateTerminoTurma.getDate() == null;
+    }
+
+    //Dhiago esteve aqui...
+    public void verificarNivel(int nivel) {
+        if (nivel == 3) {
+            //Combos
+            cbCurso.setEnabled(false);
+            cbOrientador.setEnabled(false);
+            cbSupervisor.setEnabled(false);
+            cbProfessor.setEnabled(false);
+            cbEstado.setEnabled(false);
+            cbTurno.setEnabled(false);
+            //tf
+            tfBairro.setEnabled(false);
+            tfCampusOfertante.setEnabled(false);
+            tfCidade.setEnabled(false);
+            tfCidadeDemandante.setEnabled(false);
+            tfNomeDisciplina.setEnabled(false);
+            tfNomeTurma.setEnabled(false);
+            tfNumero.setEnabled(false);
+            tfResponsavel.setEnabled(false);
+            tfRua.setEnabled(false);
+            //button
+            btAdicionarDiaDaSemana.setEnabled(false);
+            btAdicionarDisciplina.setEnabled(false);
+            btAdicionarProfessor.setEnabled(false);
+            btAlterarTurma.setEnabled(false);
+            btCadastrarTurma.setEnabled(false);
+            btConsultarTurma.setEnabled(true);
+            btExcluirTurma.setEnabled(false);
+            btNovoCurso.setEnabled(false);
+            btNovoOrientador.setEnabled(false);
+            btNovoProfessor.setEnabled(false);
+            btNovoSupervisor.setEnabled(false);
+            btRemoverDiaDaSemana.setEnabled(false);
+            btRemoverDisciplina.setEnabled(false);
+            btRemoverProfessor.setEnabled(false);
+            //outros
+            tbDisciplinas.setEnabled(false);
+            tbProfessor.setEnabled(false);
+            dateInicioDisciplina.setEnabled(false);
+            dateInicioTurma.setEnabled(false);
+            dateTerminoDisciplina.setEnabled(false);
+            dateTerminoTurma.setEnabled(false);
+            listDiasDaSemana.setEnabled(false);
+            listDiasDeAulaDaTurma.setEnabled(false);
+        }
+        this.nivelUsuario = nivel;
     }
 }

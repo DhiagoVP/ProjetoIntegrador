@@ -25,6 +25,7 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
     DlgGerenciadorOrientador janelaOrientador;
     OrientadorDAO orientadorDAO = new OrientadorDAO();
     List<Orientador> listaOrientador = new ArrayList<>();
+    private int nivelUsuario;
 
     public void atualizarTabela(String sql) {
         try {
@@ -185,15 +186,23 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
             int idOrientador = Integer.parseInt(this.tableOrientador.getValueAt(linhaSelecionada, 0).toString());
             janelaOrientador = new DlgGerenciadorOrientador(null, true);
             janelaOrientador.recuperarDadosAlterarOrientador(idOrientador);
+            janelaOrientador.verificarNivel(nivelUsuario);
             this.dispose();
             janelaOrientador.setVisible(true);
         }
     }//GEN-LAST:event_btEnviarActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
+        if (nivelUsuario == 3) {
+            DlgMenuConsultas menu = new DlgMenuConsultas(null, true);
+            menu.verificarNivel(nivelUsuario);
+            this.dispose();
+            menu.setVisible(true);
+        } else {
         janelaOrientador = new DlgGerenciadorOrientador(null, true);
         this.dispose();
         janelaOrientador.setVisible(true);
+        }
     }//GEN-LAST:event_btVoltarActionPerformed
 
     private void tableOrientadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableOrientadorMouseClicked
@@ -205,6 +214,7 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
                 int idOrientador = (int) this.tableOrientador.getValueAt(linhaSelecionada, 0);
                 janelaOrientador = new DlgGerenciadorOrientador(null, true);
                 janelaOrientador.recuperarDadosAlterarOrientador(idOrientador);
+                janelaOrientador.verificarNivel(nivelUsuario);
                 this.dispose();
                 janelaOrientador.setVisible(true);
             }
@@ -212,12 +222,12 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
     }//GEN-LAST:event_tableOrientadorMouseClicked
 
     private void tfItemBuscaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfItemBuscaKeyTyped
-        if (cbTipoPesquisa.getSelectedItem().toString() == "Nome") {
+        if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("Nome")) {
             String caracteres = "0987654321.";
             if (caracteres.contains(evt.getKeyChar() + "")) {
                 evt.consume();
             }
-        } else if (cbTipoPesquisa.getSelectedItem().toString() == "CPF") {
+        } else if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("CPF")) {
             String caracteres = "0987654321.-";
             if (!caracteres.contains(evt.getKeyChar() + "")) {
                 evt.consume();
@@ -237,22 +247,22 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
             limparCampos();
         }
 
-        if (cbTipoPesquisa.getSelectedItem().toString() == "Nome" && !tfItemBusca.getText().isEmpty()) {
-                    atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
-                            + "WHERE o.nome LIKE '%" + tfItemBusca.getText() + "%'"
-                            + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+        if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("Nome") && !tfItemBusca.getText().isEmpty()) {
+            atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
+                    + "WHERE o.nome LIKE '%" + tfItemBusca.getText() + "%'"
+                    + "AND o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
         }
-        
-        if (cbTipoPesquisa.getSelectedItem().toString() == "CPF" && !tfItemBusca.getText().isEmpty()) {
-                    atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
-                            + "WHERE o.cpf LIKE '%" + tfItemBusca.getText() + "%' AND "
-                            + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+
+        if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("CPF") && !tfItemBusca.getText().isEmpty()) {
+            atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
+                    + "WHERE o.cpf LIKE '%" + tfItemBusca.getText() + "%' AND "
+                    + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
         }
-        
-        if (cbTipoPesquisa.getSelectedItem().toString() == "RG" && !tfItemBusca.getText().isEmpty()) {
-                    atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
-                            + "WHERE o.rg LIKE '" + tfItemBusca.getText() + "%' AND "
-                            + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
+
+        if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("RG") && !tfItemBusca.getText().isEmpty()) {
+            atualizarTabela("SELECT * FROM Orientador o, Endereco e, ContaBancaria cb "
+                    + "WHERE o.rg LIKE '" + tfItemBusca.getText() + "%' AND "
+                    + "o.idEndereco = e.idEndereco AND o.idContaBancaria = cb.idContaBancaria;");
         }
     }//GEN-LAST:event_tfItemBuscaCaretUpdate
 
@@ -313,4 +323,8 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
     private javax.swing.JTable tableOrientador;
     private javax.swing.JTextField tfItemBusca;
     // End of variables declaration//GEN-END:variables
+
+    public void verificarNivel(int nivel) {
+        this.nivelUsuario = nivel;
+    }
 }

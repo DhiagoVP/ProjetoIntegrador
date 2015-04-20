@@ -16,9 +16,11 @@ import table.CursoTableModel;
  */
 public class DlgConsultarCurso extends javax.swing.JDialog {
 
-    CursoDAO cursoDAO = new CursoDAO();
-    List<Curso> listaCurso = new ArrayList<>();
-    Curso curso = null;
+    private final CursoDAO cursoDAO = new CursoDAO();
+    private List<Curso> listaCurso = new ArrayList<>();
+    private Curso curso = null;
+    private int nivelUsuario;
+    private DlgGerenciadorCurso janelaCurso;
     
     public DlgConsultarCurso(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -148,13 +150,14 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    DlgGerenciadorCurso janelaCurso;
+
     private void tableCursoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCursoMouseClicked
         if (evt.getClickCount() == 2) {
                 int linhaSelecionada = this.tableCurso.getSelectedRow();
                 int idCurso = (int) this.tableCurso.getValueAt(linhaSelecionada, 0);
-                janelaCurso = new DlgGerenciadorCurso(null, true);
+                janelaCurso = new DlgGerenciadorCurso(null, rootPaneCheckingEnabled);
                 janelaCurso.recuperarDadosAlterarCurso(idCurso);
+                janelaCurso.verificarNivel(nivelUsuario);
                 this.dispose();
                 janelaCurso.setVisible(true);
         }
@@ -172,8 +175,9 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
         } else {
             int linhaSelecionada = this.tableCurso.getSelectedRow();
             int idCurso = Integer.parseInt(this.tableCurso.getValueAt(linhaSelecionada, 0).toString());
-            janelaCurso = new DlgGerenciadorCurso(null, true);
+            janelaCurso = new DlgGerenciadorCurso(null, rootPaneCheckingEnabled);
             janelaCurso.recuperarDadosAlterarCurso(idCurso);
+            janelaCurso.verificarNivel(nivelUsuario);
             this.dispose();
             janelaCurso.setVisible(true);
         }
@@ -242,4 +246,10 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
     private javax.swing.JTable tableCurso;
     private javax.swing.JTextField tfItemBusca;
     // End of variables declaration//GEN-END:variables
+
+public void verificarNivel (int nivel) {
+        if (nivel == 3) {
+            this.nivelUsuario = 3;
+        }
+    }
 }

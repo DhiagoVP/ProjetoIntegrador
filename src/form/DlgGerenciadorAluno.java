@@ -2,23 +2,18 @@ package form;
 
 import com.mysql.jdbc.StringUtils;
 import dao.AlunoDAO;
-import dao.RealizarMatriculaDAO;
 import dao.TurmaDAO;
 import exceptions.AlunoException;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
 import model.Aluno;
 import model.ContaBancaria;
 import model.Endereco;
-import model.RealizarMatricula;
 import model.Turma;
 
 /**
@@ -37,7 +32,8 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
 //    DlgConsultarAluno janelaConsulta = new DlgConsultarAluno(null, true);
     private final AlunoDAO alunoDAO = new AlunoDAO();
     private Aluno aluno;
-private ValidadorDeTeclas validar;
+    private ValidadorDeTeclas validar;
+    private int nivelUsuario;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -647,16 +643,25 @@ private ValidadorDeTeclas validar;
     }//GEN-LAST:event_btCadastrarActionPerformed
 
     private void btConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarActionPerformed
-        this.setVisible(false);
-        new DlgConsultarAluno(null, true).setVisible(true);
+        //this.setVisible(false);
+        DlgConsultarAluno consultarAluno = new DlgConsultarAluno(null, true);
+        consultarAluno.verificarNivel(nivelUsuario);
+        this.dispose();
+        consultarAluno.setVisible(true);
     }//GEN-LAST:event_btConsultarActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        if (tfNome.getText().isEmpty() && dtcDataNascimento.getDate() == null) {
-            dispose();
-        } else {
+        if (nivelUsuario == 3) {
+            this.dispose();
+            DlgMenuConsultas menu = new DlgMenuConsultas(null, rootPaneCheckingEnabled);
+            menu.verificarNivel(nivelUsuario);
+            menu.setVisible(true); 
+        } else if (!tfNome.getText().isEmpty() && dtcDataNascimento.getDate() != null) {
             this.limparCampos();
             this.tratarControles(false);
+        }else {
+            this.dispose();
+            
         }
     }//GEN-LAST:event_btCancelarActionPerformed
 
@@ -781,7 +786,7 @@ private ValidadorDeTeclas validar;
             if (!taObservacao.getText().isEmpty()) {
                 aluno.setObservacoes(taObservacao.getText());
             }
-            if (cbSituacao.getSelectedIndex() > -1){
+            if (cbSituacao.getSelectedIndex() > -1) {
                 aluno.setSituacao(cbSituacao.getSelectedItem().toString());
             }
             aluno.setEndereco(
@@ -837,7 +842,6 @@ private ValidadorDeTeclas validar;
         this.cbEstado.setEnabled(status);
         this.taObservacao.setEnabled(status);
         this.cbTurma.setEnabled(status);
-        //cbSituacao.setEnabled(status);
     }
 
     private void limparCampos() {
@@ -999,11 +1003,22 @@ private ValidadorDeTeclas validar;
 
     private void ativarBotaoConfirmar() {
         if (!tfNome.getText().isEmpty() && !ftfRg.getText().contains("1234567890") && !ftfCpf.getText().contains("1234567890")
-                && dtcDataNascimento.getDate() != null && cbSexo.getSelectedIndex() > -1 && cbEscolaridade.getSelectedIndex()>-1
-                && !ftfTelefone.getText().contains("1234567890")){
+                && dtcDataNascimento.getDate() != null && cbSexo.getSelectedIndex() > -1 && cbEscolaridade.getSelectedIndex() > -1
+                && !ftfTelefone.getText().contains("1234567890")) {
             btCadastrar.setEnabled(true);
         } else {
             btCadastrar.setEnabled(false);
+        }
+    }
+
+    public void verificarNivel(int nivel) {
+        if (nivel == 3) {
+            this.nivelUsuario = nivel;
+            tratarCampos(false);
+            cbSituacao.setEnabled(false);
+            btAlterar.setEnabled(false);
+            btCadastrar.setEnabled(false);
+            btExcluir.setEnabled(false);
         }
     }
 }

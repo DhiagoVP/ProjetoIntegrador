@@ -32,6 +32,7 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
     List<Turma> totalTurmasEncontradas;
     TurmaTableModel turmaTable;
     DlgGerenciadorTurma dlgTurma = new DlgGerenciadorTurma(null, true);
+    private int nivelUsuario;
 
     /**
      * Creates new form DlgConsultarTurma
@@ -174,6 +175,7 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
             } catch (SQLException ex) {
                 Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
             }
+            dlgTurma.verificarNivel(nivelUsuario);
             this.dispose();
             dlgTurma.setVisible(true);
         } else {
@@ -272,8 +274,15 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
     }//GEN-LAST:event_tfItemDeBuscaCaretUpdate
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
-        this.dispose();
-        dlgTurma.setVisible(true);
+        if (nivelUsuario == 3) {
+            DlgMenuConsultas menu = new DlgMenuConsultas(null, true);
+            menu.verificarNivel(nivelUsuario);
+            this.dispose();
+            menu.setVisible(true);
+        } else {
+            this.dispose();
+            dlgTurma.setVisible(true);
+        }
     }//GEN-LAST:event_btVoltarActionPerformed
 
     private void tbTurmasEncontradasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTurmasEncontradasMouseClicked
@@ -330,7 +339,6 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btEnviar;
     private javax.swing.JButton btVoltar;
@@ -353,5 +361,9 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(DlgConsultarTurma.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void verificarNivel(int nivel) {
+        this.nivelUsuario = nivel;
     }
 }

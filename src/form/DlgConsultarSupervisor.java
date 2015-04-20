@@ -22,9 +22,10 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
                     + "WHERE s.idEndereco = e.idEndereco AND s.idContaBancaria = cb.idContaBancaria;");
         }
     }
-    DlgGerenciadorSupervisor janelaSupervisor;
-    SupervisorDAO supervisorDAO = new SupervisorDAO();
-    List<Supervisor> listaSupervisor = new ArrayList<>();
+    private DlgGerenciadorSupervisor janelaSupervisor;
+    private final SupervisorDAO supervisorDAO = new SupervisorDAO();
+    private List<Supervisor> listaSupervisor = new ArrayList<>();
+    private int nivelUsuario;
     
     /**
      *
@@ -184,15 +185,23 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
             int idSupervisor = Integer.parseInt(this.tableSupervisor.getValueAt(linhaSelecionada, 0).toString());
             janelaSupervisor = new DlgGerenciadorSupervisor(null, true);
             janelaSupervisor.recuperarDadosAlterarSupervisor(idSupervisor);
+            janelaSupervisor.verificarNivel(nivelUsuario);
             this.dispose();
             janelaSupervisor.setVisible(true);
         }
     }//GEN-LAST:event_btEnviarActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
+        if (nivelUsuario == 3) {
+            DlgMenuConsultas menu = new DlgMenuConsultas(null, true);
+            menu.verificarNivel(nivelUsuario);
+            this.dispose();
+            menu.setVisible(true);
+        } else {
         janelaSupervisor = new DlgGerenciadorSupervisor(null, true);
         this.dispose();
         janelaSupervisor.setVisible(true);
+        }
     }//GEN-LAST:event_btVoltarActionPerformed
 
     private void tableSupervisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableSupervisorMouseClicked
@@ -204,6 +213,7 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
                 int idSupervisor = (int) this.tableSupervisor.getValueAt(linhaSelecionada, 0);
                 janelaSupervisor = new DlgGerenciadorSupervisor(null, true);
                 janelaSupervisor.recuperarDadosAlterarSupervisor(idSupervisor);
+                janelaSupervisor.verificarNivel(nivelUsuario);
                 this.dispose();
                 janelaSupervisor.setVisible(true);
             }
@@ -211,12 +221,12 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
     }//GEN-LAST:event_tableSupervisorMouseClicked
 
     private void tfItemBuscaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfItemBuscaKeyTyped
-        if (cbTipoPesquisa.getSelectedItem().toString() == "Nome") {
+        if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("Nome")) {
             String caracteres = "0987654321.";
             if (caracteres.contains(evt.getKeyChar() + "")) {
                 evt.consume();
             }
-        } else if (cbTipoPesquisa.getSelectedItem().toString() == "CPF") {
+        } else if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("CPF")) {
             String caracteres = "0987654321.-";
             if (!caracteres.contains(evt.getKeyChar() + "")) {
                 evt.consume();
@@ -236,19 +246,19 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
             limparCampos();
         }
         
-        if (cbTipoPesquisa.getSelectedItem().toString() == "Nome" && !tfItemBusca.getText().isEmpty()) {
+        if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("Nome") && !tfItemBusca.getText().isEmpty()) {
             atualizarTabela("SELECT * FROM Supervisor s, Endereco e, ContaBancaria cb "
                                 + "WHERE s.nome LIKE '%" + tfItemBusca.getText() + "%'"
                                 + "AND s.idEndereco = e.idEndereco AND s.idContaBancaria = cb.idContaBancaria;");
         }
         
-        if (cbTipoPesquisa.getSelectedItem().toString() == "CPF" && !tfItemBusca.getText().isEmpty()) {
+        if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("CPF") && !tfItemBusca.getText().isEmpty()) {
             atualizarTabela("SELECT * FROM Supervisor s, Endereco e, ContaBancaria cb "
                                 + "WHERE s.cpf LIKE '%" + tfItemBusca.getText() + "%'"
                                 + "AND s.idEndereco = e.idEndereco AND s.idContaBancaria = cb.idContaBancaria;");
         }
         
-        if (cbTipoPesquisa.getSelectedItem().toString() == "RG" && !tfItemBusca.getText().isEmpty()) {
+        if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("RG") && !tfItemBusca.getText().isEmpty()) {
             atualizarTabela("SELECT * FROM Supervisor s, Endereco e, ContaBancaria cb "
                                 + "WHERE s.rg LIKE'" + tfItemBusca.getText() + "%'"
                                 + "AND s.idEndereco = e.idEndereco AND s.idContaBancaria = cb.idContaBancaria;");
@@ -311,4 +321,10 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
     private javax.swing.JTable tableSupervisor;
     private javax.swing.JTextField tfItemBusca;
     // End of variables declaration//GEN-END:variables
+
+public void verificarNivel(int nivel) {
+        if (nivel == 3) {
+            this.nivelUsuario = 3;
+        }
+    }
 }

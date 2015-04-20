@@ -31,6 +31,7 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy   "
             + "HH:mm");
     Timer timer;
+    private int nivelUsuario;
     
     @Override
     public void actionPerformed(ActionEvent ae) {
@@ -393,6 +394,7 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
 
     private void menuConsultasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuConsultasMouseClicked
         DlgMenuConsultas telaConsultas = new DlgMenuConsultas(this, true);
+        telaConsultas.verificarNivel(nivelUsuario);
         telaConsultas.setVisible(true);
     }//GEN-LAST:event_menuConsultasMouseClicked
 
@@ -500,9 +502,11 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
 public void verificarNivel(int nivel) {
         if (nivel == 1) {
             menuGerenciadorUsuario.setVisible(true);
+            this.nivelUsuario = nivel;
         }
         if (nivel == 2) {
             menuGerenciadorUsuario.setVisible(false);
+            this.nivelUsuario = nivel;
         }
     }
 }

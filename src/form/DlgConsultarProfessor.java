@@ -19,9 +19,10 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
         initComponents();
         carregardados();
     }
-    DlgGerenciadorProfessor janelaProfessor;
-    ProfessorDAO professorDAO = new ProfessorDAO();
-    List<Professor> listaProfessor = new ArrayList<>();
+    private DlgGerenciadorProfessor janelaProfessor;
+    private ProfessorDAO professorDAO = new ProfessorDAO();
+    private List<Professor> listaProfessor = new ArrayList<>();
+    private int nivelUsuario;
 
     public void atualizarTabela(String sql) {
         try {
@@ -182,15 +183,23 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
             int idProfessor = Integer.parseInt(this.tableProfessor.getValueAt(linhaSelecionada, 0).toString());
             janelaProfessor = new DlgGerenciadorProfessor(null, true);
             janelaProfessor.recuperarDadosAlterarProfessor(idProfessor);
+            janelaProfessor.verificarNivel(nivelUsuario);
             this.dispose();
             janelaProfessor.setVisible(true);
         }
     }//GEN-LAST:event_btEnviarActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
+        if (nivelUsuario == 3){
+            this.dispose();
+            DlgMenuConsultas menu = new DlgMenuConsultas(null, true);
+            menu.verificarNivel(nivelUsuario);
+            menu.setVisible(true);
+        } else {
         janelaProfessor = new DlgGerenciadorProfessor(null, true);
         this.dispose();
         janelaProfessor.setVisible(true);
+        }
     }//GEN-LAST:event_btVoltarActionPerformed
 
     private void tableProfessorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProfessorMouseClicked
@@ -202,6 +211,7 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
                 int idProfessor = (int) this.tableProfessor.getValueAt(linhaSelecionada, 0);
                 janelaProfessor = new DlgGerenciadorProfessor(null, true);
                 janelaProfessor.recuperarDadosAlterarProfessor(idProfessor);
+                janelaProfessor.verificarNivel(nivelUsuario);
                 this.dispose();
                 janelaProfessor.setVisible(true);
             }
@@ -209,12 +219,12 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
     }//GEN-LAST:event_tableProfessorMouseClicked
 
     private void tfItemBuscaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfItemBuscaKeyTyped
-        if (cbTipoPesquisa.getSelectedItem().toString() == "Nome") {
+        if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("Nome")) {
             String caracteres = "0987654321.";
             if (caracteres.contains(evt.getKeyChar() + "")) {
                 evt.consume();
             }
-        } else if (cbTipoPesquisa.getSelectedItem().toString() == "CPF") {
+        } else if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("CPF")) {
             String caracteres = "0987654321.-";
             if (!caracteres.contains(evt.getKeyChar() + "")) {
                 evt.consume();
@@ -233,19 +243,19 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
                     + "WHERE p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;");
         }
         
-        if (cbTipoPesquisa.getSelectedItem().toString() == "Nome" && tfItemBusca.getText() != null ) {
+        if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("Nome") && tfItemBusca.getText() != null ) {
                         atualizarTabela("SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
                         + "WHERE p.nome LIKE '%" + tfItemBusca.getText() + "%' AND "
                         + "p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;");
         }
         
-        if (cbTipoPesquisa.getSelectedItem().toString() == "CPF" && tfItemBusca.getText() != null ) {
+        if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("CPF") && tfItemBusca.getText() != null ) {
                         atualizarTabela("SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
                         + "WHERE p.cpf LIKE '%" + tfItemBusca.getText() + "%' AND "
                         + "p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;");
         }
         
-        if (cbTipoPesquisa.getSelectedItem().toString() == "RG" && tfItemBusca.getText() != null ) {
+        if (cbTipoPesquisa.getSelectedItem().toString().equalsIgnoreCase("RG") && tfItemBusca.getText() != null ) {
                         atualizarTabela("SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
                         + "WHERE p.rg LIKE '%" + tfItemBusca.getText() + "%' AND "
                         + "p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;");
@@ -315,6 +325,12 @@ public class DlgConsultarProfessor extends javax.swing.JDialog {
        if (listaProfessor != null) {
             atualizarTabela("SELECT * FROM Professor p, Endereco e, ContaBancaria cb "
                     + "WHERE p.idEndereco = e.idEndereco AND p.idContaBancaria = cb.idContaBancaria;");
+        }
+    }
+    
+    public void verificarNivel (int nivel) {
+        if (nivel == 3) {
+            this.nivelUsuario = 3;
         }
     }
 }

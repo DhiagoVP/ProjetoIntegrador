@@ -21,10 +21,11 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    DlgConsultarProfessor janelaConsulta = new DlgConsultarProfessor(null, true);
+    private DlgConsultarProfessor janelaConsulta = new DlgConsultarProfessor(null, true);
     private final ProfessorDAO professorDAO = new ProfessorDAO();
     private Professor professor;
     private ValidadorDeTeclas validar;
+    private int nivelUsuario;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -105,6 +106,11 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
         lbDataEntrada.setText("Data de Entrada");
 
         dtcDataEntrada.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        dtcDataEntrada.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                dtcDataEntradaKeyTyped(evt);
+            }
+        });
 
         lbTelefone.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbTelefone.setText("Telefone");
@@ -145,11 +151,21 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
         jLabel7.setText("Agencia");
 
         tfAgencia.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfAgencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfAgenciaKeyTyped(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel8.setText("Conta");
 
         tfConta.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfConta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfContaKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelDadosBancariosLayout = new javax.swing.GroupLayout(panelDadosBancarios);
         panelDadosBancarios.setLayout(panelDadosBancariosLayout);
@@ -198,6 +214,11 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
         jLabel5.setText("Número");
 
         tfNumero.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfNumero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfNumeroKeyTyped(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel10.setText("Rua");
@@ -472,15 +493,20 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
     }//GEN-LAST:event_btCadastrarActionPerformed
 
     private void jChStatusStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jChStatusStateChanged
-        if (this.jChStatus.isSelected()) {
-            tratarCampos(false);
-        } else {
-            tratarCampos(true);
+        if (nivelUsuario != 3) {
+            if (this.jChStatus.isSelected()) {
+                tratarCampos(false);
+            } else {
+                tratarCampos(true);
+            }
         }
     }//GEN-LAST:event_jChStatusStateChanged
 
     private void btConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarActionPerformed
-        this.setVisible(false);
+        if (nivelUsuario == 3) {
+            janelaConsulta.verificarNivel(nivelUsuario);
+        }
+        this.dispose();
         janelaConsulta.setVisible(true);
     }//GEN-LAST:event_btConsultarActionPerformed
 
@@ -518,17 +544,38 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        if (tfNome.getText().isEmpty()){
+        if (nivelUsuario == 3) {
+            DlgMenuConsultas menu = new DlgMenuConsultas(null, true);
+            menu.verificarNivel(nivelUsuario);
+            this.dispose();
+            menu.setVisible(true);
+        } else if (tfNome.getText().isEmpty()) {
             this.dispose();
         } else {
-        this.limparCampos();
-        this.tratarControles(false);
+            this.limparCampos();
+            this.tratarControles(false);
         }
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void tfNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNomeKeyTyped
         validar.validarSomenteLetras(evt);
     }//GEN-LAST:event_tfNomeKeyTyped
+
+    private void tfAgenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAgenciaKeyTyped
+        validar.validarSomenteNumeros(evt);
+    }//GEN-LAST:event_tfAgenciaKeyTyped
+
+    private void tfContaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfContaKeyTyped
+        validar.validarSomenteNumeros(evt);
+    }//GEN-LAST:event_tfContaKeyTyped
+
+    private void tfNumeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNumeroKeyTyped
+        validar.validarSomenteNumeros(evt);
+    }//GEN-LAST:event_tfNumeroKeyTyped
+
+    private void dtcDataEntradaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dtcDataEntradaKeyTyped
+        validar.validarDatas(evt);
+    }//GEN-LAST:event_dtcDataEntradaKeyTyped
 
     private void setDados() {
         this.tfNome.setText(professor.getNome());
@@ -547,7 +594,6 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
         this.tfBanco.setText(professor.getContaBancaria().getNomeBanco());
         this.tfAgencia.setText(Integer.toString(professor.getContaBancaria().getAgencia()));
         this.tfConta.setText(Integer.toString(professor.getContaBancaria().getNumeroConta()));
-
     }
 
     private void getDados() throws ParseException, ProfessorException {
@@ -732,7 +778,18 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
     private boolean verificarCamposVazios() {
         return tfNome.getText().isEmpty() || cbTitulacao.getSelectedIndex() < 0 || !ftfCpf.getText().contains("123456789")
                 || !ftfRg.getText().contains("123456789") || dtcDataEntrada.getDate() == null || !ftfTelefone.getText().contains("123456789")
-                || tfBanco.getText().isEmpty() || tfAgencia.getText().isEmpty() || tfConta.getText().isEmpty() 
+                || tfBanco.getText().isEmpty() || tfAgencia.getText().isEmpty() || tfConta.getText().isEmpty()
                 || tfCidade.getText().isEmpty() || tfRua.getText().isEmpty() || tfBairro.getText().isEmpty() || tfNumero.getText().isEmpty();
+    }
+    
+    public void verificarNivel(int nivel) {
+        if (nivel == 3) {
+            this.nivelUsuario = nivel;
+            tratarCampos(false);
+            jChStatus.setEnabled(false);
+            btAlterar.setEnabled(false);
+            btCadastrar.setEnabled(false);
+            btExcluir.setEnabled(false);
+        }
     }
 }

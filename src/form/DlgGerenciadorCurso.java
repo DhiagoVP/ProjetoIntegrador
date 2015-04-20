@@ -20,11 +20,12 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         this.tratarControles(false);
     }
     private ValidadorDeTeclas validar;
-    DlgConsultarCurso telaConsulta = new DlgConsultarCurso(null, true);
     private final CursoDAO cursoDAO = new CursoDAO();
+    private final DlgConsultarCurso telaConsulta = new DlgConsultarCurso(null, rootPaneCheckingEnabled);
     private Curso curso;
     List<Curso> cursoList;
-    int idCurso;
+    private int idCurso;
+    private int nivelUsuario;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -41,7 +42,7 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         tfCargaHoraria = new javax.swing.JTextField();
         lbNome = new javax.swing.JLabel();
         lbStatus = new javax.swing.JLabel();
-        chBStatus = new javax.swing.JCheckBox();
+        cbStatus = new javax.swing.JCheckBox();
         panelButtons = new javax.swing.JPanel();
         btCadastrar = new javax.swing.JButton();
         btConsultar = new javax.swing.JButton();
@@ -52,6 +53,7 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciador De Cursos");
         setIconImage(null);
+        setResizable(false);
 
         panelPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dados Do Curso", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Arial", 1, 18), new java.awt.Color(0, 102, 204))); // NOI18N
 
@@ -96,12 +98,12 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         lbStatus.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbStatus.setText("Status");
 
-        chBStatus.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        chBStatus.setText("Inativo");
-        chBStatus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        chBStatus.addChangeListener(new javax.swing.event.ChangeListener() {
+        cbStatus.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        cbStatus.setText("Inativo");
+        cbStatus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cbStatus.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                chBStatusStateChanged(evt);
+                cbStatusStateChanged(evt);
             }
         });
 
@@ -129,7 +131,7 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(lbStatus)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chBStatus)
+                .addComponent(cbStatus)
                 .addContainerGap(46, Short.MAX_VALUE))
         );
         panelPrincipalLayout.setVerticalGroup(
@@ -140,7 +142,7 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
                     .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbNome)
                     .addComponent(lbStatus)
-                    .addComponent(chBStatus))
+                    .addComponent(cbStatus))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 11, Short.MAX_VALUE)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -260,9 +262,7 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
                     curso = null;
                 }
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "ERRO! " + ex.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
-        } catch (CursoException ex) {
+        } catch (SQLException | CursoException ex) {
             JOptionPane.showMessageDialog(this, "ERRO! " + ex.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btCadastrarActionPerformed
@@ -283,8 +283,14 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
     }//GEN-LAST:event_btAlterarActionPerformed
 
     private void btConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarActionPerformed
-        this.setVisible(false);
-        telaConsulta.setVisible(true);
+        if (nivelUsuario == 3) {
+            telaConsulta.verificarNivel(nivelUsuario);
+            this.dispose();
+            telaConsulta.setVisible(true);
+        } else {
+            this.dispose();
+            telaConsulta.setVisible(true);
+        }
     }//GEN-LAST:event_btConsultarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
@@ -302,21 +308,28 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        if (tfNome.getText().isEmpty() && taDescricao.getText().isEmpty() && tfEixoTecnologico.getText().isEmpty() && tfCargaHoraria.getText().isEmpty()) {
+        if (!tfNome.getText().isEmpty() && !taDescricao.getText().isEmpty() && !tfEixoTecnologico.getText().isEmpty() && !tfCargaHoraria.getText().isEmpty()) {
+            this.limparCampos();
+            this.tratarControles(false);
+        } else if (nivelUsuario == 3) {
             this.dispose();
+            DlgMenuConsultas dlgMenu = new DlgMenuConsultas(null, rootPaneCheckingEnabled);
+            dlgMenu.verificarNivel(nivelUsuario);
+            dlgMenu.setVisible(true);
         } else {
-        this.limparCampos();
-        this.tratarControles(false);
+            this.dispose();
         }
     }//GEN-LAST:event_btCancelarActionPerformed
 
-    private void chBStatusStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chBStatusStateChanged
-        if (this.chBStatus.isSelected()) {
-            tratarCampos(false);
-        } else {
-            tratarCampos(true);
+    private void cbStatusStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbStatusStateChanged
+        if (nivelUsuario != 3) {
+            if (this.cbStatus.isSelected()) {
+                tratarCampos(false);
+            } else {
+                tratarCampos(true);
+            }
         }
-    }//GEN-LAST:event_chBStatusStateChanged
+    }//GEN-LAST:event_cbStatusStateChanged
 
     private void tfNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNomeKeyTyped
         validar.validarSomenteLetras(evt);
@@ -335,7 +348,7 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         curso.setDescricao(taDescricao.getText());
         curso.setEixoTecnologico(tfEixoTecnologico.getText());
         curso.setCargaHoraria(tfCargaHoraria.getText());
-        curso.setStatus(chBStatus.isSelected());
+        curso.setStatus(cbStatus.isSelected());
         validar();
     }
 
@@ -354,7 +367,7 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         this.taDescricao.setText(curso.getDescricao());
         this.tfEixoTecnologico.setText(curso.getEixoTecnologico());
         this.tfCargaHoraria.setText(curso.getCargaHoraria());
-        this.chBStatus.setSelected(curso.isStatus());
+        this.cbStatus.setSelected(curso.isStatus());
     }
 
     private void tratarCampos(boolean status) {
@@ -365,9 +378,11 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
     }
 
     private void tratarControles(boolean status) {
-        this.btCadastrar.setEnabled(!status);
-        this.btAlterar.setEnabled(status);
-        this.btExcluir.setEnabled(status);
+        if (nivelUsuario != 3) {
+            this.btCadastrar.setEnabled(!status);
+            this.btAlterar.setEnabled(status);
+            this.btExcluir.setEnabled(status);
+        }
     }
 
     private void limparCampos() {
@@ -375,7 +390,7 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         this.taDescricao.setText(null);
         this.tfEixoTecnologico.setText(null);
         this.tfCargaHoraria.setText(null);
-        this.chBStatus.setSelected(false);
+        this.cbStatus.setSelected(false);
     }
 
     public void recuperarDadosAlterarCurso(int idCurso) {
@@ -385,7 +400,7 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
             this.taDescricao.setText(curso.getDescricao());
             this.tfEixoTecnologico.setText(curso.getEixoTecnologico());
             this.tfCargaHoraria.setText(curso.getCargaHoraria());
-            this.chBStatus.setSelected(curso.isStatus());
+            this.cbStatus.setSelected(curso.isStatus());
             this.tratarControles(true);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "ERRO! " + ex.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
@@ -440,7 +455,7 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btConsultar;
     private javax.swing.JButton btExcluir;
-    private javax.swing.JCheckBox chBStatus;
+    private javax.swing.JCheckBox cbStatus;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbCargaHoraria;
     private javax.swing.JLabel lbDescricao;
@@ -458,5 +473,19 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
     private boolean verificarCamposVazios() {
         return tfNome.getText().isEmpty() || taDescricao.getText().isEmpty()
                 || tfEixoTecnologico.getText().isEmpty() || tfCargaHoraria.getText().isEmpty();
+    }
+
+    public void verificarNivel(int nivel) {
+        if (nivel == 3) {
+            this.nivelUsuario = nivel;
+            tfNome.setEnabled(false);
+            taDescricao.setEnabled(false);
+            tfEixoTecnologico.setEnabled(false);
+            tfCargaHoraria.setEnabled(false);
+            cbStatus.setEnabled(false);
+            btAlterar.setEnabled(false);
+            btCadastrar.setEnabled(false);
+            btExcluir.setEnabled(false);
+        }
     }
 }

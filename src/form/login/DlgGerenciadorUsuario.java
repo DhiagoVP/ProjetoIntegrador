@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.security.auth.login.LoginException;
 import javax.swing.JOptionPane;
 import model.Login;
 import table.LoginColumnModel;
@@ -223,15 +224,20 @@ public class DlgGerenciadorUsuario extends javax.swing.JDialog {
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         if (login == null) {
-            login = new Login();
-            getDados();
             try {
-                if (loginDAO.cadastrar(login)) {
-                    JOptionPane.showMessageDialog(this, "Cadastro de usuário efetuado com sucesso!");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Nome de usuário já existe!");
+                login = new Login();
+                getDados();
+                validar();
+                try {
+                    if (loginDAO.cadastrar(login)) {
+                        JOptionPane.showMessageDialog(this, "Cadastro de usuário efetuado com sucesso!");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Nome de usuário já existe!");
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, "ERRO: " + ex.getMessage());
                 }
-            } catch (SQLException ex) {
+            } catch (LoginException ex) {
                 JOptionPane.showMessageDialog(this, "ERRO: " + ex.getMessage());
             }
         }
@@ -244,11 +250,8 @@ public class DlgGerenciadorUsuario extends javax.swing.JDialog {
             login = new Login();
             getDados();
             try {
-                if (loginDAO.atualizar(login)) {
+                loginDAO.atualizar(loginDAO.pesquisarPorNome(login.getUsuario()));
                     JOptionPane.showMessageDialog(this, "Usuário atualizado!");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Usuário não foi atualizado");
-                }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "ERRO: " + ex.getMessage());
             }
@@ -262,7 +265,7 @@ public class DlgGerenciadorUsuario extends javax.swing.JDialog {
             login = new Login();
             getDados();
             try {
-                if (loginDAO.remover(login.getId())) {
+                if (loginDAO.remover(loginDAO.pesquisarPorNome(login.getUsuario()).getId())) {
                     JOptionPane.showMessageDialog(this, "Usuário removido!");
                 } else {
                     JOptionPane.showMessageDialog(this, "Usuário não foi removido");
@@ -454,4 +457,21 @@ public class DlgGerenciadorUsuario extends javax.swing.JDialog {
         }
     }
 
+    private void validar() throws LoginException {
+        if (new String(pfSenha.getPassword()).isEmpty()) {
+            throw new LoginException("Senha obrigatória!");
+        }
+
+        if (tfLogin.getText().isEmpty()) {
+            throw new LoginException("Login obrigatório!");
+        }
+
+        if (tfLogin.getText().length() < 6) {
+            throw new LoginException("O login deve conter no mínimo 6 caracteres.");
+        }
+
+        if (new String(pfSenha.getPassword()).length() < 8) {
+            throw new LoginException("A senha deve conter no mínimo 8 caracteres.");
+        }
+    }
 }

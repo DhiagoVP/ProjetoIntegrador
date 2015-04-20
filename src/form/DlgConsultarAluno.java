@@ -25,6 +25,7 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
     DlgGerenciadorAluno janelaAluno;
     AlunoDAO alunoDAO = new AlunoDAO();
     List<Aluno> listaAluno = new ArrayList<>();
+    int nivelUsuario;
     //Aluno aluno = null;
 
     public void atualizarTabela(String sql) {
@@ -184,12 +185,18 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
             janelaAluno = new DlgGerenciadorAluno(null, true);
             janelaAluno.recuperarDadosAlterarAluno(idAluno);
             this.dispose();
+            janelaAluno.verificarNivel(nivelUsuario);
             janelaAluno.setVisible(true);
         }
     }//GEN-LAST:event_btEnviarActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
-        if (tfItemBusca.getText().isEmpty()) {
+        if (nivelUsuario == 3) {
+            DlgMenuConsultas menu = new DlgMenuConsultas(null, rootPaneCheckingEnabled);
+            menu.verificarNivel(nivelUsuario);
+            this.dispose();
+            menu.setVisible(true);
+        } else if (tfItemBusca.getText().isEmpty()) {
             janelaAluno = new DlgGerenciadorAluno(null, true);
             this.dispose();
             janelaAluno.setVisible(true);
@@ -207,6 +214,7 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
             int idAluno = (int) this.tableAluno.getValueAt(linhaSelecionada, 0);
             janelaAluno = new DlgGerenciadorAluno(null, true);
             janelaAluno.recuperarDadosAlterarAluno(idAluno);
+            janelaAluno.verificarNivel(nivelUsuario);
             this.dispose();
             janelaAluno.setVisible(true);
         }
@@ -317,4 +325,11 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
     private javax.swing.JTable tableAluno;
     private javax.swing.JTextField tfItemBusca;
     // End of variables declaration//GEN-END:variables
+
+    public void verificarNivel (int nivel) {
+        if (nivel == 3) {
+            this.nivelUsuario = 3;
+        }
+    }
+
 }

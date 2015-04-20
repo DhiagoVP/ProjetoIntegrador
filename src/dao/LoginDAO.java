@@ -31,7 +31,7 @@ public class LoginDAO {
         return true;
     }
 
-    public boolean atualizar(Login login) throws SQLException {
+    public void atualizar(Login login) throws SQLException {
         PreparedStatement pstm;
         String sql = "UPDATE login l SET l.usuario = ?, l.senha = ?, l.nivel = ? WHERE l.id = ?;";
         pstm = DBConnection.getConnection().prepareStatement(sql);
@@ -41,7 +41,6 @@ public class LoginDAO {
         pstm.setInt(4, login.getId());
         pstm.execute();
         pstm.close();
-        return true;
     }
     
     public boolean remover(int id) throws SQLException {
@@ -75,6 +74,22 @@ public class LoginDAO {
         String sql = "SELECT * FROM login WHERE usuario = '" + usuario +"';";
         pstm = DBConnection.getConnection().prepareStatement(sql);
         //pstm.setString(1, usuario);
+        ResultSet rs = pstm.executeQuery();
+        Login login = null;
+        if (rs.first()) {
+            login = new Login(
+                    rs.getInt("id"),
+                    rs.getInt("nivel"),
+                    rs.getString("usuario"),
+                    rs.getString("senha"));
+        }
+        return login;
+    }
+    
+    public Login pesquisarPorNivel(int nivel) throws SQLException {
+        PreparedStatement pstm;
+        String sql = "SELECT * FROM login l WHERE l.nivel = " + nivel + ";";
+        pstm = DBConnection.getConnection().prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();
         Login login = null;
         if (rs.first()) {
