@@ -388,7 +388,8 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
     private void btSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSairActionPerformed
         int resposta = JOptionPane.showConfirmDialog(this, "Deseja sair?", "Aviso", JOptionPane.YES_NO_OPTION);
         if (resposta == 0) {
-            System.exit(0);
+            new FrmLogin().setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_btSairActionPerformed
 
@@ -437,8 +438,11 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
     }//GEN-LAST:event_menuGerenciadorUsuarioMouseClicked
 
     private void menuLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuLogoutMouseClicked
-        new FrmLogin().setVisible(true);
-        this.dispose();
+        int resposta = JOptionPane.showConfirmDialog(this, "Deseja sair?", "Aviso", JOptionPane.YES_NO_OPTION);
+        if (resposta == 0) {
+            new FrmLogin().setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_menuLogoutMouseClicked
     
     public static void main(String args[]) {

@@ -7,6 +7,7 @@
 package form;
 
 import form.login.FrmLogin;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -209,8 +210,11 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
     }//GEN-LAST:event_btConsultarAlunoActionPerformed
 
     private void btLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogoutActionPerformed
-        this.dispose();
-        new FrmLogin().setVisible(true);
+        int resposta = JOptionPane.showConfirmDialog(this, "Deseja sair?", "Aviso", JOptionPane.YES_NO_OPTION);
+        if (resposta == 0) {
+            new FrmLogin().setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_btLogoutActionPerformed
 
     /**

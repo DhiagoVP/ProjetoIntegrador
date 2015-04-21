@@ -83,6 +83,11 @@ public class FrmLogin extends javax.swing.JFrame {
         });
 
         pfSenha.setToolTipText("");
+        pfSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pfSenhaKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -185,6 +190,10 @@ public class FrmLogin extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_btFecharActionPerformed
 
+    private void pfSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfSenhaKeyPressed
+        getRootPane().setDefaultButton(btEntrar);
+    }//GEN-LAST:event_pfSenhaKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -225,7 +234,7 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField pfSenha;
     private javax.swing.JTextField tfLogin;
     // End of variables declaration//GEN-END:variables
-public static String criptografar(String valor) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static String criptografar(String valor) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 
         //Note que o Algoritmo de criptografia é fornecido por parâmetro.
         //Nesse caso 'MD5' poderia ser 'SHA1'.
