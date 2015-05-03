@@ -35,22 +35,24 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        lbLogo = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         btConsultarCurso = new javax.swing.JButton();
         btConsultarOrientador = new javax.swing.JButton();
         btConsultarSupervisor = new javax.swing.JButton();
         btConsultarProfessor = new javax.swing.JButton();
         btConsultarAluno = new javax.swing.JButton();
         btConsultarTurma = new javax.swing.JButton();
+        btConsultarPagamento = new javax.swing.JButton();
         btConsultarBeneficio = new javax.swing.JButton();
         btLogout = new javax.swing.JButton();
-        lbLogo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Menu De Consultas");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 204), 2));
-        jPanel1.setLayout(new java.awt.GridLayout(8, 0));
+        lbLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/LogoIfsc.png"))); // NOI18N
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 204), 2));
 
         btConsultarCurso.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btConsultarCurso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Curso.png"))); // NOI18N
@@ -60,7 +62,6 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
                 btConsultarCursoActionPerformed(evt);
             }
         });
-        jPanel1.add(btConsultarCurso);
 
         btConsultarOrientador.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btConsultarOrientador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Orientador.png"))); // NOI18N
@@ -70,7 +71,6 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
                 btConsultarOrientadorActionPerformed(evt);
             }
         });
-        jPanel1.add(btConsultarOrientador);
 
         btConsultarSupervisor.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btConsultarSupervisor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Supervisor.png"))); // NOI18N
@@ -80,7 +80,6 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
                 btConsultarSupervisorActionPerformed(evt);
             }
         });
-        jPanel1.add(btConsultarSupervisor);
 
         btConsultarProfessor.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btConsultarProfessor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Professor.png"))); // NOI18N
@@ -90,7 +89,6 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
                 btConsultarProfessorActionPerformed(evt);
             }
         });
-        jPanel1.add(btConsultarProfessor);
 
         btConsultarAluno.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btConsultarAluno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/aluno.png"))); // NOI18N
@@ -100,7 +98,6 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
                 btConsultarAlunoActionPerformed(evt);
             }
         });
-        jPanel1.add(btConsultarAluno);
 
         btConsultarTurma.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btConsultarTurma.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Turma.png"))); // NOI18N
@@ -110,7 +107,15 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
                 btConsultarTurmaActionPerformed(evt);
             }
         });
-        jPanel1.add(btConsultarTurma);
+
+        btConsultarPagamento.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btConsultarPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Pagamento.png"))); // NOI18N
+        btConsultarPagamento.setText("Consultar Pagamento");
+        btConsultarPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btConsultarPagamentoActionPerformed(evt);
+            }
+        });
 
         btConsultarBeneficio.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btConsultarBeneficio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cofrinho-Beneficio-Cifrao.png"))); // NOI18N
@@ -120,7 +125,6 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
                 btConsultarBeneficioActionPerformed(evt);
             }
         });
-        jPanel1.add(btConsultarBeneficio);
 
         btLogout.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Sair.png"))); // NOI18N
@@ -130,29 +134,67 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
                 btLogoutActionPerformed(evt);
             }
         });
-        jPanel1.add(btLogout);
 
-        lbLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/LogoIfsc.png"))); // NOI18N
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btConsultarCurso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btConsultarOrientador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btConsultarSupervisor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btConsultarProfessor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btConsultarAluno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btConsultarTurma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btConsultarBeneficio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btConsultarPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(btConsultarCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(btConsultarOrientador, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btConsultarSupervisor, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btConsultarProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btConsultarAluno, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btConsultarTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btConsultarBeneficio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btConsultarPagamento)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btLogout))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbLogo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(lbLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(95, 95, 95)
-                .addComponent(lbLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(102, 102, 102)
+                        .addComponent(lbLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -217,6 +259,13 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btLogoutActionPerformed
 
+    private void btConsultarPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarPagamentoActionPerformed
+        this.dispose();
+        DlgConsultarPagamento consultarPagamento = new DlgConsultarPagamento();
+        //consultarPagamento.verificarNivel(nivelUsuario);
+        consultarPagamento.setVisible(true);
+    }//GEN-LAST:event_btConsultarPagamentoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -260,11 +309,12 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
     private javax.swing.JButton btConsultarBeneficio;
     private javax.swing.JButton btConsultarCurso;
     private javax.swing.JButton btConsultarOrientador;
+    private javax.swing.JButton btConsultarPagamento;
     private javax.swing.JButton btConsultarProfessor;
     private javax.swing.JButton btConsultarSupervisor;
     private javax.swing.JButton btConsultarTurma;
     private javax.swing.JButton btLogout;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lbLogo;
     // End of variables declaration//GEN-END:variables
 

@@ -32,7 +32,7 @@ public class DlgGerenciadorAluno extends javax.swing.JDialog {
 //    DlgConsultarAluno janelaConsulta = new DlgConsultarAluno(null, true);
     private final AlunoDAO alunoDAO = new AlunoDAO();
     private Aluno aluno;
-    private ValidadorDeTeclas validar;
+    private ValidadorDeTeclas validar = new ValidadorDeTeclas();
     private int nivelUsuario;
 
     @SuppressWarnings("unchecked")

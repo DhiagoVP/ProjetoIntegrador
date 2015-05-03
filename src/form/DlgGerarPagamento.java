@@ -246,12 +246,12 @@ public class DlgGerarPagamento extends javax.swing.JDialog {
         if (listBeneficiosParaPagar.getLastVisibleIndex() <0)
             JOptionPane.showMessageDialog(this, "Selecione no minímo um beneficio");
         else{
-            DlgEfetuarPagamentoBeneficio beneficio = new DlgEfetuarPagamentoBeneficio(null, rootPaneCheckingEnabled);
+            DlgEfetuarPagamentoBeneficio beneficio = new DlgEfetuarPagamentoBeneficio(null, rootPaneCheckingEnabled, false);
             Turma turma = listaTurma.get(cbTurma.getSelectedIndex());
             pagamento.setDiasLetivos(Integer.parseInt(spinnerDiasLetivos.getValue().toString()));
             pagamento.setMes(cbMes.getSelectedItem().toString());
             if(beneficio.carregarDados(turma, buscarBeneficio(), pagamento)){
-                this.dispose();
+                //this.dispose();
                 beneficio.setVisible(true);
             }
             else{

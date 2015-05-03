@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,24 +15,36 @@ import java.util.List;
 public class Pagamento {
     private int id;
     private List<Aluno> alunos;
-    private List<Beneficio> benefios;
+    private List<Beneficio> beneficios;
     private double valorAPagarPorTurma;
     private boolean pagar;
     private int diasLetivos;
     private Turma turma;
     private String mes;
+    private Date data;
+    private Login login;
     
     public Pagamento() {
     }
 
-    public Pagamento(List<Aluno> alunos, List<Beneficio> benefios, double valorAPagarTurma, int diasLetivos, String mes,
-            Turma turma) {
+    public Pagamento(int id, double valorAPagarPorTurma, Turma turma, String mes, Date data, Login login) {
+        this.id = id;
+        this.valorAPagarPorTurma = valorAPagarPorTurma;
+        this.turma = turma;
+        this.mes = mes;
+        this.data = data;
+        this.login = login;
+    }
+    
+    public Pagamento(List<Aluno> alunos, List<Beneficio> benefios, double valorAPagarTurma, 
+            int diasLetivos, String mes, Turma turma, Login login) {
         this.alunos = alunos;
-        this.benefios = benefios;
+        this.beneficios = benefios;
         this.valorAPagarPorTurma = valorAPagarTurma;
         this.diasLetivos = diasLetivos;
         this.turma = turma;
         this.mes = mes;
+        this.login = login;
     }
     
     public int getId() {
@@ -46,12 +59,12 @@ public class Pagamento {
         this.alunos = alunos;
     }
 
-    public List<Beneficio> getBenefios() {
-        return benefios;
+    public List<Beneficio> getBeneficios() {
+        return beneficios;
     }
 
-    public void setBenefios(List<Beneficio> benefios) {
-        this.benefios = benefios;
+    public void setBeneficios(List<Beneficio> benefios) {
+        this.beneficios = benefios;
     }
 
     public double getValorAPagarPorTurma() {
@@ -105,4 +118,22 @@ public class Pagamento {
     public void setMes(String mes) {
         this.mes = mes;
     }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
+    public Login getUsuario() {
+        return login;
+    }
+
+    public void setUsuario(Login login) {
+        this.login = login;
+    }
+    
+    
 }

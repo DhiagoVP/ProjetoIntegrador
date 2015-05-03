@@ -30,6 +30,11 @@ public class FrmLogin extends javax.swing.JFrame {
      */
     public FrmLogin() {
         initComponents();
+        try {
+            new LoginDAO().setDesativado();
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     LoginDAO loginDAO = new LoginDAO();
     Login login = new Login();
@@ -150,7 +155,8 @@ public class FrmLogin extends javax.swing.JFrame {
                 try {
                     validar();
                     getDados();
-                    loginDAO.cadastrar(login);
+                    int id = loginDAO.cadastrar(login);
+                    loginDAO.setAtivo(id);
                     telaPrincipal.verificarNivel(1);
                     this.dispose();
                     telaPrincipal.setVisible(true);
@@ -161,11 +167,11 @@ public class FrmLogin extends javax.swing.JFrame {
                 try {
                     validar();
                     if (verificarLogin(pegarDadosVerificar())) {
-                        if (verificar(login).getNivel() == 1) {
+                        if (login.getNivel() == 1) {
                             telaPrincipal.verificarNivel(1);
                             this.dispose();
                             telaPrincipal.setVisible(true);
-                        } else if (verificar(login).getNivel() == 2) {
+                        } else if (login.getNivel() == 2) {
                             telaPrincipal.verificarNivel(2);
                             this.dispose();
                             telaPrincipal.setVisible(true);
@@ -174,6 +180,7 @@ public class FrmLogin extends javax.swing.JFrame {
                             this.dispose();
                             menu.setVisible(true);
                         }
+                        loginDAO.setAtivo(login.getId());
                     } else {
                         JOptionPane.showMessageDialog(this, "Login/senha incorreto/inexistente");
                     }
@@ -284,6 +291,7 @@ public class FrmLogin extends javax.swing.JFrame {
     private boolean verificarLogin(Login login) throws SQLException {
         Login verificar = loginDAO.pesquisarPorNome(login.getUsuario());
         if (verificar != null && verificar.getUsuario().equals(login.getUsuario()) && verificar.getSenha().equals(login.getSenha())) {
+            this.login = verificar;
             return true;
         }
         return false;

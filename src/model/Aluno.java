@@ -99,7 +99,13 @@ public class Aluno {
         this.situacao = situacao;
         this.contaBancaria = contaBancaria;
     }
-    
+
+    public Aluno(int id, int faltas, double valorRecebido, double valorDescontado) {
+        this.id = id;
+        this.faltas = faltas;
+        this.valorRecebido = valorRecebido;
+        this.valorDescontado = valorDescontado;
+    }    
 
     public Aluno() {
     }

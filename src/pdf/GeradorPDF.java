@@ -77,7 +77,7 @@ public class GeradorPDF {
                 table.addCell(aluno.getContaBancaria().getNomeBanco());
                 table.addCell(aluno.getContaBancaria().getAgencia() + "");
                 table.addCell(aluno.getContaBancaria().getNumeroConta() + "");
-                for (Beneficio beneficio : pagamento.getBenefios()) {
+                for (Beneficio beneficio : pagamento.getBeneficios()) {
                     valorBeneficio = (pagamento.getDiasLetivos() - aluno.getFaltas()) * beneficio.getValor();
                     table.addCell("R$ " + valorBeneficio);
                     if (beneficio.getTipo().equals("Vale Alimentação")) {

@@ -36,6 +36,12 @@ public class Login {
         this.senha = senha;
     }
 
+    public Login(int id, String usuario) {
+        this.id = id;
+        this.usuario = usuario;
+    }
+    
+
     public int getNivel() {
         return nivel;
     }

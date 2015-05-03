@@ -229,7 +229,7 @@ public class DlgGerenciadorUsuario extends javax.swing.JDialog {
                 getDados();
                 validar();
                 try {
-                    if (loginDAO.cadastrar(login)) {
+                    if (loginDAO.cadastrar(login) > 0) {
                         JOptionPane.showMessageDialog(this, "Cadastro de usuário efetuado com sucesso!");
                     } else {
                         JOptionPane.showMessageDialog(this, "Nome de usuário já existe!");

@@ -1,13 +1,17 @@
 package form;
 
+import dao.LoginDAO;
 import form.login.DlgGerenciadorUsuario;
 import form.login.FrmLogin;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -388,6 +392,11 @@ public class FrmTelaPrincipal extends javax.swing.JFrame implements ActionListen
     private void btSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSairActionPerformed
         int resposta = JOptionPane.showConfirmDialog(this, "Deseja sair?", "Aviso", JOptionPane.YES_NO_OPTION);
         if (resposta == 0) {
+            try {
+                new LoginDAO().setDesativado();
+            } catch (SQLException ex) {
+                Logger.getLogger(FrmTelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
             new FrmLogin().setVisible(true);
             this.dispose();
         }
