@@ -15,9 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Aluno;
 import model.Beneficio;
+import model.Curso;
 import model.Login;
 import model.Orientador;
 import model.Pagamento;
+import model.Supervisor;
 import model.Turma;
 
 /**
@@ -25,13 +27,14 @@ import model.Turma;
  * @author Aluno
  */
 public class PagamentoDAO {
+
     SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-    
+
     public boolean inserir(Pagamento pagamentoFinal) throws SQLException {
         long dataAtual = new java.util.Date().getTime();
         int idTurma = pagamentoFinal.getTurma().getId();
-        String sql = "INSERT INTO pagamento (idpagamento, date, idTurma, idUsuario, totalPago, mes) "
-                + "VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO pagamento (idpagamento, date, idTurma, idUsuario, totalPago, mes, diasLetivos) "
+                + "VALUES(?,?,?,?,?,?,?)";
         PreparedStatement pstm = DBConnection.getConnection().prepareStatement(sql);
         pstm.setInt(1, pagamentoFinal.getId());
         pstm.setDate(2, new Date(dataAtual));
@@ -39,6 +42,7 @@ public class PagamentoDAO {
         pstm.setInt(4, pagamentoFinal.getUsuario().getId());
         pstm.setDouble(5, pagamentoFinal.getValorAPagarPorTurma());
         pstm.setString(6, pagamentoFinal.getMes());
+        pstm.setInt(7, pagamentoFinal.getDiasLetivos());
         pstm.execute();
         pstm.close();
         DBConnection.close();
@@ -93,24 +97,34 @@ public class PagamentoDAO {
     }
 
     public List<Pagamento> listarTodos() throws SQLException {
-        String sql = "SELECT p.idpagamento, p.totalPago, p.idTurma, t.nome, t.idOrientador, "
-                + "o.nome, p.mes, p.date, p.idUsuario, l.usuario FROM pagamento p, turma t, login l, "
-                + "orientador o WHERE p.idTurma = t.idTurma AND p.idUsuario = l.id AND "
-                + "t.idOrientador = o.idOrientador";
+        String sql = "SELECT * FROM pagamento p, turma t, "
+                + "login l, orientador o, supervisor s, curso c"
+                + " WHERE p.idTurma = t.idTurma AND p.idUsuario = l.id AND "
+                + "t.idOrientador = o.idOrientador AND t.idSupervisor = s.idSupervisor"
+                + " AND t.idCurso = c.idCurso";
         List<Pagamento> listaPagamento = new ArrayList<>();
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         Pagamento pagamento;
         while (rs.next()) {
-            
+
             pagamento = new Pagamento(
                     rs.getInt("p.idpagamento"),
                     rs.getDouble("p.totalPago"),
-                    new Turma(rs.getInt("p.idTurma"), rs.getString("t.nome"), 
-                            new Orientador(rs.getInt("t.idOrientador"), rs.getString("o.nome"))),
+                    new Turma(rs.getInt("t.idTurma"),
+                            rs.getString("t.nome"),
+                            rs.getString("t.cidadeDemandante"),
+                            rs.getString("t.campusOfertante"),
+                            rs.getString("t.turno"),
+                            rs.getDate("t.dataInicio"),
+                            rs.getDate("t.dataFinal"),
+                            new Orientador(rs.getInt("o.idOrientador"), rs.getString("o.nome")),
+                            new Supervisor(rs.getInt("s.idSupervisor"), rs.getString("s.nome")),
+                            new Curso(rs.getInt("c.idCurso"), rs.getString("c.nome"))),
                     rs.getString("p.mes"),
                     rs.getDate("p.date"),
-                    new Login(rs.getInt("p.idUsuario"), rs.getString("l.usuario")));
+                    new Login(rs.getInt("p.idUsuario"), rs.getString("l.usuario")),
+                    rs.getInt("p.diasLetivos"));
             listaPagamento.add(pagamento);
         }
         return listaPagamento;
@@ -134,7 +148,7 @@ public class PagamentoDAO {
         }
         return listaBeneficio;
     }
-    
+
     public List<Aluno> buscarAlunosPagos(int idPagamento) throws SQLException {
         String sql = "SELECT * FROM aluno_pagamento WHERE idPagamento = ?";
         List<Aluno> listaAlunos = new ArrayList<>();
@@ -154,10 +168,11 @@ public class PagamentoDAO {
     }
 
     public List<Pagamento> listarTodosPorTurma(Turma turma) throws SQLException {
-        String sql = "SELECT p.idpagamento, p.totalPago, p.idTurma, t.nome, t.idOrientador, " +
-                "o.nome, p.mes, p.date, p.idUsuario, l.usuario FROM pagamento p, turma t, login l, " +
-                "orientador o WHERE p.idTurma = ? AND t.nome = ? AND p.idUsuario = l.id AND " +
-                "t.idOrientador = o.idOrientador";
+        String sql = "SELECT * FROM pagamento p, turma t, login l, "
+                + "orientador o, supervisor s, curso c"
+                + " WHERE p.idTurma = ? AND t.nome = ? AND p.idUsuario = l.id AND "
+                + "t.idOrientador = o.idOrientador AND t.idSupervisor = s.idSupervisor "
+                + "AND t.idCurso = c.idCurso";
         List<Pagamento> listaPagamento = new ArrayList<>();
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
         ps.setInt(1, turma.getId());
@@ -168,21 +183,30 @@ public class PagamentoDAO {
             pagamento = new Pagamento(
                     rs.getInt("p.idpagamento"),
                     rs.getDouble("p.totalPago"),
-                    new Turma(rs.getInt("p.idTurma"), rs.getString("t.nome"), 
-                            new Orientador(rs.getInt("t.idOrientador"), rs.getString("o.nome"))),
+                    new Turma(rs.getInt("t.idTurma"),
+                            rs.getString("t.nome"),
+                            rs.getString("t.cidadeDemandante"),
+                            rs.getString("t.campusOfertante"),
+                            rs.getString("t.turno"),
+                            rs.getDate("t.dataInicio"),
+                            rs.getDate("t.dataFinal"),
+                            new Orientador(rs.getInt("o.idOrientador"), rs.getString("o.nome")),
+                            new Supervisor(rs.getInt("s.idSupervisor"), rs.getString("s.nome")),
+                            new Curso(rs.getInt("c.idCurso"), rs.getString("c.nome"))),
                     rs.getString("p.mes"),
                     rs.getDate("p.date"),
-                    new Login(rs.getInt("p.idUsuario"), rs.getString("l.usuario")));
+                    new Login(rs.getInt("p.idUsuario"), rs.getString("l.usuario")),
+                    rs.getInt("p.diasLetivos"));
             listaPagamento.add(pagamento);
         }
         return listaPagamento;
     }
 
     public List<Pagamento> listarTodosPorMes(String mes) throws SQLException {
-        String sql = "SELECT p.idpagamento, p.totalPago, p.idTurma, t.nome, t.idOrientador, " +
-                "o.nome, p.mes, p.date, p.idUsuario, l.usuario FROM pagamento p, turma t, login l, " +
-                "orientador o WHERE p.idTurma = t.idTurma AND p.idUsuario = l.id AND " +
-                "t.idOrientador = o.idOrientador AND p.mes = ?";
+        String sql = "SELECT * FROM pagamento p, turma t, login l, "
+                + "orientador o, supervisor s, curso c WHERE p.idTurma = t.idTurma AND p.idUsuario = l.id AND "
+                + "t.idOrientador = o.idOrientador AND p.mes = ? AND t.idSupervisor = s.idSupervisor "
+                + "AND t.idCurso = c.idCurso";
         List<Pagamento> listaPagamento = new ArrayList<>();
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
         ps.setString(1, mes);
@@ -192,21 +216,30 @@ public class PagamentoDAO {
             pagamento = new Pagamento(
                     rs.getInt("p.idpagamento"),
                     rs.getDouble("p.totalPago"),
-                    new Turma(rs.getInt("p.idTurma"), rs.getString("t.nome"), 
-                            new Orientador(rs.getInt("t.idOrientador"), rs.getString("o.nome"))),
+                    new Turma(rs.getInt("t.idTurma"),
+                            rs.getString("t.nome"),
+                            rs.getString("t.cidadeDemandante"),
+                            rs.getString("t.campusOfertante"),
+                            rs.getString("t.turno"),
+                            rs.getDate("t.dataInicio"),
+                            rs.getDate("t.dataFinal"),
+                            new Orientador(rs.getInt("o.idOrientador"), rs.getString("o.nome")),
+                            new Supervisor(rs.getInt("s.idSupervisor"), rs.getString("s.nome")),
+                            new Curso(rs.getInt("c.idCurso"), rs.getString("c.nome"))),
                     rs.getString("p.mes"),
                     rs.getDate("p.date"),
-                    new Login(rs.getInt("p.idUsuario"), rs.getString("l.usuario")));
+                    new Login(rs.getInt("p.idUsuario"), rs.getString("l.usuario")),
+                    rs.getInt("p.diasLetivos"));
             listaPagamento.add(pagamento);
         }
         return listaPagamento;
     }
 
     public List<Pagamento> listarTodosPorTurmaEMes(Turma turma, String mes) throws SQLException {
-        String sql = "SELECT p.idpagamento, p.totalPago, p.idTurma, t.nome, t.idOrientador, " +
-                "o.nome, p.mes, p.date, p.idUsuario, l.usuario FROM pagamento p, turma t, login l, " +
-                "orientador o WHERE p.idTurma = ? AND t.nome = ? AND p.idUsuario = l.id AND " +
-                "t.idOrientador = o.idOrientador AND p.mes = ?";
+        String sql = "SELECT * FROM pagamento p, turma t, login l, "
+                + "orientador o, supervisor s, curso c WHERE p.idTurma = ? AND t.nome = ? AND p.idUsuario = l.id AND "
+                + "t.idOrientador = o.idOrientador AND t.idSupervisor = s.idSupervisor AND "
+                + "t.idCurso = c.idCurso AND p.mes = ?";
         List<Pagamento> listaPagamento = new ArrayList<>();
         PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
         ps.setInt(1, turma.getId());
@@ -218,11 +251,20 @@ public class PagamentoDAO {
             pagamento = new Pagamento(
                     rs.getInt("p.idpagamento"),
                     rs.getDouble("p.totalPago"),
-                    new Turma(rs.getInt("p.idTurma"), rs.getString("t.nome"), 
-                            new Orientador(rs.getInt("t.idOrientador"), rs.getString("o.nome"))),
+                    new Turma(rs.getInt("t.idTurma"),
+                            rs.getString("t.nome"),
+                            rs.getString("t.cidadeDemandante"),
+                            rs.getString("t.campusOfertante"),
+                            rs.getString("t.turno"),
+                            rs.getDate("t.dataInicio"),
+                            rs.getDate("t.dataFinal"),
+                            new Orientador(rs.getInt("o.idOrientador"), rs.getString("o.nome")),
+                            new Supervisor(rs.getInt("s.idSupervisor"), rs.getString("s.nome")),
+                            new Curso(rs.getInt("c.idCurso"), rs.getString("c.nome"))),
                     rs.getString("p.mes"),
                     rs.getDate("p.date"),
-                    new Login(rs.getInt("p.idUsuario"), rs.getString("l.usuario")));
+                    new Login(rs.getInt("p.idUsuario"), rs.getString("l.usuario")),
+                    rs.getInt("p.diasLetivos"));
             listaPagamento.add(pagamento);
         }
         return listaPagamento;

@@ -57,7 +57,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
             btSalvar.setEnabled(false);
             btCancelar.setText("Voltar");
             btCancelar.setIcon(new ImageIcon("src/icon/Voltar.png"));
-            btGerarRelatorio.setEnabled(false);
+            btGerarRelatorio.setEnabled(true);
         } else {
             btSalvar.setEnabled(true);
             btCancelar.setText("Cancelar");
@@ -268,6 +268,11 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         if (dadosEspecificos == null) {
             return;
         }
+        if (consulta) {
+            pagamentoFinal = pagamento;
+            pagamentoFinal.setAlunos(listaAlunosPagos);
+        }
+
         try {
             new GeradorPDF().createPdf(dadosEspecificos.getCaminho(), pagamentoFinal, dadosEspecificos);
         } catch (IOException | DocumentException ex) {
@@ -476,15 +481,20 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(DlgEfetuarPagamentoBeneficio.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         for (int i = 0; i < listaAlunos.size(); i++) {
-            for(Aluno aluno : listaAlunosPagos)
-                if (listaAlunos.get(i).getId() == aluno.getId()) {
-                    tbPagamentoBeneficio.setValueAt(aluno.getFaltas(), i, 6);
-                    tbPagamentoBeneficio.setValueAt(aluno.getValorRecebido(), i, 7);
-                    tbPagamentoBeneficio.setValueAt(true, i, 8);
-                }else{
-                    tbPagamentoBeneficio.setValueAt(false, i, 8);
+            for (int j = 0; j < listaAlunosPagos.size(); j++) {
+                if (listaAlunosPagos.get(j).getId() != listaAlunos.get(i).getId()) {
+                    listaAlunos.get(i).setRecece(false);
+                } else {
+                    listaAlunosPagos.get(j).setContaBancaria(listaAlunos.get(i).getContaBancaria());
+                    tbPagamentoBeneficio.setValueAt(listaAlunosPagos.get(j).getFaltas(), i, 6);
+                    tbPagamentoBeneficio.setValueAt(listaAlunosPagos.get(j).getValorRecebido(), i, 7);
+                    listaAlunos.get(i).setRecece(true);
+                    break;
                 }
+            }
+            tbPagamentoBeneficio.setValueAt(listaAlunos.get(i).isRecece(), i, 8);
         }
         tfTotalAPagar.setText("RS " + pagamento.getValorAPagarPorTurma());
     }

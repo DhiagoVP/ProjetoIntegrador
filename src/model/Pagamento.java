@@ -27,13 +27,15 @@ public class Pagamento {
     public Pagamento() {
     }
 
-    public Pagamento(int id, double valorAPagarPorTurma, Turma turma, String mes, Date data, Login login) {
+    public Pagamento(int id, double valorAPagarPorTurma, Turma turma, String mes, Date data, Login login,
+            int diasLetivos) {
         this.id = id;
         this.valorAPagarPorTurma = valorAPagarPorTurma;
         this.turma = turma;
         this.mes = mes;
         this.data = data;
         this.login = login;
+        this.diasLetivos = diasLetivos;
     }
     
     public Pagamento(List<Aluno> alunos, List<Beneficio> benefios, double valorAPagarTurma, 

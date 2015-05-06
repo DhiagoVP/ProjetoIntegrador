@@ -90,12 +90,6 @@ public class Turma {
         this.supervisor = supervisor;
         this.curso = curso;
     }
-
-    public Turma(int id, String nome, Orientador orientador) {
-        this.id = id;
-        this.nome = nome;
-        this.orientador = orientador;
-    }
     
     public String getCidadeDemandande() {
         return cidadeDemandande;
