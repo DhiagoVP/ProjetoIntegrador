@@ -221,6 +221,7 @@ public class DlgGerenciadorUsuario extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
@@ -440,7 +441,7 @@ public class DlgGerenciadorUsuario extends javax.swing.JDialog {
         btAlterar.setEnabled(false);
         btExcluir.setEnabled(false);
         btCancelar.setEnabled(true);
-
+        limparCampos();
     }
 
     private void estadoAlterar() {

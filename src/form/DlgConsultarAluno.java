@@ -328,9 +328,7 @@ public class DlgConsultarAluno extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     public void verificarNivel (int nivel) {
-        if (nivel == 3) {
-            this.nivelUsuario = 3;
-        }
+        this.nivelUsuario = nivel;
     }
 
 }
