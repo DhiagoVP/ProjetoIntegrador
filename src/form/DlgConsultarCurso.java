@@ -58,6 +58,7 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Consultar Curso");
+        setResizable(false);
 
         tableCurso.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

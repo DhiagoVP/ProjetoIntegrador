@@ -58,6 +58,7 @@ public final class DlgConsultarSupervisor extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Consultar Supervisor");
+        setResizable(false);
 
         tfItemBusca.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tfItemBusca.addCaretListener(new javax.swing.event.CaretListener() {

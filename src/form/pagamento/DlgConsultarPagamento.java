@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package form;
+package form.pagamento;
 
 import dao.PagamentoDAO;
 import dao.TurmaDAO;
+import form.DlgConsultarTurma;
+import form.DlgRealizarMatricula;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +54,7 @@ public class DlgConsultarPagamento extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         tbPagamentos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package form;
+package form.pagamento;
 
+import form.FrmTelaPrincipal;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.logging.Level;
@@ -54,6 +55,7 @@ public class DlgDadosEspecificosRelatorios extends javax.swing.JDialog {
         tfSistec = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Planilha");

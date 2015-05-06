@@ -55,6 +55,7 @@ public class DlgGerenciadorBeneficio extends javax.swing.JDialog {
         buttonCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         panelDadosBeneficio.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dados Benefício", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 18), new java.awt.Color(0, 102, 204))); // NOI18N
 

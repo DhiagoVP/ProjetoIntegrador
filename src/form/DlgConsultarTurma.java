@@ -63,6 +63,7 @@ public class DlgConsultarTurma extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consultar Turma");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
 
         cbItensDeBusca.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         cbItensDeBusca.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Curso", "Nome", "Orientador", "Professor", "Supervisor" }));

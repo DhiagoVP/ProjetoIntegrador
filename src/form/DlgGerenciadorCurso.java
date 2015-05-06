@@ -308,14 +308,14 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        if (!tfNome.getText().isEmpty() && !taDescricao.getText().isEmpty() && !tfEixoTecnologico.getText().isEmpty() && !tfCargaHoraria.getText().isEmpty()) {
-            this.limparCampos();
-            this.tratarControles(false);
-        } else if (nivelUsuario == 3) {
-            this.dispose();
+        if (nivelUsuario == 3 ) {
             DlgMenuConsultas dlgMenu = new DlgMenuConsultas(null, rootPaneCheckingEnabled);
             dlgMenu.verificarNivel(nivelUsuario);
+            this.dispose();
             dlgMenu.setVisible(true);
+        } else if (!tfNome.getText().isEmpty() && !taDescricao.getText().isEmpty() && !tfEixoTecnologico.getText().isEmpty() && !tfCargaHoraria.getText().isEmpty()) {
+            this.limparCampos();
+            this.tratarControles(false);
         } else {
             this.dispose();
         }

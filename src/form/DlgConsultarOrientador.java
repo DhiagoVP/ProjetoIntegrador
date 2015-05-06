@@ -54,6 +54,7 @@ public class DlgConsultarOrientador extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Consultar Orientador");
+        setResizable(false);
 
         lbNome.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbNome.setText("Pesquisar por");

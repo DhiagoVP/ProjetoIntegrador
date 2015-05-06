@@ -1,5 +1,6 @@
 package form;
 
+import form.pagamento.DlgGerarPagamento;
 import dao.LoginDAO;
 import form.login.DlgGerenciadorUsuario;
 import form.login.FrmLogin;

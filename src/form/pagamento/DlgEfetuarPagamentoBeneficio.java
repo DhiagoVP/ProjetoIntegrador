@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package form;
+package form.pagamento;
 
 import com.itextpdf.text.DocumentException;
 import dao.AlunoDAO;
@@ -116,6 +116,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         btCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         panelGerarPagamento.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gerar Pagamento de Benefício", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 18), new java.awt.Color(0, 102, 204))); // NOI18N
 

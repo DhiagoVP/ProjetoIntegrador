@@ -5,7 +5,7 @@
  */
 package table;
 
-import form.DlgEfetuarPagamentoBeneficio;
+import form.pagamento.DlgEfetuarPagamentoBeneficio;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;

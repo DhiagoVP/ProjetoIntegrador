@@ -6,6 +6,7 @@
 
 package form;
 
+import form.pagamento.DlgConsultarPagamento;
 import form.login.FrmLogin;
 import javax.swing.JOptionPane;
 
@@ -49,6 +50,7 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Menu De Consultas");
+        setResizable(false);
 
         lbLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/LogoIfsc.png"))); // NOI18N
 
