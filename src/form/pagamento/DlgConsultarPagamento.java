@@ -8,6 +8,7 @@ package form.pagamento;
 import dao.PagamentoDAO;
 import dao.TurmaDAO;
 import form.DlgConsultarTurma;
+import form.DlgMenuConsultas;
 import form.DlgRealizarMatricula;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class DlgConsultarPagamento extends javax.swing.JFrame {
     List<Pagamento> pagamentosEncontrados = new ArrayList<>();
     ConsultaPagamentoTableModel pagamentoTable = new ConsultaPagamentoTableModel();
     Pagamento pagamento = new Pagamento();
+    private int nivelUsuario;
 
     /**
      * Creates new form DlgConsultarPagamento
@@ -52,6 +54,8 @@ public class DlgConsultarPagamento extends javax.swing.JFrame {
         cbTurmas = new javax.swing.JComboBox();
         cbMeses = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
+        btEnviar = new javax.swing.JButton();
+        btCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -111,6 +115,24 @@ public class DlgConsultarPagamento extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setText("Mês:");
 
+        btEnviar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Enviar.png"))); // NOI18N
+        btEnviar.setText("Enviar");
+        btEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEnviarActionPerformed(evt);
+            }
+        });
+
+        btCancelar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cancelar.png"))); // NOI18N
+        btCancelar.setText("Cancelar");
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -126,7 +148,11 @@ public class DlgConsultarPagamento extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbMeses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbMeses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -139,8 +165,12 @@ public class DlgConsultarPagamento extends javax.swing.JFrame {
                     .addComponent(cbMeses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btCancelar)
+                    .addComponent(btEnviar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -149,15 +179,7 @@ public class DlgConsultarPagamento extends javax.swing.JFrame {
 
     private void tbPagamentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbPagamentosMouseClicked
         if (evt.getClickCount() == 2) {
-            DlgEfetuarPagamentoBeneficio dlgEfetuarPagamento = new DlgEfetuarPagamentoBeneficio(this, rootPaneCheckingEnabled, true);
-            pagamento = pagamentoTable.getPagamento(tbPagamentos.getSelectedRow());
-            try {
-                pagamento.setBeneficios(new PagamentoDAO().buscarBeneficios(pagamento.getId()));
-            } catch (SQLException ex) {
-                Logger.getLogger(DlgConsultarPagamento.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            dlgEfetuarPagamento.carregarDados(pagamento.getTurma(), pagamento.getBeneficios(), pagamento);
-            dlgEfetuarPagamento.setVisible(true);
+            enviarDados();
         }
     }//GEN-LAST:event_tbPagamentosMouseClicked
 
@@ -176,6 +198,19 @@ public class DlgConsultarPagamento extends javax.swing.JFrame {
             Logger.getLogger(DlgConsultarPagamento.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_cbMesesActionPerformed
+
+    private void btEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarActionPerformed
+        enviarDados();
+    }//GEN-LAST:event_btEnviarActionPerformed
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+        this.dispose();
+        if (nivelUsuario == 3) {
+            DlgMenuConsultas menuConsultas = new DlgMenuConsultas(this, rootPaneCheckingEnabled);
+            menuConsultas.verificarNivel(nivelUsuario);
+            menuConsultas.setVisible(true);
+        }
+    }//GEN-LAST:event_btCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -212,6 +247,8 @@ public class DlgConsultarPagamento extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btCancelar;
+    private javax.swing.JButton btEnviar;
     private javax.swing.JComboBox cbMeses;
     private javax.swing.JComboBox cbTurmas;
     private javax.swing.JLabel jLabel1;
@@ -251,19 +288,35 @@ public class DlgConsultarPagamento extends javax.swing.JFrame {
         String mes = cbMeses.getSelectedItem().toString();
         if (cbTurmas.getSelectedIndex() == 0 && cbMeses.getSelectedIndex() == 0) {
             pagamentosEncontrados = new PagamentoDAO().listarTodos();
-            
+
         } else if (cbTurmas.getSelectedIndex() == 0 && cbMeses.getSelectedIndex() != 0) {
             pagamentosEncontrados = new PagamentoDAO().listarTodosPorMes(mes);
 
         } else if (cbTurmas.getSelectedIndex() != 0 && cbMeses.getSelectedIndex() == 0) {
             List<Turma> turmas = new TurmaDAO().buscarPorNome(turma);
             pagamentosEncontrados = new PagamentoDAO().listarTodosPorTurma(turmas.get(0));
-            
+
         } else {
             List<Turma> turmas = new TurmaDAO().buscarPorNome(turma);
-            pagamentosEncontrados = new PagamentoDAO().listarTodosPorTurmaEMes(turmas.get(0), 
+            pagamentosEncontrados = new PagamentoDAO().listarTodosPorTurmaEMes(turmas.get(0),
                     mes);
         }
         atualizarTabela();
+    }
+
+    private void enviarDados() {
+        DlgEfetuarPagamentoBeneficio dlgEfetuarPagamento = new DlgEfetuarPagamentoBeneficio(this, rootPaneCheckingEnabled, true);
+        pagamento = pagamentoTable.getPagamento(tbPagamentos.getSelectedRow());
+        try {
+            pagamento.setBeneficios(new PagamentoDAO().buscarBeneficios(pagamento.getId()));
+        } catch (SQLException ex) {
+            Logger.getLogger(DlgConsultarPagamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        dlgEfetuarPagamento.carregarDados(pagamento.getTurma(), pagamento.getBeneficios(), pagamento);
+        dlgEfetuarPagamento.setVisible(true);
+    }
+
+    public void verificarNivel(int nivelUsuario) {
+        this.nivelUsuario = nivelUsuario;
     }
 }

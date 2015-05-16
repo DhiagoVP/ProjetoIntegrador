@@ -30,7 +30,7 @@ public class PagamentoDAO {
 
     SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-    public boolean inserir(Pagamento pagamentoFinal) throws SQLException {
+    public int inserir(Pagamento pagamentoFinal) throws SQLException {
         long dataAtual = new java.util.Date().getTime();
         int idTurma = pagamentoFinal.getTurma().getId();
         String sql = "INSERT INTO pagamento (idpagamento, date, idTurma, idUsuario, totalPago, mes, diasLetivos) "
@@ -52,7 +52,16 @@ public class PagamentoDAO {
             }
             inserirTabelaAluno_Pagamento(aluno);
         }
-        return true;
+        int id = -1;
+        String sqlPesquisa = "SELECT MAX(idPagamento) FROM Pagamento";
+        pstm = DBConnection.getConnection().prepareStatement(sqlPesquisa);
+         ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+            id = rs.getInt("MAX(idPagamento)");
+        }
+        pstm.close();
+        DBConnection.close();
+        return id;
     }
 
     private void inserirTabelaAluno_Beneficio(Aluno aluno, Beneficio beneficio, Pagamento pagamento) throws SQLException {
@@ -268,5 +277,20 @@ public class PagamentoDAO {
             listaPagamento.add(pagamento);
         }
         return listaPagamento;
+    }
+    
+    public double recuperarTotalPagoPorBeneficio(int idBeneficio, int idPagamento) throws SQLException{
+        double valorRecebido = 0.0;
+        String sql = "SELECT SUM(valorRecebido) FROM aluno_beneficio where idBeneficio = ? and idPagamento = ?";
+        PreparedStatement pstm = DBConnection.getConnection().prepareStatement(sql);
+        pstm.setInt(1, idBeneficio);
+        pstm.setInt(2, idPagamento);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) {
+               valorRecebido = rs.getDouble("SUM(valorRecebido)");
+        }
+        pstm.close();
+        DBConnection.close();
+        return valorRecebido;
     }
 }

@@ -21,7 +21,7 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
     private Curso curso = null;
     private int nivelUsuario;
     private DlgGerenciadorCurso janelaCurso;
-    
+
     public DlgConsultarCurso(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -29,7 +29,7 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
             atualizarTabela("SELECT * FROM Curso c ORDER BY c.nome;");
         }
     }
-    
+
     public void atualizarTabela(String sql) {
         try {
             listaCurso = cursoDAO.consultarSQL(sql);
@@ -39,7 +39,7 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
                 tableCurso.setColumnModel(new CursoColumnModel(fm));
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "ERRO: "+ ex.getMessage());
+            JOptionPane.showMessageDialog(this, "ERRO: " + ex.getMessage());
         }
     }
 
@@ -154,20 +154,27 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
 
     private void tableCursoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCursoMouseClicked
         if (evt.getClickCount() == 2) {
-                int linhaSelecionada = this.tableCurso.getSelectedRow();
-                int idCurso = (int) this.tableCurso.getValueAt(linhaSelecionada, 0);
-                janelaCurso = new DlgGerenciadorCurso(null, rootPaneCheckingEnabled);
-                janelaCurso.recuperarDadosAlterarCurso(idCurso);
-                janelaCurso.verificarNivel(nivelUsuario);
-                this.dispose();
-                janelaCurso.setVisible(true);
+            int linhaSelecionada = this.tableCurso.getSelectedRow();
+            int idCurso = (int) this.tableCurso.getValueAt(linhaSelecionada, 0);
+            janelaCurso = new DlgGerenciadorCurso(null, rootPaneCheckingEnabled);
+            janelaCurso.recuperarDadosAlterarCurso(idCurso);
+            janelaCurso.verificarNivel(nivelUsuario);
+            this.dispose();
+            janelaCurso.setVisible(true);
         }
     }//GEN-LAST:event_tableCursoMouseClicked
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
-        janelaCurso = new DlgGerenciadorCurso(null, true);
-        this.dispose();
-        janelaCurso.setVisible(true);
+        if (nivelUsuario == 3) {
+            DlgMenuConsultas menu = new DlgMenuConsultas(null, rootPaneCheckingEnabled);
+            menu.verificarNivel(nivelUsuario);
+            this.dispose();
+            menu.setVisible(true);
+        } else {
+            janelaCurso = new DlgGerenciadorCurso(null, true);
+            this.dispose();
+            janelaCurso.setVisible(true);
+        }
     }//GEN-LAST:event_btVoltarActionPerformed
 
     private void btEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarActionPerformed
@@ -185,19 +192,20 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
     }//GEN-LAST:event_btEnviarActionPerformed
 
     private void tfItemBuscaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tfItemBuscaCaretUpdate
-        if(tfItemBusca.getText().isEmpty()) {
+        if (tfItemBusca.getText().isEmpty()) {
             this.atualizarTabela("SELECT * FROM Curso c ORDER BY c.nome;");
             limparCampos();
         }
-        
+
         if (!tfItemBusca.getText().isEmpty()) {
-                        atualizarTabela("SELECT * FROM Curso c WHERE c.nome LIKE '%" + tfItemBusca.getText()+ "%' ORDER BY c.nome;");
+            atualizarTabela("SELECT * FROM Curso c WHERE c.nome LIKE '%" + tfItemBusca.getText() + "%' ORDER BY c.nome;");
         }
     }//GEN-LAST:event_tfItemBuscaCaretUpdate
 
-    private void limparCampos(){
+    private void limparCampos() {
         this.tfItemBusca.setText(null);
     }
+
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -248,7 +256,7 @@ public class DlgConsultarCurso extends javax.swing.JDialog {
     private javax.swing.JTextField tfItemBusca;
     // End of variables declaration//GEN-END:variables
 
-public void verificarNivel (int nivel) {
+    public void verificarNivel(int nivel) {
         if (nivel == 3) {
             this.nivelUsuario = 3;
         }

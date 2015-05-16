@@ -58,6 +58,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
             btCancelar.setText("Voltar");
             btCancelar.setIcon(new ImageIcon("src/icon/Voltar.png"));
             btGerarRelatorio.setEnabled(true);
+            tbPagamentoBeneficio.setEnabled(false);
         } else {
             btSalvar.setEnabled(true);
             btCancelar.setText("Cancelar");
@@ -271,6 +272,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
         }
         if (consulta) {
             pagamentoFinal = pagamento;
+            pagamentoFinal.setDiasLetivos(pagamento.getDiasLetivos());
             pagamentoFinal.setAlunos(listaAlunosPagos);
         }
 
@@ -314,7 +316,7 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                 Double.parseDouble(tfTotalAPagar.getText().replace("RS", "")), pagamento.getDiasLetivos(),
                 pagamento.getMes(), turma, login);
         try {
-            new PagamentoDAO().inserir(pagamentoFinal);
+            pagamentoFinal.setId(new PagamentoDAO().inserir(pagamentoFinal));
         } catch (SQLException ex) {
             Logger.getLogger(DlgEfetuarPagamentoBeneficio.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -488,6 +490,8 @@ public class DlgEfetuarPagamentoBeneficio extends javax.swing.JDialog {
                 if (listaAlunosPagos.get(j).getId() != listaAlunos.get(i).getId()) {
                     listaAlunos.get(i).setRecece(false);
                 } else {
+                    listaAlunosPagos.get(j).setNome(listaAlunos.get(i).getNome());
+                    listaAlunosPagos.get(j).setCpf(listaAlunos.get(i).getCpf());
                     listaAlunosPagos.get(j).setContaBancaria(listaAlunos.get(i).getContaBancaria());
                     tbPagamentoBeneficio.setValueAt(listaAlunosPagos.get(j).getFaltas(), i, 6);
                     tbPagamentoBeneficio.setValueAt(listaAlunosPagos.get(j).getValorRecebido(), i, 7);

@@ -12,13 +12,19 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.AlunoDAO;
+import dao.PagamentoDAO;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import model.Aluno;
 import model.Beneficio;
 import model.DadosEspecificos;
 import model.Pagamento;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,22 +38,24 @@ public class GeradorPDF {
         PdfWriter.getInstance(document, new FileOutputStream(filename));
         document.setPageSize(PageSize.A4.rotate());
         document.setMargins(0, 0, 50, 50);
+        Collections.sort(pagamento.getBeneficios(), new Comparator());
         document.open();
         document.add(createTable(pagamento, dados));
         document.close();
     }
 
     private PdfPTable createTable(Pagamento pagamento, DadosEspecificos dados) throws DocumentException {
-        PdfPTable table = new PdfPTable(9);
+        int colunas = 7 + pagamento.getBeneficios().size();
+        PdfPTable table = new PdfPTable(colunas);
         PdfPCell cell;
         cell = new PdfPCell(new Phrase("Câmpus: " + pagamento.getTurma().getCampusOfertante()
                 + " Mês: " + pagamento.getMes() + " Planilha: " + dados.getNroPanilha()));
-        cell.setColspan(9);
+        cell.setColspan(colunas);
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase("Nome do curso: " + pagamento.getTurma().getCurso().getNome()
                 + " Código SISTEC: " + dados.getSistec() + " LC: " + dados.getLc()));
-        cell.setColspan(9);
+        cell.setColspan(colunas);
         table.addCell(cell);
 
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -56,7 +64,7 @@ public class GeradorPDF {
                 getDataInicioAulas()).replace("00:00:00", "")
                 + " Fim previsto do curso: " + df.format(pagamento.getTurma().getDataTerminoAulas())
                 .replace("00:00:00", "")));
-        cell.setColspan(9);
+        cell.setColspan(colunas);
         table.addCell(cell);
 
         table.addCell("Nome");
@@ -64,11 +72,12 @@ public class GeradorPDF {
         table.addCell("Banco");
         table.addCell("Agência");
         table.addCell("Conta");
-        table.addCell("Vale Transporte R$");
-        table.addCell("Vale Alimentação R$");
+        for (Beneficio b : pagamento.getBeneficios()) {
+            table.addCell(b.getTipo() + " R$");
+        }
         table.addCell("Faltas R$");
         table.addCell("Valor Total R$");
-        double totalTransporte = 0.0, totalAlimentacao = 0.0, totalFaltas = 0.0,
+        double totalFaltas = 0.0, totalBeneficio = 0.0,
                 valorBeneficio;
         for (Aluno aluno : pagamento.getAlunos()) {
             if (aluno.isRecece()) {
@@ -80,11 +89,6 @@ public class GeradorPDF {
                 for (Beneficio beneficio : pagamento.getBeneficios()) {
                     valorBeneficio = (pagamento.getDiasLetivos() - aluno.getFaltas()) * beneficio.getValor();
                     table.addCell("R$ " + valorBeneficio);
-                    if (beneficio.getTipo().equals("Vale Alimentação")) {
-                        totalAlimentacao += valorBeneficio;
-                    } else {
-                        totalTransporte += valorBeneficio;
-                    }
                 }
                 table.addCell("R$ " + aluno.getValorDescontado());
                 totalFaltas += aluno.getValorDescontado();
@@ -96,13 +100,35 @@ public class GeradorPDF {
         table.addCell("");
         table.addCell("");
         table.addCell("");
-        table.addCell("R$ " + totalTransporte);
-        table.addCell("R$ " + totalAlimentacao);
+            for (Beneficio b : pagamento.getBeneficios()) {
+                try {
+                    totalBeneficio = new PagamentoDAO().recuperarTotalPagoPorBeneficio(b.getId(), pagamento.getId());
+                } catch (SQLException ex) {
+                    Logger.getLogger(GeradorPDF.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                table.addCell("R$ "+ totalBeneficio);
+        }
         table.addCell("R$ " + totalFaltas);
         table.addCell("R$ " + pagamento.getValorAPagarPorTurma());
-
-        float[] columnWidths = new float[]{27f, 18f, 6f, 9f, 13f, 15f, 15f, 13f, 15f};
+        float[] columnWidths = new float[0];
+        if (colunas == 9) {
+            columnWidths = new float[]{27f, 18f, 8f, 10f, 13f, 15f, 15f, 13f, 15f};
+        } else if (colunas == 8) {
+            columnWidths = new float[]{27f, 18f, 9f, 12f, 13f, 15f, 13f, 17f};
+        }
         table.setWidths(columnWidths);
         return table;
+    }
+
+    class Comparator implements java.util.Comparator {
+
+        @Override
+        public int compare(Object o1, Object o2) {
+            Beneficio b1 = (Beneficio) o1;
+            Beneficio b2 = (Beneficio) o2;
+
+            return b1.getTipo().compareTo(b2.getTipo());
+        }
+
     }
 }

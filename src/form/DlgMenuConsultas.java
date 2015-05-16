@@ -262,9 +262,9 @@ public class DlgMenuConsultas extends javax.swing.JDialog {
     }//GEN-LAST:event_btLogoutActionPerformed
 
     private void btConsultarPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarPagamentoActionPerformed
-        this.dispose();
         DlgConsultarPagamento consultarPagamento = new DlgConsultarPagamento();
-        //consultarPagamento.verificarNivel(nivelUsuario);
+        consultarPagamento.verificarNivel(nivelUsuario);
+        this.dispose();
         consultarPagamento.setVisible(true);
     }//GEN-LAST:event_btConsultarPagamentoActionPerformed
 
