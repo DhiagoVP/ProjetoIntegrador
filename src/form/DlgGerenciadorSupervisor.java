@@ -23,6 +23,7 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
     DlgConsultarSupervisor janelaConsulta = new DlgConsultarSupervisor(null, true);
     private final SupervisorDAO supervisorDAO = new SupervisorDAO();
     private Supervisor supervisor;
+    private ValidadorDeTeclas validar = new ValidadorDeTeclas();
     private int nivelUsuario;
 
     @SuppressWarnings("unchecked")
@@ -83,6 +84,11 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
         lbNome.setText("Nome");
 
         tfNome.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfNomeKeyTyped(evt);
+            }
+        });
 
         lbTitulacao.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbTitulacao.setText("Titulação");
@@ -141,11 +147,21 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
         jLabel7.setText("Agência");
 
         tfAgencia.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfAgencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfAgenciaKeyTyped(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel8.setText("Conta");
 
         tfConta.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfConta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfContaKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelDadosBancariosLayout = new javax.swing.GroupLayout(panelDadosBancarios);
         panelDadosBancarios.setLayout(panelDadosBancariosLayout);
@@ -197,6 +213,11 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
         jLabel5.setText("Estado");
 
         tfNumero.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfNumero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfNumeroKeyTyped(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel10.setText("Rua");
@@ -533,6 +554,22 @@ public class DlgGerenciadorSupervisor extends javax.swing.JDialog {
             this.tratarControles(false);
         }
     }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void tfNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNomeKeyTyped
+        validar.validarSomenteLetras(evt);
+    }//GEN-LAST:event_tfNomeKeyTyped
+
+    private void tfAgenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAgenciaKeyTyped
+        validar.validarSomenteNumeros(evt);
+    }//GEN-LAST:event_tfAgenciaKeyTyped
+
+    private void tfContaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfContaKeyTyped
+        validar.validarSomenteNumeros(evt);
+    }//GEN-LAST:event_tfContaKeyTyped
+
+    private void tfNumeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNumeroKeyTyped
+        validar.validarSomenteNumeros(evt);
+    }//GEN-LAST:event_tfNumeroKeyTyped
 
     private void setDados() {
         this.tfNome.setText(supervisor.getNome());

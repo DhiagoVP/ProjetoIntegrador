@@ -19,7 +19,7 @@ public class DlgGerenciadorCurso extends javax.swing.JDialog {
         this.taDescricao.setLineWrap(true);
         this.tratarControles(false);
     }
-    private ValidadorDeTeclas validar;
+    private ValidadorDeTeclas validar = new ValidadorDeTeclas();
     private final CursoDAO cursoDAO = new CursoDAO();
     private final DlgConsultarCurso telaConsulta = new DlgConsultarCurso(null, rootPaneCheckingEnabled);
     private Curso curso;

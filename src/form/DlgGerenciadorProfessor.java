@@ -24,7 +24,7 @@ public class DlgGerenciadorProfessor extends javax.swing.JDialog {
     private DlgConsultarProfessor janelaConsulta = new DlgConsultarProfessor(null, true);
     private final ProfessorDAO professorDAO = new ProfessorDAO();
     private Professor professor;
-    private ValidadorDeTeclas validar;
+    private ValidadorDeTeclas validar = new ValidadorDeTeclas();
     private int nivelUsuario;
 
     @SuppressWarnings("unchecked")

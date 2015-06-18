@@ -23,7 +23,7 @@ public class DlgGerenciadorOrientador extends javax.swing.JDialog {
     DlgConsultarOrientador janelaConsulta = new DlgConsultarOrientador(null, true);
     private final OrientadorDAO orientadorDAO = new OrientadorDAO();
     private Orientador orientador;
-    private ValidadorDeTeclas validar;
+    private ValidadorDeTeclas validar = new ValidadorDeTeclas();
     private int nivelUsuario;
 
     @SuppressWarnings("unchecked")
