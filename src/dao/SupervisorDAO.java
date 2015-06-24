@@ -150,7 +150,7 @@ public class SupervisorDAO {
         String sqlPesquisarPorNome = "SELECT * FROM Supervisor s WHERE s.Nome LIKE '%" + nome + "%'";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorNome);
         rs = pstm.executeQuery();
-        List<Supervisor> supervisores = null;
+        List<Supervisor> supervisores = new ArrayList<>();
         while (rs.next()) {
             Supervisor supervisor = new Supervisor(
                     rs.getInt("s.idSupervisor"),

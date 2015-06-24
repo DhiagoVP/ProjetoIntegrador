@@ -17,10 +17,10 @@ public class DBConnection {
     }
 
     private static Connection connect() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/projetointegradorcompleto";
+        String url = "jdbc:mysql://localhost:3306/projetointegrador";
         String driverMySQL = "com.mysql.jdbc.Driver";
         String user = "root";
-        String pass = "root";
+        String pass = "aluno";
         try {
             Class.forName(driverMySQL);
         } catch (ClassNotFoundException ex) {

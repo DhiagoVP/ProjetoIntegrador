@@ -150,7 +150,7 @@ public class OrientadorDAO {
         String sqlPesquisarPorNome = "SELECT * FROM Orientador o WHERE o.nome LIKE '%" + nome + "%'";
         pstm = DBConnection.getConnection().prepareStatement(sqlPesquisarPorNome);
         rs = pstm.executeQuery();
-        List<Orientador> orientadores = null;
+        List<Orientador> orientadores = new ArrayList<>();
         while (rs.next()) {
             Orientador orientador = new Orientador(
                     rs.getInt("o.idOrientador"),
